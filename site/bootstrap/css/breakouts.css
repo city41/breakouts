@@ -1,5 +1,8 @@
 body {
 	background-color: #EFEFEF;
+	font: 15px 'Helvetica Neue', Helvetica, Arial;
+	font-weight: 300;
+	line-height: 1.5;
 }
 
 hr {
@@ -9,7 +12,7 @@ hr {
 
 @media (max-width: 767px) {
 	.breakouts-logo {
-		background-image: url(logo.png);
+		background-image: url(../img/logo.png);
 		background-repeat: no-repeat;
 		float: left;
 		height: 158px;
@@ -23,11 +26,11 @@ hr {
 
 @media (min-width: 767px) {
 	.breakouts-logo {
-		background-image: url(logo.png);
+		background-image: url(../img/logo.png);
 		background-repeat: no-repeat;
 		float: left;
-		height: 158px;
-		width: 582px;
+		height: 177px;
+		width: 609px;
 	}
 }
 
@@ -39,15 +42,21 @@ hr {
 
 @media (min-width: 990px) {
 	.breakouts-screenshot {
-		background-image: url(screenshot.png);
+		background-image: url(../img/screenshot.png);
 		background-repeat: no-repeat;
 		float: right;
 		width: 163px;
 		height: 246px;
-		margin-right: 150px;
-		-moz-box-shadow: 10px 10px 4px #AAA;
-		-webkit-box-shadow: 10px 10px 4px #AAA;
-		box-shadow: 10px 10px 4px #AAA;
+		margin-right: 170px;
+		-moz-box-shadow: 20px 20px 30px #AAA;
+		-webkit-box-shadow: 20px 20px 30px #AAA;
+		box-shadow: 20px 20px 30px #AAA;
+
+		transform:rotate(5deg);
+		-ms-transform:rotate(5deg);
+		-moz-transform:rotate(5deg);
+		-webkit-transform:rotate(5deg);
+		-o-transform:rotate(5deg);
 	}
 }
 
@@ -59,14 +68,7 @@ hr {
 .hero-unit .tag-line {
 	font-size: 1.5em;
 	margin: 10px 0 20px 0;
-}
-
-.implementations-container {
-	background-color: #DDD;
-	padding: 10px;
-	border-radius: 10px;
-	border: 1px dashed gray;
-	padding-left: 30px;
+	font-weight: 300;
 }
 
 .implementations {
@@ -78,4 +80,15 @@ hr {
 
 .implementations li {
 	margin-bottom: 7px;
+}
+
+ul.features {
+	list-style: none;
+	position: relative;
+}
+
+.features li:before {
+	content: '✔';
+	position: absolute;
+	left: -20px;
 }
