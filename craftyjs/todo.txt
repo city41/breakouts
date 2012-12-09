@@ -1,0 +1,13 @@
+powerups
+
+
+sound effects
+	-- powerdown
+	-- powerup
+	-- powerdown over
+
+better solution for pausing
+
+ball sprite is off by one column
+
+paddle hit detection, push to nearest edge
