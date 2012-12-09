@@ -15,7 +15,7 @@ hr {
 		background-image: url(../img/logo.png);
 		background-repeat: no-repeat;
 		float: left;
-		height: 158px;
+		height: 177px;
 		width: 140px;
 	}
 
@@ -45,8 +45,8 @@ hr {
 		background-image: url(../img/screenshot.png);
 		background-repeat: no-repeat;
 		float: right;
-		width: 163px;
-		height: 246px;
+		width: 211px;
+		height: 315px;
 		margin-right: 170px;
 		-moz-box-shadow: 20px 20px 30px #AAA;
 		-webkit-box-shadow: 20px 20px 30px #AAA;
