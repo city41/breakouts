@@ -22,6 +22,13 @@ ig.module('game.entities.power-up').requires('impact.entity').defines(function()
 			this.addAnim('idle', 0.2, [78]);
 		},
 
+		update: function() {
+			this.parent();
+			if(this.pos.y > ig.system.height) {
+				this.kill();
+			}
+		},
+
 		check: function(other) {
 			if(other.isPaddle) {
 				this.gotIt.play();

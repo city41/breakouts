@@ -27,14 +27,7 @@ ig.module('game.entities.ball').requires('impact.entity').defines(function() {
 			this.parent(x, y, settings);
 
 			this.addAnim('idle', 0.2, [51, 52, 53, 54, 55]);
-			this.initialPos = ig.copy(this.pos);
 
-			this.vel.x = this.speed;
-			this.vel.y = this.speed;
-		},
-
-		reset: function() {
-			this.pos = ig.copy(this.initialPos);
 			this.vel.x = this.speed;
 			this.vel.y = this.speed;
 		},

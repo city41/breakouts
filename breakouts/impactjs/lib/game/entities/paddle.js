@@ -42,12 +42,6 @@ ig.module('game.entities.paddle').requires('impact.entity').defines(function() {
 			}
 		},
 
-		onPowerUp: function() {
-			if(this.onPowerUp) {
-				this.onPowerUp();
-			}
-		},
-
 		onPowerDown: function() {
 			this.currentAnim = this.anims.mini;
 			this.size = this.smallSize;

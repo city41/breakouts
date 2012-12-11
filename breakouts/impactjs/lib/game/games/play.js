@@ -64,7 +64,7 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 
 		update: function() {
 			if (ig.input.pressed('pause')) {
-				this.paused = ! this.paused;
+				this.paused = !this.paused;
 			}
 
 			if (this.paused) {
@@ -95,10 +95,12 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 		},
 
 		_addCountdown: function() {
-			this.countdown = this.spawnEntity(EntityCountdown, 0, 0, {
-				duration: 2
+			this._killAllOf(EntityCountdown);
+
+			this.spawnEntity(EntityCountdown, 0, 0, {
+				duration: 2,
+				onDeath: this._activateAllBalls.bind(this)
 			});
-			this.countdown.onDeath = this._activateAllBalls.bind(this);
 		},
 
 		_populateLevel: function(level) {
