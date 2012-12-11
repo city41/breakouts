@@ -35,9 +35,9 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 
 		_addBall: function(active) {
 			var ball = this.spawnEntity(EntityBall, 50, 280, {
-				active: active
+				active: active,
+				onDeath: this._onBallDeath.bind(this)
 			});
-			ball.onDeath = this._onBallDeath.bind(this);
 		},
 
 		_reset: function(level) {
@@ -127,12 +127,12 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 					var color = bricks[y][x];
 					if (color) {
 						var brick = this.spawnEntity(EntityBrick, x * brickWidth + cornerX, y * brickHeight + cornerY, {
-							color: color
+							color: color,
+							onDeath: onDeath,
+							hasPowerUp: this._hasLocation(x, y, powerUpLocations),
+							hasPowerDown: this._hasLocation(x, y, powerDownLocations)
 						});
-						brick.onDeath = onDeath;
 
-						brick.hasPowerUp = this._hasLocation(x, y, powerUpLocations); 
-						brick.hasPowerDown = this._hasLocation(x, y, powerDownLocations);
 						++this.brickCount;
 					}
 				}
