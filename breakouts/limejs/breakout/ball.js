@@ -156,6 +156,12 @@
 			}
 
 			this.setPosition(pos);
+
+			if(this.getPosition().y > breakout.director.getSize().height) {
+				if(this.onDeath) {
+					this.onDeath(this);
+				}
+			}
 		}
 	});
 })();

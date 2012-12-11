@@ -3,14 +3,8 @@ powerdown
 
 all sfx
 
-lose scene
-
 pause
 
 
-see if can get rid of balls array
-
 x vel when hitting paddle
 
-
-add timeout to win scene

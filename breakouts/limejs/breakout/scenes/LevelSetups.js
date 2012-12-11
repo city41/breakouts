@@ -19,6 +19,7 @@
 			powerUps: 1,
 			powerDowns: 1
 		},
+	];/*
 		{
 			name: "how's it going?",
 			bricks: [
@@ -60,7 +61,7 @@
 			powerUps: 2,
 			powerDowns: 3
 		}
-	];
+	];*/
 })();
 
 

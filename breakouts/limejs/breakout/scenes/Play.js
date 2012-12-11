@@ -12,6 +12,9 @@ goog.require('breakout.Brick');
 goog.require('breakout.Ball');
 goog.require('breakout.Countdown');
 goog.require('breakout.scenes.LevelSetups');
+goog.require('breakout.scenes.Menu');
+goog.require('breakout.scenes.Win');
+goog.require('breakout.scenes.GameOver');
 
 breakout.scenes.Play = function() {
 	breakout.scenes.BackgroundScene.call(this);
@@ -72,8 +75,8 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 			return;
 		}
 
-		if(this.level >= breakout.scenes.LevelSetups.length) {
-			breakout.director.replaceScene(new breakout.Win());
+		if(this.level > breakout.scenes.LevelSetups.length) {
+			breakout.director.replaceScene(new breakout.scenes.Win());
 			return;
 		}
 
@@ -90,6 +93,7 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		ball.active = active;
 		ball.setPosition(50, 280);
 		ball.paddle = this.paddle;
+		ball.onDeath = goog.bind(this._onBallDeath, this);
 
 		this.appendChild(ball);
 	},
@@ -159,6 +163,27 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		if(this.brickCount === 0) {
 			this._reset(this.level + 1);
 		}
+	},
+
+	_onBallDeath: function(ball) {
+		this.removeChild(ball);
+
+		// are all the balls dead?
+		if (!this._getAllOf(breakout.Ball).length) {
+			--this.lives;
+			if (this.lives) {
+				this._setForNextLife();
+			} else {
+				breakout.director.replaceScene(new breakout.scenes.GameOver());
+			}
+		}
+	},
+
+	_setForNextLife: function() {
+		this._addCountdown();
+		this._addBall(false);
+		//this._killAllOf(EntityPowerUp);
+		//this._killAllOf(EntityPowerDown);
 	}
 });
 
