@@ -24,17 +24,24 @@
 		return ! _isVerticalHit(src, dest);
 	}
 
+	function _inVerticalQuadrant(obj, x, y) {
+		return (y < obj.top || y > obj.bottom)
+			&& x >= obj.left && x <= obj.right;
+	}
+
+	function _inHorizontalQuadrant(obj, x, y) {
+		return (x < obj.left || x > obj.right)
+			&& y >= obj.top && y <= obj.bottom;
+	}
+
 	Crafty.c('Ball', {
 		_checkPaddleCollision: function() {
-			var hit = this.hit('Paddle');
+			if(this.vel.y > 0) {
+				var hit = this.hit('Paddle')[0];
 
-			if (hit) {
-				var paddle = hit[0].obj;
-				if (_isHorizontalHit(this, paddle)) {
-					this.vel.x = (this.centerX - paddle.centerX) / (paddle.w / 2);
-					this.vel.y *= - 1;
-				} else {
-					this.vel.x *= - 1;
+				if (hit) {
+					this.vel.x = (this.centerX - hit.obj.centerX) / (hit.obj.w / 2);
+					this.vel.y *= -1;
 				}
 			}
 		},
@@ -43,52 +50,54 @@
 				return;
 			}
 
-			var flipXv = false;
-			var flipYv = false;
-
 			var prevX = this.x;
 			var prevY = this.y;
+			var prevCx = this.centerX;
+			var prevCy = this.centerY;
 
 			this.x += this.vel.x;
 			this.y += this.vel.y;
 
-			var hits = this.hit('Brick');
-			if (hits) {
-				for (var i = 0; i < hits.length; ++i) {
-					var hit = hits[i];
-					hit.obj.onDeath();
-					if (_isVerticalHit(this, hit.obj)) {
-						flipXv = true;
-					} else {
-						flipYv = true;
-					}
+			if(this.y > Crafty.stage.elem.clientHeight) {
+				this.destroy();
+				Crafty.trigger('BallDeath');
+				return;
+			}
+
+			if(this.hit('v')) {
+				this.x = prevX;
+				this.vel.x *= -1;
+				return;
+			}
+
+			if(this.hit('h')) {
+				this.y = prevY;
+				this.vel.y *= -1;
+				return;
+			}
+
+			var hit = this.hit('Brick')[0];
+
+			if(hit) {
+				hit.obj.onDeath();
+				if(_inVerticalQuadrant(hit.obj, prevCx, prevCy)) {
+					this.y = prevY;
+					this.vel.y *= -1;
+				}
+				else if(_inHorizontalQuadrant(hit.obj, prevCx, prevCy)) {
+					this.x = prevX;
+					this.vel.x *= -1;
+				}
+				else {
+					// in diagonal quadrant
+					this.x = prevX;
+					this.y = prevY;
+					this.vel.x *= -1;
+					this.vel.y *= -1;
 				}
 			}
 
-			if (this.hit('v')) {
-				flipXv = true;
-			}
-
-			if (this.hit('h')) {
-				flipYv = true;
-			}
-
-			if (flipXv) {
-				this.vel.x *= - 1;
-				this.x = prevX;
-			}
-
-			if (flipYv) {
-				this.vel.y *= - 1;
-				this.y = prevY;
-			}
-
-			if (this.y > Crafty.stage.elem.clientHeight) {
-				this.destroy();
-				Crafty.trigger('BallDeath');
-			}
-
-			if (!flipXv && ! flipYv) {
+			if(this.y > Crafty.stage.elem.clientHeight * 2 /3) {
 				this._checkPaddleCollision();
 			}
 		},
