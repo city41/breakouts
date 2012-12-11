@@ -14,7 +14,6 @@
 
 	breakout.Brick = function(color) {
 		lime.Sprite.call(this);
-		this.isBrick = true;
 		this.setAnchorPoint(0.5, 0.5);
 		this.color = color;
 		this.setSize(breakout.TILE_SIZE * 2, breakout.TILE_SIZE);
@@ -36,14 +35,20 @@
 			this.runAction(new lime.animation.ScaleTo(1).setDuration(0.5));
 		},
 
-		onDeath: function() {
+		die: function() {
 			this.setScale(1);
 			var ani = new lime.animation.ScaleTo(0).setDuration(0.3);
 			goog.events.listen(ani, lime.animation.Event.STOP, function() {
-				this.getParent().removeChild(this);
+				if(this.getParent()) {
+					this.getParent().removeChild(this);
+				}
 			}, false, this);
 
 			this.runAction(ani);
+
+			if(this.onDeath) {
+				this.onDeath(this);
+			}
 		}
 	});
 })();

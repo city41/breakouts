@@ -1,18 +1,16 @@
-collision detection
-
-brick birth animation
-brick death animation
-
 powerup
 powerdown
 
 all sfx
 
-menu scene
-win scene
 lose scene
 
 pause
 
 
 see if can get rid of balls array
+
+x vel when hitting paddle
+
+
+add timeout to win scene

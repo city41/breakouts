@@ -26,3 +26,16 @@ breakout.scenes.LogoScene = function() {
 
 goog.inherits(breakout.scenes.LogoScene, breakout.scenes.BackgroundScene);
 
+goog.object.extend(breakout.scenes.LogoScene.prototype, {
+		addText: function(text, x, y) {
+			var lbl = new lime.Label()
+				.setText(text)
+				.setFontFamily('Verdana')
+				.setFontSize(16)
+				.setSize(breakout.director.getSize().width - 2 * breakout.TILE_SIZE, 20)
+				.setAnchorPoint(0.5, 0.5)
+				.setPosition(x, y);
+
+		this.appendChild(lbl);
+	}
+});

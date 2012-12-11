@@ -11,9 +11,10 @@
 		{
 			name: "letsa begin",
 			bricks: [
-				[X,X,g,o,g,X,X],
-				[o,b,g,g,g,b,o],
-				[X,b,b,b,b,b,X]
+				//[X,X,g,o,g,X,X],
+				//[o,b,g,g,g,b,o],
+				//[X,b,b,b,b,b,X]
+				[g]
 			],
 			powerUps: 1,
 			powerDowns: 1

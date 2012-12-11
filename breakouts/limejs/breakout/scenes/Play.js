@@ -15,7 +15,10 @@ goog.require('breakout.scenes.LevelSetups');
 
 breakout.scenes.Play = function() {
 	breakout.scenes.BackgroundScene.call(this);
-	this.balls = [];
+
+	this.lives = 3;
+	this.score = 0;
+	this.level = 0;
 
 	this.paddle = new breakout.Paddle();
 	this.appendChild(this.paddle);
@@ -31,16 +34,28 @@ goog.inherits(breakout.scenes.Play, breakout.scenes.BackgroundScene);
 
 goog.object.extend(breakout.scenes.Play.prototype, {
 	getBricks: function() {
-		var bricks = [];
+		return this._getAllOf(breakout.Brick);
+	},
+
+	_getAllOf: function(type) {
+		var nodes = [];
 		var numChildren = this.getNumberOfChildren();
 
 		for(var i = 0; i < numChildren; ++i) {
 			var child = this.getChildAt(i);
-			if(child.isBrick) {
-				bricks.push(child);
+			if(child instanceof type) {
+				nodes.push(child);
 			}
 		}
-		return bricks;
+		return nodes;
+	},
+
+	_removeAllOf: function(type) {
+		var nodes = this._getAllOf(type);
+
+		goog.array.forEach(nodes, function(n) {
+			this.removeChild(n);
+		}, this);
 	},
 
 	step: function(dt) {
@@ -51,6 +66,18 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 
 	_reset: function(level) {
 		this.level = level;
+
+		if(this.level === 0) {
+			breakout.director.replaceScene(new breakout.Menu());
+			return;
+		}
+
+		if(this.level >= breakout.scenes.LevelSetups.length) {
+			breakout.director.replaceScene(new breakout.Win());
+			return;
+		}
+
+		this._removeAllOf(breakout.Ball);
 
 		this._populateLevel(this.level);
 
@@ -64,7 +91,6 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		ball.setPosition(50, 280);
 		ball.paddle = this.paddle;
 
-		this.balls.push(ball);
 		this.appendChild(ball);
 	},
 
@@ -78,7 +104,7 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		this.countdown.onFinish = (function() {
 			this.removeChild(this.countdown);
 			delete this.countdown;
-			goog.array.forEach(this.balls, function(b) {
+			goog.array.forEach(this._getAllOf(breakout.Ball), function(b) {
 				b.active = true;
 			});
 		}).bind(this);
@@ -87,6 +113,8 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 	},
 
 	_populateLevel: function(level) {
+		this._removeAllOf(breakout.Brick);
+
 		var setup = breakout.scenes.LevelSetups[level-1];
 
 		var bricks = setup.bricks;
@@ -94,17 +122,25 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		var cornerX = breakout.Brick.BRICK_WIDTH * 1.5;
 		var cornerY = breakout.Brick.BRICK_HEIGHT * 4;
 
+		var onBrickDeath = goog.bind(this._onBrickDeath, this);
+
+		this.brickCount = 0;
 
 		for(var y = 0; y < bricks.length; ++y) {
 			for(var x = 0; x < bricks[y].length; ++x) {
 				var color = bricks[y][x];
 
-				var brick = new breakout.Brick(color);
-				var hw = brick.getSize().width / 2;
-				var hh = brick.getSize().height / 2;
-				brick.setPosition(cornerX + x * brick.getSize().width  + hw, cornerY + y * brick.getSize().height + hh);
+				if(color) {
+					++this.brickCount;
 
-				this.appendChild(brick);
+					var brick = new breakout.Brick(color);
+					var hw = brick.getSize().width / 2;
+					var hh = brick.getSize().height / 2;
+					brick.setPosition(cornerX + x * brick.getSize().width  + hw, cornerY + y * brick.getSize().height + hh);
+					brick.onDeath = onBrickDeath;
+
+					this.appendChild(brick);
+				}
 			}
 		}
 	},
@@ -113,6 +149,16 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		var pos = this.paddle.getPosition();
 		pos.x = e.position.x;
 		this.paddle.setPosition(pos);
+	},
+
+	_onBrickDeath: function(brick) {
+		this.score += 100;
+
+		--this.brickCount;
+
+		if(this.brickCount === 0) {
+			this._reset(this.level + 1);
+		}
 	}
 });
 

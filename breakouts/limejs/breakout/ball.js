@@ -36,6 +36,10 @@
 	goog.inherits(breakout.Ball, lime.Sprite);
 
 	goog.object.extend(breakout.Ball.prototype, {
+		wasRemovedFromTree: function() {
+			lime.scheduleManager.unschedule(this.step, this);
+		},
+
 		_getFrames: function() {
 			var frames = [];
 
@@ -81,7 +85,7 @@
 				var brick = bricks[i];
 				var brickBox = brick.getBoundingBox();
 				if(goog.math.Box.intersects(ballBox, brickBox)) {
-					brick.onDeath();
+					brick.die();
 					if(_inVerticalQuadrant(brickBox, ballBox)) {
 						this.vel.y *= -1;
 						pos.x += dx;
