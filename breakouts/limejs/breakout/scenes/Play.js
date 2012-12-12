@@ -1,8 +1,10 @@
 goog.provide('breakout.scenes.Play');
 
 goog.require('goog.events');
+goog.require('goog.events.KeyCodes');
 
 goog.require('lime.Sprite');
+goog.require('lime.Label');
 goog.require('lime.RoundedRect');
 goog.require('lime.parser.TMX');
 
@@ -26,16 +28,37 @@ breakout.scenes.Play = function() {
 	this.paddle = new breakout.Paddle();
 	this.appendChild(this.paddle);
 
-	lime.scheduleManager.schedule(this.step, this);
+	var s = breakout.director.getSize();
+	this.hud = new lime.Label()
+		.setAnchorPoint(0.5, 0.5)
+		.setFontSize(18)
+		.setPosition(s.width / 2, s.height - 20);
+	this.appendChild(this.hud);
+	this._updateHud();
 
-	goog.events.listen(this, ['mousemove'], this._onMouseMove, this);
-
+	this._setupEvents();
 	this._reset(1);
 };
 
 goog.inherits(breakout.scenes.Play, breakout.scenes.BackgroundScene);
 
 goog.object.extend(breakout.scenes.Play.prototype, {
+	_setupEvents: function() {
+		goog.events.listen(this, ['mousemove'], this._onMouseMove, false, this);
+
+		goog.events.listen(document, ['keydown'], function(e) {
+			if (e.keyCode === goog.events.KeyCodes.LEFT) { 
+				this._reset(this.level-1);
+			}
+			if(e.keyCode === goog.events.KeyCodes.RIGHT) {
+				this._reset(this.level+1);
+			}
+			if(e.keyCode === goog.events.KeyCodes.P) {
+				breakout.director.setPaused(!breakout.director.isPaused_);
+			}
+		}, false, this);
+	},
+
 	getBricks: function() {
 		return this._getAllOf(breakout.Brick);
 	},
@@ -61,17 +84,11 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		}, this);
 	},
 
-	step: function(dt) {
-		//this._checkPaddleCollision(this.balls);
-		//this._checkBrickCollision(this.balls);
-		//this._checkItemCollision(this.items);
-	},
-
 	_reset: function(level) {
 		this.level = level;
 
 		if(this.level === 0) {
-			breakout.director.replaceScene(new breakout.Menu());
+			breakout.director.replaceScene(new breakout.scenes.Menu());
 			return;
 		}
 
@@ -86,6 +103,11 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 
 		this._addCountdown();
 		this._addBall(false);
+		this._updateHud();
+	},
+
+	_updateHud: function() {
+		this.hud.setText('lives: ' + this.lives + ' score: ' + this.score + ' level: ' + this.level);
 	},
 
 	_addBall: function(active) {
@@ -157,6 +179,7 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 
 	_onBrickDeath: function(brick) {
 		this.score += 100;
+		this._updateHud();
 
 		--this.brickCount;
 
@@ -182,6 +205,7 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 	_setForNextLife: function() {
 		this._addCountdown();
 		this._addBall(false);
+		this._updateHud();
 		//this._killAllOf(EntityPowerUp);
 		//this._killAllOf(EntityPowerDown);
 	}

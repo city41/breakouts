@@ -11,15 +11,13 @@
 		{
 			name: "letsa begin",
 			bricks: [
-				//[X,X,g,o,g,X,X],
-				//[o,b,g,g,g,b,o],
-				//[X,b,b,b,b,b,X]
-				[g]
+				[X,X,g,o,g,X,X],
+				[o,b,g,g,g,b,o],
+				[X,b,b,b,b,b,X]
 			],
 			powerUps: 1,
 			powerDowns: 1
 		},
-	];/*
 		{
 			name: "how's it going?",
 			bricks: [
@@ -61,7 +59,7 @@
 			powerUps: 2,
 			powerDowns: 3
 		}
-	];*/
+	];
 })();
 
 

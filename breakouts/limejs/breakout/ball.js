@@ -5,6 +5,13 @@
 	goog.require('lime.Sprite');
 	goog.require('lime.fill.Frame');
 
+	function _getCenter(node) {
+		var b = node.getBoundingBox();
+		var x = (b.left + b.right) / 2;
+		var y = (b.top + b.bottom) / 2;
+		return new goog.math.Coordinate(x, y);
+	}
+
 	function _inVerticalQuadrant(src, obj) {
 		var y = (src.top + src.bottom) / 2;
 		var x = (src.left + src.top) / 2;
@@ -23,9 +30,10 @@
 		lime.Sprite.call(this);
 		this.setSize(breakout.TILE_SIZE, breakout.TILE_SIZE);
 
+		this.speed = 140/1000;
 		this.vel = {
-			x: 140/1000,
-			y: 140/1000
+			x: this.speed,
+			y: this.speed
 		};
 		
 		this.runAction(this._createAnimation());
@@ -122,10 +130,28 @@
 
 				if(goog.math.Box.intersects(paddleBox, ballBox)) {
 					this.vel.y *= -1;
+					this.vel.x = this._determineBounceVelocity(this.paddle);
 					pos.x += dx;
 					return true;
 				}
 			}
+		},
+
+		_determineBounceVelocity: function(paddle) {
+			var paddleCenter = _getCenter(paddle);
+			var meCenter = _getCenter(this);
+
+			var distance = goog.math.Coordinate.distance(paddleCenter, meCenter);
+			var magnitude = (distance - this.getSize().height / 2 - paddle.getSize().height / 2);
+			// using ratio allows us to account for if the paddle changes sizes with powerups
+			var ratio = magnitude / (paddle.getSize().width / 2) * 2.5;
+			
+			if(meCenter.x < paddleCenter.x) {
+				// send the ball to the left if hit on the left side of the paddle, and vice versa
+				ratio = -ratio;
+			}
+
+			return this.speed * ratio;
 		},
 		
 		step: function(dt) {

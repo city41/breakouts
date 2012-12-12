@@ -3,8 +3,3 @@ powerdown
 
 all sfx
 
-pause
-
-
-x vel when hitting paddle
-
