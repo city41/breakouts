@@ -14,7 +14,6 @@ goog.require('breakout.Brick');
 goog.require('breakout.Ball');
 goog.require('breakout.Countdown');
 goog.require('breakout.scenes.LevelSetups');
-goog.require('breakout.scenes.Menu');
 goog.require('breakout.scenes.Win');
 goog.require('breakout.scenes.GameOver');
 

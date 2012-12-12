@@ -5,7 +5,6 @@ goog.require('goog.events');
 goog.require('lime.Label');
 
 goog.require('breakout.scenes.LogoScene');
-goog.require('breakout.scenes.Menu');
 
 breakout.scenes.GameOver = function() {
 	breakout.scenes.LogoScene.call(this);
