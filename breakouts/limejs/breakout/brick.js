@@ -1,10 +1,10 @@
 (function() {
-	var colorYOffsets = {
-		blue: 0,
-		orange: 1,
-		red: 2,
-		green: 3
-	};
+	// not sure why, but closure compiler is obfuscating only 'orange' O_o
+	var colorYOffsets = {};
+	colorYOffsets['blue'] = 0;
+	colorYOffsets['orange'] = 1;
+	colorYOffsets['red'] = 2;
+	colorYOffsets['green'] = 3;
 
 	goog.provide('breakout.Brick');
 
@@ -24,8 +24,6 @@
 		this.birth();
 	};
 
-	breakout.Brick.BRICK_WIDTH = breakout.TILE_SIZE * 2;
-	breakout.Brick.BRICK_HEIGHT = breakout.TILE_SIZE;
 
 	goog.inherits(breakout.Brick, lime.Sprite);
 

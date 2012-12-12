@@ -144,8 +144,8 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 
 		var bricks = setup.bricks;
 
-		var cornerX = breakout.Brick.BRICK_WIDTH * 1.5;
-		var cornerY = breakout.Brick.BRICK_HEIGHT * 4;
+		var cornerX = breakout.BRICK_WIDTH * 1.5;
+		var cornerY = breakout.BRICK_HEIGHT * 4;
 
 		var onBrickDeath = goog.bind(this._onBrickDeath, this);
 
