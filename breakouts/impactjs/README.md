@@ -29,7 +29,7 @@ But would need to look like this before it will run:
     weltmeister.html   <-- load this in your browser to edit levels
 
 ## Impact ideally needs PHP
-You can easily run the game itself without a local webserver, but Weltmeister is written in PHP and thus needs to a server with PHP to run properly.  
+You can easily run the game itself without a local webserver, but Weltmeister has a small PHP dependency thus needs a server with PHP to run properly.  
   
-If you are on OSX, the easiest way to get Weltmeister up is to set everything up at `~/Sites/breakout`, then you can get to Weltmeister at `http://localhost/~yourUserName/breakout/weltmeister/html`
+If you are on OSX, the easiest way to get Weltmeister up is to set everything up at `~/Sites/breakout`, then you can get to Weltmeister at `http://localhost/~yourUserName/breakout/weltmeister.html`
 
