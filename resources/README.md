@@ -8,14 +8,8 @@ These are the images, sound and other misc resource files used in the breakouts.
 
 ### Images
 
-<style>
-	img {
-		border: 1px solid gray;
-		margin: 4px;
-		}
-</style>
-
-![tiles.png](https://raw.github.com/city41/breakouts/master/resources/tiles.png)
+![tiles.png](https://raw.github.com/city41/breakouts/master/resources/tiles.png)  
+  
 ![logo.png](https://raw.github.com/city41/breakouts/master/resources/logo.png)
 
 * `tiles.png` -- these are all of the graphics in the entire game. Each tile is 16x16 and some entities take up more than one tile (like the paddle and countdown numbers). The bricks include frame animations for spawning (when a level first starts) and for death (when a ball hits them). Using these frame animations is optional. If your engine offers scaling or other kinds of animations that can accomplish a similar effect, feel free to do so. For example, the [LimeJS](https://github.com/city41/breakouts/tree/master/breakouts/limejs) version has `ScaleTo` built in, and so uses that to scale the bricks up and down. But the [ImpactJS](https://github.com/city41/breakouts/tree/master/breakouts/impactjs) and [CraftyJS](https://github.com/city41/breakouts/tree/master/breakouts/craftyjs) versions use the frame animation as frame animation is the only type they natively support. For the ball animation, please use the frames here and animate it that way.
