@@ -13,6 +13,8 @@ goog.require('breakout.Paddle');
 goog.require('breakout.Brick');
 goog.require('breakout.Ball');
 goog.require('breakout.Countdown');
+goog.require('breakout.PowerUp');
+goog.require('breakout.PowerDown');
 goog.require('breakout.scenes.LevelSetups');
 goog.require('breakout.scenes.Win');
 goog.require('breakout.scenes.GameOver');
@@ -25,6 +27,8 @@ breakout.scenes.Play = function() {
 	this.level = 0;
 
 	this.paddle = new breakout.Paddle();
+	this.paddle.onPowerUp = goog.bind(this._onPowerUp, this);
+
 	this.appendChild(this.paddle);
 
 	var s = breakout.director.getSize();
@@ -37,6 +41,8 @@ breakout.scenes.Play = function() {
 
 	this._setupEvents();
 	this._reset(1);
+
+	window.p = this;
 };
 
 goog.inherits(breakout.scenes.Play, breakout.scenes.BackgroundScene);
@@ -151,6 +157,9 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 
 		this.brickCount = 0;
 
+		var powerUpLocations = this._getLocations(bricks, setup.powerUps);
+		var powerDownLocations = this._getLocations(bricks, setup.powerDowns);
+
 		for(var y = 0; y < bricks.length; ++y) {
 			for(var x = 0; x < bricks[y].length; ++x) {
 				var color = bricks[y][x];
@@ -163,11 +172,38 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 					var hh = brick.getSize().height / 2;
 					brick.setPosition(cornerX + x * brick.getSize().width  + hw, cornerY + y * brick.getSize().height + hh);
 					brick.onDeath = onBrickDeath;
+					brick.hasPowerUp =  this._hasLocation(x, y, powerUpLocations);
+					brick.hasPowerDown =  this._hasLocation(x, y, powerDownLocations);
 
 					this.appendChild(brick);
 				}
 			}
 		}
+	},
+
+	_getLocations: function(bricks, count) {
+		var locations = [];
+		for (var i = 0; i < count; ++i) {
+			var x, y;
+			do {
+				y = (Math.random() * bricks.length) | 0;
+				x = (Math.random() * bricks[y].length) | 0;
+			} while (this._hasLocation(x, y, locations));
+			locations.push({
+				x: x,
+				y: y
+			});
+		}
+		return locations;
+	},
+
+	_hasLocation: function(x, y, locations) {
+		for (var i = 0; i < locations.length; ++i) {
+			if (locations[i].x === x && locations[i].y === y) {
+				return true;
+			}
+		}
+		return false;
 	},
 
 	_onMouseMove: function(e) {
@@ -176,9 +212,29 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		this.paddle.setPosition(pos);
 	},
 
+	_addPower: function(Type, pos) {
+		var power = new Type();
+		power.setPosition(pos);
+		power.paddle = this.paddle;
+
+		this.appendChild(power);
+	},
+
+	_onPowerUp: function() {
+		this._addBall(true);
+	},
+
 	_onBrickDeath: function(brick) {
 		this.score += 100;
 		this._updateHud();
+
+		if(brick.hasPowerUp) {
+			this._addPower(breakout.PowerUp, brick.getPosition());
+		}
+
+		if(brick.hasPowerDown) {
+			this._addPower(breakout.PowerDown, brick.getPosition());
+		}
 
 		--this.brickCount;
 

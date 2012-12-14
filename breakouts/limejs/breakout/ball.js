@@ -29,6 +29,7 @@
 	breakout.Ball = function() {
 		lime.Sprite.call(this);
 		this.setSize(breakout.TILE_SIZE, breakout.TILE_SIZE);
+		this.setAnchorPoint(0, 0);
 
 		this.speed = 140/1000;
 		this.vel = {
@@ -77,7 +78,7 @@
 
 		_hasHitVerticalWall: function(x) {
 			return x <= breakout.TILE_SIZE 
-				|| x + this.getSize().width >= breakout.director.getSize().width;
+				|| (x + this.getSize().width) >= breakout.director.getSize().width - breakout.TILE_SIZE;
 		},
 
 		_hasHitHorizontalWall: function(y) {
