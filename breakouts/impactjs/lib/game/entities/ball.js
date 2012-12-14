@@ -1,7 +1,6 @@
 ig.module('game.entities.ball').requires('impact.entity').defines(function() {
 
 	EntityBall = ig.Entity.extend({
-		bounce: new ig.Sound('media/sfx/bounce.*'),
 		size: {
 			x: 16,
 			y: 16
