@@ -3,7 +3,7 @@ Crafty.scene('win', function() {
 
 	breakout.logo();
 
-	Crafty.e('2D, DOM, Text')
+	Crafty.e('2D, Canvas, Text')
 		.attr({
 			x: 0,
 			y: Crafty.stage.elem.clientHeight / 2 + 60,
@@ -15,7 +15,7 @@ Crafty.scene('win', function() {
 		.css('text-align', 'center');
 
 
-	Crafty.e('2D, DOM, Mouse, Keyboard, Text')
+	Crafty.e('2D, Canvas, Mouse, Keyboard, Text')
 		.attr({
 			x: 0,
 			y: 0,

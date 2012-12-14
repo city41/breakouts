@@ -15,7 +15,7 @@ Crafty.scene('gameover', function() {
 		.css('text-align', 'center');
 
 
-	Crafty.e('2D, DOM, Mouse, Keyboard, Text')
+	Crafty.e('2D, Canvas, Mouse, Keyboard, Text')
 		.attr({
 			x: 0,
 			y: 0,

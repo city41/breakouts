@@ -6,7 +6,7 @@
 			logo: [0, 0, 131, 175]
 		});
 
-		Crafty.e('2D, DOM, logo')
+		Crafty.e('2D, Canvas, logo')
 			.attr({
 				x: Crafty.stage.elem.clientWidth / 2 - 131 / 2,
 				y: Crafty.stage.elem.clientHeight / 2 - 170
@@ -79,7 +79,7 @@
 
 		for(var y = 0; y < bg.length; ++y) {
 			for(var x = 0; x < bg[y].length; ++x) {
-				Crafty.e('2D, DOM, background, ' + bg[y][x])
+				Crafty.e('2D, Canvas, background, ' + bg[y][x])
 					.attr({
 						x: x* breakout.TILE_SIZE,
 						y: y* breakout.TILE_SIZE

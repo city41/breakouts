@@ -22,14 +22,14 @@ Crafty.scene('play', function() {
 
 	function _addCountdown() {
 		Crafty('Countdown').destroy();
-		Crafty.e('2D, DOM, Countdown, Center')
+		Crafty.e('2D, Canvas, Countdown, Center')
 			.countdown(100, function() {
 				Crafty('Ball').attr({active: true});
 			});
 	}
 
 	function _addBall(active) {
-		Crafty.e('2D, DOM, Ball')
+		Crafty.e('2D, Canvas, Ball')
 			.attr({
 				x: 50,
 				y: Crafty.stage.elem.clientHeight / 2
@@ -54,7 +54,7 @@ Crafty.scene('play', function() {
 					var bx = cornerX + x * breakout.brick.WIDTH;
 					var by = cornerY + y * breakout.brick.HEIGHT;
 
-					Crafty.e('2D, DOM, Brick, ' + color)
+					Crafty.e('2D, Canvas, Brick, ' + color)
 						.attr({
 							x: bx,
 							y: by
@@ -93,7 +93,7 @@ Crafty.scene('play', function() {
 
 	breakout.createBackground();
 
-	_paddle = Crafty.e('2D, DOM, Paddle')
+	_paddle = Crafty.e('2D, Canvas, Paddle')
 		.attr({
 			x: 160,
 			y: 432
