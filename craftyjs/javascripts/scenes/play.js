@@ -37,6 +37,31 @@ Crafty.scene('play', function() {
 			.ball(active);
 	}
 
+	function _getLocations(bricks, count) {
+		var locations = [];
+		for (var i = 0; i < count; ++i) {
+			var x, y;
+			do {
+				y = (Math.random() * bricks.length) | 0;
+				x = (Math.random() * bricks[y].length) | 0;
+			} while (_hasLocation(x, y, locations));
+			locations.push({
+				x: x,
+				y: y
+			});
+		}
+		return locations;
+	}
+
+	function _hasLocation(x, y, locations) {
+		for (var i = 0; i < locations.length; ++i) {
+			if (locations[i].x === x && locations[i].y === y) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	function _populateLevel(level) {
 		Crafty('Brick').destroy();
 
@@ -45,6 +70,9 @@ Crafty.scene('play', function() {
 
 		var cornerX = breakout.brick.WIDTH * 1.5;
 		var cornerY = breakout.brick.HEIGHT * 4;
+
+		var powerUpLocations = _getLocations(bricks, setup.powerUps);
+		var powerDownLocations = _getLocations(bricks, setup.powerDowns);
 
 		for(var y = 0; y < bricks.length; ++y) {
 			for(var x = 0; x < bricks[y].length; ++x) {
@@ -57,7 +85,9 @@ Crafty.scene('play', function() {
 					Crafty.e('2D, Canvas, Brick, ' + color)
 						.attr({
 							x: bx,
-							y: by
+							y: by,
+							hasPowerUp: _hasLocation(x, y, powerUpLocations),
+							hasPowerDown: _hasLocation(x, y, powerDownLocations)
 						})
 						.brick(color);
 				}
@@ -69,8 +99,24 @@ Crafty.scene('play', function() {
 		_hud.text('lives: ' + _lives + ' score: ' + _score + ' level: ' + _level);
 	}
 
-	Crafty.bind('BrickDeath', function() {
+	Crafty.bind('BrickDeath', function(brick) {
 		_score += 100;
+
+		if(brick.hasPowerUp) {
+			Crafty.e('2D, Canvas, PowerUp')
+				.attr({
+					x: brick.attr('x'),
+					y: brick.attr('y')
+				});
+		}
+
+		if(brick.hasPowerDown) {
+			Crafty.e('2D, Canvas, PowerDown')
+				.attr({
+					x: brick.attr('x'),
+					y: brick.attr('y')
+				});
+		}
 
 		if(!Crafty('Brick').length) {
 			_reset(_level + 1);
@@ -80,14 +126,16 @@ Crafty.scene('play', function() {
 	});
 
 	Crafty.bind('BallDeath', function() {
-		_lives -= 1;
+		if(Crafty('Ball').length === 0) {
+			_lives -= 1;
 
-		if(_lives === 0) {
-			Crafty.scene('gameover');
-		} else {
-			_addBall(false);
-			_addCountdown();
-			_updateHud();
+			if(_lives === 0) {
+				Crafty.scene('gameover');
+			} else {
+				_addBall(false);
+				_addCountdown();
+				_updateHud();
+			}
 		}
 	});
 
@@ -96,7 +144,11 @@ Crafty.scene('play', function() {
 	_paddle = Crafty.e('2D, Canvas, Paddle')
 		.attr({
 			x: 160,
-			y: 432
+			y: 432,
+			onPowerUp: function() {
+				_addBall(true);
+				Crafty.audio.play('powerup');
+			}
 		});
 
 	_hud = Crafty.e('2D, DOM, Text')
