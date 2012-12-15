@@ -34,7 +34,7 @@
 		this.stop();
 		this.bind('AnimationEnd', function() {
 			this.destroy();
-			Crafty.trigger('BrickDeath');
+			Crafty.trigger('BrickDeath', this);
 		});
 		this.animate('die', 10, 0);
 	}

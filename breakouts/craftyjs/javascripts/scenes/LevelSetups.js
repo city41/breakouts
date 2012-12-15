@@ -16,7 +16,7 @@
 				[X,b,b,b,b,b,X]
 			],
 			powerUps: 1,
-			powerDowns: 1
+			powerDowns: 14
 		},
 		{
 			name: "how's it going?",
