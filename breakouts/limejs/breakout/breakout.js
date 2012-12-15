@@ -13,7 +13,7 @@ goog.exportSymbol('breakout.BRICK_HEIGHT', breakout.BRICK_HEIGHT);
 // entrypoint
 breakout.start = function(containerId){
 	breakout.director = new lime.Director(document.getElementById(containerId), 320, 480);
-	breakout.director.setDisplayFPS(true);
+	breakout.director.setDisplayFPS(false);
 
 	breakout.director.makeMobileWebAppCapable();
 	breakout.director.replaceScene(new breakout.scenes.Menu());
