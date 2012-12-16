@@ -10,6 +10,9 @@ ig.module('game.games.menu')
 			ig.input.bind(ig.KEY.MOUSE1, 'action');
 
 			this.loadLevel(LevelTitle);
+
+			var verb = ig.ua.mobile ? 'tap' : 'click mouse';
+			this.instructions = verb + ' to start';
 		},
 
 		update: function() {
@@ -22,7 +25,7 @@ ig.module('game.games.menu')
 
 		draw: function() {
 			this.parent();
-			this.font.draw('click mouse to start', ig.system.width / 2, ig.system.height / 2 + 60, ig.Font.ALIGN.CENTER);
+			this.font.draw(this.instructions, ig.system.width / 2, ig.system.height / 2 + 60, ig.Font.ALIGN.CENTER);
 			this.font.draw('during the game: \nuse L/R arrow keys to skip levels', ig.system.width / 2, ig.system.height / 2 + 140, ig.Font.ALIGN.CENTER);
 		}
 	});
