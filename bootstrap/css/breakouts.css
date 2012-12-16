@@ -19,19 +19,6 @@ a.home-link {
 	background-repeat: no-repeat;
 }
 
-@media (max-width: 767px) {
-	.breakouts-logo {
-		background-image: url(../img/logo.png);
-		background-repeat: no-repeat;
-		float: left;
-		height: 177px;
-		width: 140px;
-	}
-
-	.btn {
-		margin-bottom: 8px;
-	}
-}
 
 @media (min-width: 767px) {
 	.breakouts-logo {
@@ -43,20 +30,22 @@ a.home-link {
 	}
 }
 
-@media (max-width: 989px) {
+@media (max-width: 1000px) {
 	.breakouts-screenshot {
 		display: none;
 	}
 }
 
-@media (min-width: 990px) {
+@media (min-width: 1001px) {
 	.breakouts-screenshot {
 		background-image: url(../img/screenshot.png);
 		background-repeat: no-repeat;
-		float: right;
+		position: absolute;
+		top: 40px;
+		right: 170px;
 		width: 211px;
 		height: 315px;
-		margin-right: 170px;
+		/*margin-right: 170px;*/
 		-moz-box-shadow: 20px 20px 30px #AAA;
 		-webkit-box-shadow: 20px 20px 30px #AAA;
 		box-shadow: 20px 20px 30px #AAA;
@@ -100,4 +89,25 @@ ul.features {
 	content: '✔';
 	position: absolute;
 	left: -20px;
+}
+
+@media (max-width: 767px) {
+	.breakouts-logo {
+		background-image: url(../img/logo.png);
+		background-repeat: no-repeat;
+		float: left;
+		height: 177px;
+		width: 140px;
+	}
+
+	.btn {
+		margin-bottom: 8px;
+	}
+
+	.implementations {
+		list-style: none;
+		columns: 1;
+		-webkit-columns: 1;
+		-moz-columns: 1;
+	}
 }
