@@ -12,10 +12,10 @@ breakout.scenes.Menu = function() {
 
 	var s = breakout.director.getSize();
 
-	this.addText('click mouse to start', s.width / 2, s.height / 2 + 60);
+	this.addText('click to start', s.width / 2, s.height / 2 + 60);
 	this.addText('during the game:\nuse L/R arrow keys to skip levels', s.width / 2, s.height / 2 + 140);
 
-	goog.events.listen(this, ['mousedown'], this._onMouseDown, this);
+	goog.events.listen(this, ['mousedown', 'touchend'], this._onMouseDown, this);
 };
 
 goog.inherits(breakout.scenes.Menu, breakout.scenes.LogoScene);

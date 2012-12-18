@@ -1,11 +1,13 @@
 goog.provide('breakout.scenes.BackgroundScene');
 
+goog.require('lime.Renderer');
 goog.require('lime.Scene');
 goog.require('lime.Sprite');
 goog.require('lime.parser.TMX');
 
 breakout.scenes.BackgroundScene = function() {
 	lime.Scene.call(this);
+	//this.setRenderer(lime.Renderer.CANVAS);
 
 	this._loadBg();
 };
