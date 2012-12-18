@@ -20,6 +20,8 @@ The main platforms we are shooting for are desktop machines running modern brows
 
 ## Implementing The Game
 
+Be sure to use the provided [resources](https://github.com/city41/breakouts/tree/master/resources)!
+
 For the most part, if you just check out the [existing implementations](http://city41.github.com/breakouts) and make sure to do everything they do, you should be all set. Here are a few details to keep in mind:
 
 * There is a power up item that adds another ball, ala multiball in pinball. The player doesn't lose a life until he misses all of the balls in the playing field
