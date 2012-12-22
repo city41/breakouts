@@ -38,7 +38,7 @@ All of the Breakouts are up and playable at this project's [website](http://city
 
 ## Contribute
 
-If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://raw.github.com/city41/breakouts/master/ImplementationGuidelines.md) to get started.
+If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://github.com/city41/breakouts/blob/master/ImplementationGuidelines.md) to get started.
 
 ## License
 
