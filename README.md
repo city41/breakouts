@@ -38,11 +38,15 @@ All of the Breakouts are up and playable at this project's [website](http://city
 
 ## Contribute
 
-If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://raw.github.com/city41/breakouts/master/ImplementationGuildelines.md) to get started.
+If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://raw.github.com/city41/breakouts/master/ImplementationGuidelines.md) to get started.
 
 ## License
 
 All of the various engines have their own licenses, but the Breakout code itself (and the resources) is MIT licensed. Generally speaking, feel free to do whatever you want with it.
+
+## Thanks!
+
+Thanks to Addy Osmani, Sindre Sorhus and everyone else involved with TodoMVC for the idea and inspiration
 
 
 
