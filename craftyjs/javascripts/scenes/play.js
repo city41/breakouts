@@ -7,6 +7,9 @@ Crafty.scene('play', function() {
 
 	function _reset(level) {
 		_level = level;
+
+		Crafty('Ball').destroy();
+		Crafty('Countdown').destroy();
 		
 		if(_level >= breakout.LevelSetups.length) {
 			Crafty.scene('win');
@@ -14,7 +17,6 @@ Crafty.scene('play', function() {
 		}
 
 		_populateLevel(level);
-		Crafty('Ball').destroy();
 		_addBall(false);
 		_addCountdown();
 		_updateHud();
