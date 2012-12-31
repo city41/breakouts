@@ -144,7 +144,7 @@ Crafty.scene('play', function() {
 	_paddle = Crafty.e('2D, Canvas, Paddle')
 		.attr({
 			x: 160,
-			y: 432,
+			y: 368,
 			onPowerUp: function() {
 				_addBall(true);
 				Crafty.audio.play('powerup');

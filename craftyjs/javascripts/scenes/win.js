@@ -3,7 +3,7 @@ Crafty.scene('win', function() {
 
 	breakout.logo();
 
-	Crafty.e('2D, Canvas, Text')
+	Crafty.e('2D, DOM, Text')
 		.attr({
 			x: 0,
 			y: Crafty.stage.elem.clientHeight / 2 + 60,
