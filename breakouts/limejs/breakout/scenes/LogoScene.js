@@ -20,7 +20,7 @@ breakout.scenes.LogoScene = function() {
 			.setFontSize(30)
 			.setSize(s.width, 40)
 			.setAnchorPoint(0.5, 0.5)
-			.setPosition(s.width / 2, s.height / 2 + 20)
+			.setPosition(s.width / 2, s.height / 2 + 40)
 		);
 };
 

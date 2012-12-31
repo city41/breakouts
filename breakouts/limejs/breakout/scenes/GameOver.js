@@ -11,7 +11,7 @@ breakout.scenes.GameOver = function() {
 
 	var s = breakout.director.getSize();
 
-	this.addText('game over', s.width / 2, s.height / 2 + 60);
+	this.addText('game over', s.width / 2, s.height / 2 + 70);
 
 	goog.events.listen(this, ['mousedown'], this._onMouseDown, this);
 

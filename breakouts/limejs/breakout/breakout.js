@@ -14,7 +14,7 @@ goog.exportSymbol('breakout.BRICK_HEIGHT', breakout.BRICK_HEIGHT);
 
 // entrypoint
 breakout.start = function(containerId){
-	breakout.director = new lime.Director(document.getElementById(containerId), 320, 480);
+	breakout.director = new lime.Director(document.getElementById(containerId), 20 * breakout.TILE_SIZE, 26 * breakout.TILE_SIZE);
 	breakout.director.setDisplayFPS(true);
 
 	breakout.director.makeMobileWebAppCapable();

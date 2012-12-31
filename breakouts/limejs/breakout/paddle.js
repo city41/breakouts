@@ -11,7 +11,7 @@ breakout.Paddle = function() {
 	lime.Sprite.call(this);
 
 	this.setAnchorPoint(0, 0);
-	this.setPosition(breakout.director.getSize().width / 2 - this.getSize().width / 2, 432);
+	this.setPosition(breakout.director.getSize().width / 2 - this.getSize().width / 2, 368);
 	
 	this.fullSize = new goog.math.Size(breakout.TILE_SIZE * 3, breakout.TILE_SIZE);
 	this.miniSize = new goog.math.Size(breakout.TILE_SIZE * 2, breakout.TILE_SIZE);

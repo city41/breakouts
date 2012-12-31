@@ -11,7 +11,7 @@ breakout.scenes.Win = function() {
 
 	var s = breakout.director.getSize();
 
-	this.addText('you are the master!', s.width / 2, s.height / 2 + 60);
+	this.addText('you are the master!', s.width / 2, s.height / 2 + 70);
 
 	goog.events.listen(this, ['mousedown'], this._onMouseDown, this);
 
