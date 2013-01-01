@@ -8,9 +8,22 @@ breakout.TILE_SIZE = 16;
 breakout.BRICK_WIDTH = 32;
 breakout.BRICK_HEIGHT = 16;
 
+breakout.IS_MOBILE = (function() {
+	// stolen from Modernizr
+	// TODO: does Lime or Closure already have this somewhere?
+	try {  
+    document.createEvent("TouchEvent");  
+    return true;  
+  } catch (e) {  
+    return false;  
+  } 
+})();
+
+
 goog.exportSymbol('breakout.TILE_SIZE', breakout.TILE_SIZE);
 goog.exportSymbol('breakout.BRICK_WIDTH', breakout.BRICK_WIDTH);
 goog.exportSymbol('breakout.BRICK_HEIGHT', breakout.BRICK_HEIGHT);
+goog.exportSymbol('breakout.IS_MOBILE', breakout.IS_MOBILE);
 
 // entrypoint
 breakout.start = function(containerId){

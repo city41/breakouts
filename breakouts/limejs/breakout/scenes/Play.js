@@ -49,7 +49,7 @@ goog.inherits(breakout.scenes.Play, breakout.scenes.BackgroundScene);
 
 goog.object.extend(breakout.scenes.Play.prototype, {
 	_setupEvents: function() {
-		goog.events.listen(this, ['mousemove'], this._onMouseMove, false, this);
+		goog.events.listen(this, ['mousemove', 'touchmove'], this._onMouseMove, false, this);
 
 		goog.events.listen(document, ['keydown'], function(e) {
 			if (e.keyCode === goog.events.KeyCodes.LEFT) { 

@@ -16,14 +16,18 @@ goog.inherits(breakout.scenes.BackgroundScene, lime.Scene);
 
 goog.object.extend(breakout.scenes.BackgroundScene.prototype, {
 	_loadBg: function() {
-		var tmx = new lime.parser.TMX('media/bg.tmx');
+		var tmxFile = breakout.IS_MOBILE ? 'media/bg_mobile.tmx' : 'media/bg.tmx';
+
+		var tmx = new lime.parser.TMX(tmxFile);
 
 		for(var t = 0; t < tmx.layers[0].tiles.length; ++t) {
 			var tile = tmx.layers[0].tiles[t];
-			var sprite = new lime.Sprite().setPosition(tile.px, tile.py);
-			sprite.setAnchorPoint(0, 0);
-			sprite.setFill(tile.tile.frame);
-			this.appendChild(sprite);
+			if(tile.tile.frame) {
+				var sprite = new lime.Sprite().setPosition(tile.px, tile.py);
+				sprite.setAnchorPoint(0, 0);
+				sprite.setFill(tile.tile.frame);
+				this.appendChild(sprite);
+			}
 		}
 	}
 });

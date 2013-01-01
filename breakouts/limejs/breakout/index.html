@@ -12,17 +12,24 @@
 			height: 100%;
 			background-color: black;
 		}
+
+
 		#breakout-container {
-			position: absolute !important;
-			left: 0;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			margin: auto;
 			width: 320px;
 			height: 416px;
-			border: 1px solid #555;
 			cursor: none;
+			background-color: white;
+		}
+	
+		@media (min-width: 641px) {
+			#breakout-container {
+				position: absolute !important;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+			}
 		}
 	</style>
 </head>
@@ -35,7 +42,9 @@
 	<script type="text/javascript" src="breakout.js"></script>
 	<script type="text/javascript">
 		document.body.onload = function() {
-			window.scrollTo(0, 1);
+			setTimeout(function() {
+				window.scrollTo(0, 1);
+			}, 1);
 			breakout.start('breakout-container');
 		};
 	</script>
