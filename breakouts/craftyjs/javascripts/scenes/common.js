@@ -6,7 +6,7 @@
 			logo: [0, 0, 131, 175]
 		});
 
-		Crafty.e('2D, Canvas, logo')
+		Crafty.e('2D, DOM, logo')
 			.attr({
 				x: Crafty.stage.elem.clientWidth / 2 - 131 / 2,
 				y: Crafty.stage.elem.clientHeight / 2 - 170
@@ -26,6 +26,7 @@
 	};
 
 	breakout.createBackground = function() {
+		Crafty.background('#FFFFFF');
 		Crafty.sprite(16, 'media/tiles.png', {
 			r: [11, 3],
 			l: [11, 4],
@@ -75,6 +76,9 @@
 
 		for(var y = 0; y < bg.length; ++y) {
 			for(var x = 0; x < bg[y].length; ++x) {
+				if(bg[y][x] === g && breakout.IS_MOBILE) {
+					continue;
+				}
 				Crafty.e('2D, Canvas, background, ' + bg[y][x])
 					.attr({
 						x: x* breakout.TILE_SIZE,
