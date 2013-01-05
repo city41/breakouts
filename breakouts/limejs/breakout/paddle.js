@@ -2,6 +2,7 @@ goog.provide('breakout.Paddle');
 
 goog.require('lime.Sprite');
 goog.require('lime.fill.Frame');
+goog.require('lime.audio.Audio');
 
 goog.require('goog.math');
 
@@ -21,6 +22,8 @@ breakout.Paddle = function() {
 
 	this.setFill(this.fullSprite);
 	this.setSize(this.fullSize);
+
+	this.recover = new lime.audio.Audio('media/sfx/recover.mp3');
 };
 
 
@@ -37,6 +40,7 @@ goog.object.extend(breakout.Paddle.prototype, {
 	setFullSize: function() {
 		this.setFill(this.fullSprite);
 		this.setSize(this.fullSize);
+		this.recover.play();
 	},
 
 	onPowerDown: function() {

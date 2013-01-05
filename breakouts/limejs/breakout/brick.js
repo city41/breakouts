@@ -9,6 +9,7 @@
 	goog.provide('breakout.Brick');
 
 	goog.require('lime.Sprite');
+	goog.require('lime.audio.Audio');
 	goog.require('lime.fill.Frame');
 	goog.require('lime.animation.ScaleTo');
 
@@ -20,6 +21,8 @@
 
 		var y = colorYOffsets[this.color] * this.getSize().height;
 		this.setFill(new lime.fill.Frame('media/tiles.png', 0, y, this.getSize().width, this.getSize().height));
+
+		this.deathSound = new lime.audio.Audio('media/sfx/brickDeath.mp3');
 
 		this.birth();
 	};
@@ -34,6 +37,14 @@
 		},
 
 		die: function() {
+			if(this.dying) {
+				return;
+			}
+
+			this.dying = true;
+
+			this.deathSound.play();
+
 			this.setScale(1);
 			var ani = new lime.animation.ScaleTo(0).setDuration(0.3);
 			goog.events.listen(ani, lime.animation.Event.STOP, function() {

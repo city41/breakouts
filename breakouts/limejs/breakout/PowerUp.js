@@ -3,6 +3,7 @@ goog.provide('breakout.PowerUp');
 goog.require('goog.math');
 goog.require('lime.Sprite');
 goog.require('lime.fill.Frame');
+goog.require('lime.audio.Audio');
 
 breakout.PowerUp = function() {
 	lime.Sprite.call(this);
@@ -15,6 +16,8 @@ breakout.PowerUp = function() {
 
 	var fill = new lime.fill.Frame('media/tiles.png', 6 * breakout.TILE_SIZE, 6 * breakout.TILE_SIZE, breakout.TILE_SIZE, breakout.TILE_SIZE);
 	this.setFill(fill);
+
+	this.gotIt = new lime.audio.Audio('media/sfx/powerup.mp3');
 
 	lime.scheduleManager.schedule(this.step, this);
 };
@@ -50,6 +53,7 @@ goog.object.extend(breakout.PowerUp.prototype, {
 		var myBox = this.getBoundingBox();
 
 		if(goog.math.Box.intersects(paddleBox, myBox)) {
+			this.gotIt.play();
 			this.paddle.onPowerUp();
 			this.die();
 		}
