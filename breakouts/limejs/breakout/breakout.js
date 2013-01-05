@@ -28,9 +28,8 @@ goog.exportSymbol('breakout.IS_MOBILE', breakout.IS_MOBILE);
 // entrypoint
 breakout.start = function(containerId){
 	breakout.director = new lime.Director(document.getElementById(containerId), 20 * breakout.TILE_SIZE, 26 * breakout.TILE_SIZE);
-	breakout.director.setDisplayFPS(true);
+	breakout.director.setDisplayFPS(false);
 
-	breakout.director.makeMobileWebAppCapable();
 	breakout.director.replaceScene(new breakout.scenes.Menu());
 }
 
