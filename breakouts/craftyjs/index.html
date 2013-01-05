@@ -22,19 +22,32 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <title>Breakout</title>
+    <title>Breakout - CraftyJS</title>
     <style>
     	body, html { 
 				margin: 0; 
 				padding: 0;
 				overflow: hidden; 
 				font-family: Arial; 
-				font-size: 20px
+				font-size: 20px;
+				background-color: black;
 			}
     	#cr-stage { 
+				margin: 0 auto;
 				color: white;
 				cursor: none;
 			}
+			@media (min-width: 641px) {
+				#cr-stage {
+					position: absolute !important;
+					left: 0;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					margin: auto;
+				}
+			}
+
     </style>
 
 </head>

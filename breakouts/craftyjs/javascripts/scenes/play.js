@@ -172,8 +172,6 @@ Crafty.scene('play', function() {
 			h: Crafty.stage.elem.clientHeight
 		})
 		.bind('MouseMove', function(e) {
-			// TODO: crap, this is a native MouseEvent
-			// need to make sure this is cross browser compatible
 			_paddle.x = e.offsetX || e.layerX;
 		})
 		//.textColor('#000000')
