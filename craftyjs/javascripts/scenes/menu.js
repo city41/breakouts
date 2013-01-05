@@ -3,6 +3,8 @@ Crafty.scene('menu', function() {
 
 	breakout.logo();
 
+	var verb = breakout.IS_MOBILE ? 'tap' : 'click';
+
 	Crafty.e('2D, DOM, Text')
 		.attr({
 			x: 0,
@@ -10,7 +12,7 @@ Crafty.scene('menu', function() {
 			w: Crafty.stage.elem.clientWidth,
 			h: 30
 		})
-		.text('click mouse to start')
+		.text(verb + ' to start')
 		.textColor('#000000')
 		.css('text-align', 'center');
 
@@ -26,7 +28,7 @@ Crafty.scene('menu', function() {
 		.css('text-align', 'center');
 
 
-	Crafty.e('2D, DOM, Mouse, Keyboard, Text')
+	Crafty.e('2D, DOM, Mouse, Text')
 		.attr({
 			x: 0,
 			y: 0,
