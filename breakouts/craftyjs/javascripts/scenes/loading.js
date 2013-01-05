@@ -9,6 +9,7 @@
 	];
 
 	function getAudioPaths(files) {
+		var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 		var paths = [];
 		files = files || audioFiles;
 
@@ -16,7 +17,9 @@
 			var file = files[i];
 			paths.push('media/sfx/' + file + '.mp3');
 			paths.push('media/sfx/' + file + '.ogg');
-			paths.push('media/sfx/' + file + '.wav');
+			if(!isFirefox) {
+				paths.push('media/sfx/' + file + '.wav');
+			}
 		}
 
 		return paths;
