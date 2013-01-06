@@ -11,7 +11,12 @@ Crafty.scene('play', function() {
 		Crafty('Ball').destroy();
 		Crafty('Countdown').destroy();
 		
-		if(_level >= breakout.LevelSetups.length) {
+		if(_level === 0) {
+			Crafty.scene('menu');
+			return;
+		}
+
+		if(_level > breakout.LevelSetups.length) {
 			Crafty.scene('win');
 			return;
 		}
