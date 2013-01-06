@@ -47,7 +47,7 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 				ig.resetGame();
 				return;
 			}
-			if (level === ig.LevelSetups.length) {
+			if (level > ig.LevelSetups.length) {
 				ig.system.setGame(YouWinGame);
 				return;
 			}
