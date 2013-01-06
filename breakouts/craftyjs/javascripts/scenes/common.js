@@ -25,8 +25,58 @@
 			.css('text-align', 'center');
 	};
 
+	// this drops the background into any scene that calls this function
+	// the background will either be a prerendered image (the default) or
+	// tile based if the "usetiles" query parameter is on the URL
 	breakout.createBackground = function() {
-		Crafty.background('#FFFFFF');
+		if(window.location.href.indexOf('usetiles') > -1 && !breakout.IS_MOBILE) {
+			this._createBackgroundViaTiles();
+		} else {
+			this._createBackgroundViaImage();
+		}
+	};
+
+	breakout._createBackgroundViaImage = function() {
+		var width = Crafty.stage.elem.clientWidth;
+		var height = Crafty.stage.elem.clientHeight;
+
+		Crafty.sprite(1, 'media/bg_prerendered.png', {
+			bg: [0, 0, width, height]
+		});
+
+		// drop the background in
+		Crafty.e('2D, Canvas, bg').attr({ x: 0, y: 0 });
+
+		// now add in some "dummy" wall entities so collision detection still works
+		// top wall
+		Crafty.e('2D, Canvas, background, h')
+			.attr({
+				x: 0,
+				y: 0,
+				w: width,
+				h: breakout.TILE_SIZE
+			});
+
+		// left wall
+		Crafty.e('2D, Canvas, background, v')
+			.attr({
+				x: 0,
+				y: 0,
+				w: breakout.TILE_SIZE,
+				h: height
+			});
+
+		// right wall
+		Crafty.e('2D, Canvas, background, v')
+			.attr({
+				x: width - breakout.TILE_SIZE,
+				y: 0,
+				w: breakout.TILE_SIZE,
+				h: height
+			});
+	};
+
+	breakout._createBackgroundViaTiles = function() {
 		Crafty.sprite(16, 'media/tiles.png', {
 			r: [11, 3],
 			l: [11, 4],
@@ -76,9 +126,6 @@
 
 		for(var y = 0; y < bg.length; ++y) {
 			for(var x = 0; x < bg[y].length; ++x) {
-				if(bg[y][x] === g && breakout.IS_MOBILE) {
-					continue;
-				}
 				Crafty.e('2D, Canvas, background, ' + bg[y][x])
 					.attr({
 						x: x* breakout.TILE_SIZE,

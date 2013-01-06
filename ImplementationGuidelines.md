@@ -20,7 +20,7 @@ The main platforms we are shooting for are desktop machines running modern brows
 
 ## Implementing The Game
 
-Be sure to use the provided [resources](https://github.com/city41/breakouts/tree/master/resources)!
+Be sure to use the provided [resources](https://github.com/city41/breakouts/tree/master/resources)
 
 For the most part, if you just check out the [existing implementations](http://city41.github.com/breakouts) and make sure to do everything they do, you should be all set. Here are a few details to keep in mind:
 
@@ -28,6 +28,7 @@ For the most part, if you just check out the [existing implementations](http://c
 * There is also a power down item that shrinks the paddle to 2/3's its full size. This wears off after 10 seconds
 * There are a good number of sound effects: hitting a brick, powering up, powering down, power down wearing off, and the countdown's "blip"
 * The game is entirely mouse driven.
+* The background can be prerendered or use tiles (or both). See "The Background" section in the [resources](https://github.com/city41/breakouts/tree/master/resources) README
 
 ## Mobile Devices
 

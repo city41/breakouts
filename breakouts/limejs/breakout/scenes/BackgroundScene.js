@@ -16,10 +16,11 @@ goog.inherits(breakout.scenes.BackgroundScene, lime.Scene);
 
 goog.object.extend(breakout.scenes.BackgroundScene.prototype, {
 	_loadBg: function() {
-		if(breakout.IS_MOBILE || window.location.href.indexOf('notile') > -1) {
-			this._loadViaImage();
-		} else {
+		// defaulting to prerendered background, but allowing tmx if people want it via query param
+		if(window.location.href.indexOf('usetiles') > -1 && !breakout.IS_MOBILE) {
 			this._loadViaTmx();
+		} else {
+			this._loadViaImage();
 		}
 	},
 
@@ -27,7 +28,7 @@ goog.object.extend(breakout.scenes.BackgroundScene.prototype, {
 		var width = 20 * breakout.TILE_SIZE;
 		var height = 26 * breakout.TILE_SIZE;
 
-		var fill = new lime.fill.Frame('media/bg_mobile.png', 0, 0, width, height);
+		var fill = new lime.fill.Frame('media/bg_prerendered.png', 0, 0, width, height);
 
 		var sprite = new lime.Sprite()
 			.setFill(fill)

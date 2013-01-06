@@ -36,6 +36,15 @@ and feature:
 
 All of the Breakouts are up and playable at this project's [website](http://city41.github.com/breakouts)
 
+### Turning on or off prerendering the background
+
+It's interesting to see an engine's support for tiles, so all the implementations can load the background via tiles. By default though, they load a prerendered background image for better performance. To turn on use of tiles, add `usetiles` to the URL, for example:
+
+* http://city41.github.com/breakouts/craftyjs/index.html   <---- will use a prerendered background
+* http://city41.github.com/breakouts/craftyjs/index.html?usetiles   <---- will create the background via individual tiles
+
+**NOTE:** A mobile device will always use the prerendered background, even if `usetiles` is set. Tiles on mobile devices tend to kill performance quite a bit
+
 ## Contribute
 
 If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://github.com/city41/breakouts/blob/master/ImplementationGuidelines.md) to get started.
