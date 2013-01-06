@@ -16,7 +16,7 @@ goog.inherits(breakout.scenes.BackgroundScene, lime.Scene);
 
 goog.object.extend(breakout.scenes.BackgroundScene.prototype, {
 	_loadBg: function() {
-		if(breakout.IS_MOBILE) {
+		if(breakout.IS_MOBILE || window.location.href.indexOf('notile') > -1) {
 			this._loadViaImage();
 		} else {
 			this._loadViaTmx();
