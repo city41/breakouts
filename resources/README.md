@@ -34,8 +34,8 @@ There are two choices here for the background, either prerendered or using a Til
   
 Most implementations are going the prerendered route for performance reasons. If your engine supports tiling via tmx or some other method, it'd be cool to offer that as an alternative. If you do, the way I've been doing that is with 'usetiles' as a query parameter in the URL. For example on the Lime version:  
   
-* http://city41.github.com/breakouts/index.html <---- will use the prerendered background
-* http://city41.github.com/breakouts/index.html?usetiles <---- will use the tmx tiled background
+* http://city41.github.com/breakouts/limejs/index.html <---- will use the prerendered background
+* http://city41.github.com/breakouts/limejs/index.html?usetiles <---- will use the tmx tiled background
 
 ### Tiled bmx file
 
