@@ -26,18 +26,31 @@
 				return;
 			}
 		},
+
 		_checkPaddleCollision: function() {
 			if (this.vel.y > 0) {
 				var hit = this.hit('Paddle')[0];
 
 				if (hit) {
-					// have x velocity be a factor of where on the paddle the ball struck
-					// so player can have some control on where to send the ball next
-					this.vel.x = (this.centerX - hit.obj.centerX) / (hit.obj.w / 2);
+					this.vel.x = this._determineBounceVelocity(hit.obj); 
 					this.vel.y *= - 1;
 				}
 			}
 		},
+
+		_determineBounceVelocity: function(paddle) {
+			var distance = Crafty.math.distance(paddle.centerX, paddle.centerY, this.centerX, this.centerY);
+			
+			var magnitude = distance - this.h / 2 - paddle.h / 2;
+			var ratio = magnitude / (paddle.w / 2) * 2.5;
+
+			if(this.centerX < paddle.centerX) {
+				ratio = -ratio;
+			}
+
+			return this.speed * ratio;
+		},
+
 		_checkBrickCollision: function() {
 			var hit = this.hit('Brick')[0];
 
@@ -99,11 +112,12 @@
 			this.requires('SpriteAnimation, ball, Collision, Edges');
 		},
 		ball: function(active) {
+			this.speed = 170 / 60;
 			return this.attr({
 				active: active,
 				vel: {
-					x: 170 / 60,
-					y: 170 / 60
+					x: this.speed,
+					y: this.speed
 				}
 			}).animate('spin', 3, 4, 7).animate('spin', 10, - 1).bind('EnterFrame', this._enterFrame);
 		}
