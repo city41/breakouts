@@ -42,7 +42,7 @@
 	Crafty.c('Brick', {
 		init: function() {
 			createSprites();
-			this.requires('SpriteAnimation');
+			this.requires('SpriteAnimation, Edges');
 		},
 		brick: function(color) {
 			var colorOffset = colorOffsets[color];
