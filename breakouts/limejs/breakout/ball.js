@@ -129,7 +129,7 @@
 				}
 			}
 		},
-`
+
 		_checkPaddleCollision: function() {
 			if(this.vel.y > 0) {
 				var paddleBox = this.paddle.getBoundingBox();
