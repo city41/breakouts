@@ -41,8 +41,6 @@ breakout.scenes.Play = function() {
 
 	this._setupEvents();
 	this._reset(1);
-
-	window.p = this;
 };
 
 goog.inherits(breakout.scenes.Play, breakout.scenes.BackgroundScene);
@@ -261,8 +259,6 @@ goog.object.extend(breakout.scenes.Play.prototype, {
 		this._addCountdown();
 		this._addBall(false);
 		this._updateHud();
-		//this._killAllOf(EntityPowerUp);
-		//this._killAllOf(EntityPowerDown);
 	}
 });
 

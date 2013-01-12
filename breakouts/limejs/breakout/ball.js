@@ -5,25 +5,10 @@
 	goog.require('lime.Sprite');
 	goog.require('lime.fill.Frame');
 
-	function _getCenter(node) {
-		var b = node.getBoundingBox();
-		var x = (b.left + b.right) / 2;
-		var y = (b.top + b.bottom) / 2;
+	function _getCenterFromBoundingBox(box) {
+		var x = (box.left + box.right) / 2;
+		var y = (box.top + box.bottom) / 2;
 		return new goog.math.Coordinate(x, y);
-	}
-
-	function _inVerticalQuadrant(src, obj) {
-		var y = (src.top + src.bottom) / 2;
-		var x = (src.left + src.top) / 2;
-		return (y < obj.top || y > obj.bottom)
-			&& x >= obj.left && x <= obj.right;
-	}
-
-	function _inHorizontalQuadrant(src, obj) {
-		var y = (src.top + src.bottom) / 2;
-		var x = (src.left + src.top) / 2;
-		return (x < obj.left || x > obj.right)
-			&& y >= obj.top && y <= obj.bottom;
 	}
 
 	breakout.Ball = function() {
@@ -76,17 +61,61 @@
 			return animation;
 		},
 
-		_hasHitVerticalWall: function(x) {
+		_checkWallCollision: function() {
+			if(this._hasHitVerticalWall()) {
+				this.vel.x *= -1;
+				this.setPosition(this.prev.x, this.getPosition().y);
+			} else if(this._hasHitHorizontalWall()) {
+				this.vel.y *= -1;
+				this.setPosition(this.getPosition().x, this.prev.y);
+			}
+		},
+
+		_hasHitVerticalWall: function() {
+			var x = this.getPosition().x;
 			return x <= breakout.TILE_SIZE 
 				|| (x + this.getSize().width) >= breakout.director.getSize().width - breakout.TILE_SIZE;
 		},
 
-		_hasHitHorizontalWall: function(y) {
-			return y < breakout.TILE_SIZE;
+		_hasHitHorizontalWall: function() {
+			return this.getPosition().y < breakout.TILE_SIZE;
+		},
+
+		_bounceOffBrick: function(brick) {
+			var ballBox = this.getBoundingBox();
+			var brickBox = brick.getBoundingBox();
+
+			var ballSize = this.getSize();
+			var brickSize = brick.getSize();
+
+			var ballCenter = _getCenterFromBoundingBox(ballBox);
+			var brickCenter = _getCenterFromBoundingBox(brickBox);
+
+			var dx = brickBox.left - ballBox.left;
+			if(ballCenter.x < brickCenter.x) {
+				dx -= ballSize.width;
+			} else {
+				dx += brickSize.width;
+			}
+
+			var dy = brickBox.top - ballBox.top;
+			if(ballCenter.y < brickCenter.y) {
+				dy -= ballSize.height;
+			} else {
+				dy += brickSize.height;
+			}
+
+			if(Math.abs(dx) < Math.abs(dy)) {
+				this.setPosition(this.prev.x, this.getPosition().y);
+				this.vel.x *= -1;
+			} else {
+				this.setPosition(this.getPosition().x, this.prev.y);
+				this.vel.y *= -1;
+			}
 		},
 
 		_checkBrickCollision: function(pos, dx, dy) {
-			var ballBox = this._getPotentialBoundingBox(dx, dy);
+			var ballBox = this.getBoundingBox();
 
 			var bricks = this.getParent().getBricks();
 
@@ -94,53 +123,29 @@
 				var brick = bricks[i];
 				var brickBox = brick.getBoundingBox();
 				if(goog.math.Box.intersects(ballBox, brickBox)) {
+					this._bounceOffBrick(brick);
 					brick.die();
-					if(_inVerticalQuadrant(brickBox, ballBox)) {
-						this.vel.y *= -1;
-						pos.x += dx;
-					}
-					else if(_inHorizontalQuadrant(brickBox, ballBox)) {
-						this.vel.x *= -1;
-						pos.y += dy;
-					}
-					else {
-						this.vel.x *= -1;
-						this.vel.y *= -1;
-						pos.x += dx;
-						pos.y += dy;
-					}
-					return true;
+					return;
 				}
 			}
 		},
-
-		_getPotentialBoundingBox: function(dx, dy) {
-			var ballBox = this.getBoundingBox();
-
-			ballBox.left += dx;
-			ballBox.right += dx;
-			ballBox.top += dy;
-			ballBox.bottom += dy;
-			return ballBox;
-		},
-
-		_checkPaddleCollision: function(pos, dx, dy) {
+`
+		_checkPaddleCollision: function() {
 			if(this.vel.y > 0) {
 				var paddleBox = this.paddle.getBoundingBox();
-				var ballBox = this._getPotentialBoundingBox(dx, dy);
+				var ballBox = this.getBoundingBox();
 
 				if(goog.math.Box.intersects(paddleBox, ballBox)) {
 					this.vel.y *= -1;
 					this.vel.x = this._determineBounceVelocity(this.paddle);
-					pos.x += dx;
-					return true;
+					this.setPosition(this.prev.x, this.getPosition().y);
 				}
 			}
 		},
 
 		_determineBounceVelocity: function(paddle) {
-			var paddleCenter = _getCenter(paddle);
-			var meCenter = _getCenter(this);
+			var paddleCenter = _getCenterFromBoundingBox(paddle.getBoundingBox());
+			var meCenter = _getCenterFromBoundingBox(this.getBoundingBox());
 
 			var distance = goog.math.Coordinate.distance(paddleCenter, meCenter);
 			var magnitude = (distance - this.getSize().height / 2 - paddle.getSize().height / 2);
@@ -161,34 +166,22 @@
 			}
 			var pos = this.getPosition();
 
-			var dx = this.vel.x * dt;
-			var dy = this.vel.y * dt;
+			this.prev = pos;
 
-			if(this._hasHitVerticalWall(pos.x + dx)) {
-				pos.y += dy;
-				this.vel.x *= -1;
-			}
-			else if(this._hasHitHorizontalWall(pos.y + dy)) {
-				pos.x += dx;
-				this.vel.y *= -1;
-			}
-			else {
-				var hitBrick = this._checkBrickCollision(pos, dx, dy);
-				if(!hitBrick) {
-					if(!this._checkPaddleCollision(pos, dx, dy)) {
-						pos.x += dx;
-						pos.y += dy;
-					}
-				}
-			}
-
-			this.setPosition(pos);
+			var x = pos.x + this.vel.x * dt;
+			var y = pos.y + this.vel.y * dt;
+			this.setPosition(x, y);
 
 			if(this.getPosition().y > breakout.director.getSize().height) {
 				if(this.onDeath) {
 					this.onDeath(this);
 				}
+				return;
 			}
+
+			this._checkWallCollision();
+			this._checkBrickCollision();
+			this._checkPaddleCollision();
 		}
 	});
 })();
