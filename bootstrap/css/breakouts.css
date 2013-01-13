@@ -19,6 +19,12 @@ a.home-link {
 	background-repeat: no-repeat;
 }
 
+.breakouts-logo-small {
+	background-image: url(../img/logoSmall.png);
+	background-repeat: no-repeat;
+	width: 260px;
+	height: 71px;
+}
 
 @media (min-width: 767px) {
 	.breakouts-logo {
@@ -110,4 +116,11 @@ ul.features {
 		-webkit-columns: 1;
 		-moz-columns: 1;
 	}
+}
+
+.feature-section td {
+	font-weight: bold;
+	font-size: 1.4em;
+	height: 40px;
+	vertical-align: middle;
 }
