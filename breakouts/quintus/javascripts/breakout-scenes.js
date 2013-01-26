@@ -8,7 +8,7 @@
     stage.insert(new Q.Title());
 
     stage.insert(new Q.UI.Text({
-      label: "During the game: use L/R arrow\nkeys to skip levels",
+      label: "Click to start",
       align: 'center',
       x: Q.width/2,
       y: 350,
