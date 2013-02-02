@@ -1,4 +1,4 @@
-/*! Quintus - v0.0.4 - 2013-01-26
+/*! Quintus - v0.0.5 - 2013-02-02
 * Copyright (c) 2013 Pascal Rettig; Licensed MIT, GPLv2 */
 
 //     Quintus Game Engine
@@ -817,7 +817,7 @@ var Quintus = function Quintus(opts) {
   // track of the current state of the Game, for example when the player starts
   // a new game you might want to keep track of their score and remaining lives:
   //
-  // Q.reset({ score: 0, lives: 2 });
+  //     Q.reset({ score: 0, lives: 2 });
   //
   // Then in your game might want to add to the score:
   //     
@@ -2103,7 +2103,7 @@ Quintus.UI = function(Q) {
       this._super(ctx);
 
       if(this.p.asset || this.p.sheet) {
-        Q.Sprite.prototype.call('draw',ctx);
+        Q.Sprite.prototype.draw.call(this,ctx);
       }
 
       if(this.p.label) {
@@ -2116,7 +2116,7 @@ Quintus.UI = function(Q) {
 
     setFont: function(ctx) {
       ctx.textBaseline = "middle";
-      ctx.font= this.p.font || "800 24px arial";
+      ctx.font = this.p.font || "400 24px arial";
       ctx.fillStyle = this.p.fontColor || "black";
       ctx.textAlign = "center";
     }
@@ -3175,21 +3175,21 @@ Quintus.Input = function(Q) {
 
       Q._mouseMove = function(e) {
         e.preventDefault();
+        var touch = e.touches ? e.touches[0] : e;
         var el = Q.el, 
-            posX = e.offsetX,
-            posY = e.offsetY,
+            posX = touch.offsetX,
+            posY = touch.offsetY,
             eX, eY,
             stage = Q.stage(stageNum);
 
-
         if(Q._isUndefined(posX) || Q._isUndefined(posY)) {
-          posX = e.layerX;
-          posY = e.layerY;
+          posX = touch.layerX;
+          posY = touch.layerY;
         }
 
         if(Q._isUndefined(posX) || Q._isUndefined(posY)) {
-          posX = e.clientX;
-          posY = e.clientY;
+          posX = touch.clientX;
+          posY = touch.clientY;
         }
 
         if(stage) {
@@ -3203,9 +3203,9 @@ Quintus.Input = function(Q) {
         }
       };
 
-      Q.el.addEventListener('mousemove',Q._mouseMove);
-      Q.el.addEventListener('touchstart',Q._mouseMove);
-      Q.el.addEventListener('touchmove',Q._mouseMove);
+      Q.el.addEventListener('mousemove',Q._mouseMove,true);
+      Q.el.addEventListener('touchstart',Q._mouseMove,true);
+      Q.el.addEventListener('touchmove',Q._mouseMove,true);
     },
 
     disableMouseControls: function() {
