@@ -149,7 +149,7 @@
 
     start:function() {
       this.p.vy = this.p.speed;
-      this.p.vx = this.p.speed/2;
+      this.p.vx = this.p.speed;
 
     },
 
