@@ -11,8 +11,10 @@
 
     stage.insert(new Q.Title());
 
+		var verb = Q.touchDevice ? 'Tap': 'Click';
+
     stage.insert(new Q.UI.Text({
-      label: "Click to start",
+      label: verb + " to start",
       align: 'center',
       x: Q.width/2,
       y: 280,
