@@ -185,7 +185,7 @@
     },
 
     destroyed: function() {
-      Q.state.inc("score",50);
+      Q.state.inc("score",100);
 
       var rand = Math.round(Math.random()*7);
 
@@ -220,10 +220,10 @@
       this.p.x = Q.inputs['mouseX'];
 
       if(Q("Ball").length == 0) {
-        if(Q.state.get("lives") == 0) {
-          Q.stageScene("gameOver");
-        } else {
-          Q.state.dec("lives",1);
+				Q.state.dec("lives",1);
+				if(Q.state.get("lives") == 0) {
+					Q.stageScene("gameOver");
+				} else {
           this.stage.insert(new Q.Ball());
           this.stage.insert(new Q.Countdown());
         }

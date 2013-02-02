@@ -91,7 +91,7 @@
 
   Q.scene("level1",function(stage) {
     // Set up the game state
-    Q.state.reset({ score: 0, lives: 2, level: 1 });
+    Q.state.reset({ score: 0, lives: 3, level: 1 });
     
     // Add the hud in 
     Q.stageScene("hud"); 
