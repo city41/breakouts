@@ -34,7 +34,7 @@
   Q.scene("gameOver",function(stage) {
 
     var bg = stage.insert(new Q.Background({ type: Q.SPRITE_UI }));
-    bg.on("touch",function() {  Q.stageScene("level1");  });
+    bg.on("touch",function() {  Q.stageScene("title");  });
 
     stage.insert(new Q.Title());
 
@@ -52,7 +52,7 @@
   Q.scene("winner",function(stage) {
 
     var bg = stage.insert(new Q.Background({ type: Q.SPRITE_UI }));
-    bg.on("touch",function() {  Q.stageScene("level1");  });
+    bg.on("touch",function() {  Q.stageScene("title");  });
 
     stage.insert(new Q.Title());
 
