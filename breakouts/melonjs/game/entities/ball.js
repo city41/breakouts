@@ -73,11 +73,15 @@ EntityBall = me.ObjectEntity.extend({
 		// check for collision with paddle & bricks
 		var res = me.game.collide(this);
 		if (res) {
-			if (res.obj.isPaddle && res.y !== 0) {
-				this.vel.x = this._determineBounceVelocity(res.obj);
-				this.vel.y *= - 1;
+			if (res.obj.isPaddle) {
+				if (res.y !== 0) {
+					this.vel.x = this._determineBounceVelocity(res.obj);
+					this.vel.y *= - 1;
+				} else if (res.x !== 0) {
+					this.vel.x *= - 1;
+				}
 			} else if (res.obj.type === 'brick') {
-				
+			
 				var dx = res.obj.pos.x - this.pos.x;
 				if (this.hWidth < res.obj.hWidth) {
 					dx -= this.width;
@@ -106,7 +110,6 @@ EntityBall = me.ObjectEntity.extend({
 
 	_determineBounceVelocity: function(paddle) {
 		// check for distance to the paddle
-		//var distance = this.distanceToPoint({x:paddle.pos.x+paddle.collisionBox.hWidth,y:paddle.pos.y});
 		var distance = this.distanceTo(paddle) - this.hHeight - paddle.hHeight;
 		
 		var ratio = distance / paddle.collisionBox.hWidth * 2.5;

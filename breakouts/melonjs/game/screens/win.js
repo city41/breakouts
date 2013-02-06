@@ -18,11 +18,14 @@ var GameEndScreen = me.ScreenObject.extend( {
 		me.input.bindMouse(me.input.mouse.LEFT, me.input.KEY.ENTER);
 		// init a font object
 		this.font = new me.Font('Arial', 20, 'black', 'center');
+		// automatically switch back to Menu screen after 2sec
+		this.timeoutID = setTimeout(function(){me.state.change(me.state.MENU)},2000);
 	},
 	
 	update : function() {
 		// enter/click pressed ?
 		if (me.input.isKeyPressed('enter')) {
+			clearTimeout(this.timeoutID);
 			me.state.change(me.state.MENU);
 		}
 		return false;
