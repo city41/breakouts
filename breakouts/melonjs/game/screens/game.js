@@ -20,6 +20,7 @@ var PlayScreen = me.ScreenObject.extend( {
 		
 		// init a font object
 		this.font = new me.Font('Arial', 20, 'black');
+		this.fontYpos = me.game.viewport.height - 10;
 		
 		// enable keyboard
 		me.input.bindKey(me.input.KEY.LEFT,	 "left", true);
@@ -96,10 +97,9 @@ var PlayScreen = me.ScreenObject.extend( {
 
 	
 	draw : function(context) {
-		var y = me.game.viewport.height - 10;
-		this.font.draw(context, 'lives: ' + this.lives, 25, y);
-		this.font.draw(context, 'score: ' + this.score, 105, y);
-		this.font.draw(context, 'level: ' + (this.level+1), 230, y);
+		this.font.draw(context, 'lives: ' + this.lives, 25, this.fontYpos);
+		this.font.draw(context, 'score: ' + this.score, 105, this.fontYpos);
+		this.font.draw(context, 'level: ' + (this.level+1), 230, this.fontYpos);
 	},
 	
 	onDestroyEvent : function() {
