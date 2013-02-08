@@ -4,6 +4,7 @@ EntityCountdown = me.ObjectEntity.extend({
 		settings.image = "tiles16";
 		settings.spritewidth = 32;
 		settings.spriteheight = 48;
+		settings.name = 'countdown';
 		this.parent(x, y, settings);
 
 		this.lastFrame = -1;

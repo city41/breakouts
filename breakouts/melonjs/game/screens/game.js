@@ -30,13 +30,6 @@ var PlayScreen = me.ScreenObject.extend( {
 		this.nextLevel();
 	},
 	
-	_setEntityRef: function() {
-		// get a reference to the paddle
-		game.paddle = me.game.getEntityByName('paddle')[0];
-		game.ball = me.game.getEntityByName('ball')[0];
-		this.bricks = me.game.getEntityByName('brick').length;
-	},
-	
 	// called by EntityBrick 
 	addScore: function (type) {
 		this.score += 100;
@@ -59,8 +52,7 @@ var PlayScreen = me.ScreenObject.extend( {
 				me.state.change(me.state.GAMEOVER);
 			} else {
 				this.lives--;
-				me.levelDirector.reloadLevel();
-				this._setEntityRef();
+				this._reset();
 			}
 		}
 	},
@@ -73,7 +65,29 @@ var PlayScreen = me.ScreenObject.extend( {
 			return;
 		}
 		me.levelDirector.loadLevel("level"+this.level);
-		this._setEntityRef();
+
+		this._reset();
+	},
+
+	_reset: function() {
+		this._removeAllOf('ball');
+		this._removeAllOf('countdown');
+
+		me.game.add(new EntityBall(50, me.game.viewport.height / 2, {}), 19000);
+		me.game.add(new EntityCountdown(0, 0, {}), 20000);
+		me.game.sort();
+
+		game.paddle = me.game.getEntityByName('paddle')[0];
+		game.ball = me.game.getEntityByName('ball')[0];
+		this.bricks = me.game.getEntityByName('brick').length;
+	},
+
+	_removeAllOf: function(name) {
+		var entities = me.game.getEntityByName(name) || [];
+
+		for(var i = 0, l = entities.length; i < l; ++i) {
+			me.game.remove(entities[i], true);
+		}
 	},
 	
 	previousLevel: function() {
@@ -83,7 +97,7 @@ var PlayScreen = me.ScreenObject.extend( {
 			return;
 		}
 		me.levelDirector.loadLevel("level"+this.level);
-		this._setEntityRef();
+		this._reset();
 	},
 	
 	update : function() {

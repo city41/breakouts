@@ -23,8 +23,6 @@
  </layer>
  <objectgroup color="#ff00ff" name="Objects" width="20" height="26">
   <object name="paddle" x="80" y="368" width="48" height="16"/>
-  <object name="ball" x="48" y="208" width="16" height="16"/>
-  <object name="countdown" x="128" y="176" width="64" height="64"/>
  </objectgroup>
  <objectgroup color="#0055ff" name="BlueBricks" width="20" height="26">
   <object name="brick" x="144" y="80" width="32" height="16">
