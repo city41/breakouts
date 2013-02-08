@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Breakout - melonJS</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<style type="text/css">
+		html,
+		body {
+			background: #000;
+			display: block;
+			margin: 0;
+			padding: 0;
+		}
+		#canvas {
+			width: 320px;
+			height: 416px;
+			image-rendering: optimizeSpeed;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -o-crisp-edges;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: optimize-contrast;
+			-ms-interpolation-mode: nearest-neighbor;
+			cursor: none;
+		}
+
+		@media (min-width: 641px) {
+			#canvas {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+			}
+		}
+
+	</style>
+	<script type="text/javascript" src="lib/melonJS-0.9.5-min.js"></script>
+	<script type="text/javascript" src="game/entities/power-up.js"></script>
+	<script type="text/javascript" src="game/entities/power-down.js"></script>
+	<script type="text/javascript" src="game/entities/countdown.js"></script>
+	<script type="text/javascript" src="game/entities/ball.js"></script>
+	<script type="text/javascript" src="game/entities/brick.js"></script>
+	<script type="text/javascript" src="game/entities/paddle.js"></script>
+	<script type="text/javascript" src="game/screens/gameover.js"></script>
+	<script type="text/javascript" src="game/screens/win.js"></script>
+	<script type="text/javascript" src="game/screens/title.js"></script>
+	<script type="text/javascript" src="game/screens/game.js"></script>
+	<script type="text/javascript" src="game/main.js"></script>
+</head>
+<body>
+	<div id="canvas"></canvas>
+</body>
+</html>
