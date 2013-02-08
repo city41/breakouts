@@ -12,12 +12,11 @@ There are a lot of JavaScript game engines out there, the JavaScript wiki lists 
 
 So far we have Breakout implementations for
 
-* [CraftyJS](http://www.craftyjs.com)
+* [Crafty](http://www.craftyjs.com)
 * [ImpactJS](http://www.impactjs.com)
 * [LimeJS](http://www.limejs.com)
+* [MelonJS](http://www.melonjs.org)
 * [Quintus](http://html5quintus.com/)
-
-Yup, just four so far, this project is pretty young. There are a couple more on the way at time of writing this.
 
 ## About Breakout
 
