@@ -12,14 +12,29 @@
 			margin: 0;
 			padding: 0;
 		}
-		canvas {
+		#canvas {
+			width: 320px;
+			height: 416px;
 			image-rendering: optimizeSpeed;
 			image-rendering: -moz-crisp-edges;
 			image-rendering: -o-crisp-edges;
 			image-rendering: -webkit-optimize-contrast;
 			image-rendering: optimize-contrast;
 			-ms-interpolation-mode: nearest-neighbor;
+			cursor: none;
 		}
+
+		@media (min-width: 641px) {
+			#canvas {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+			}
+		}
+
 	</style>
 	<script type="text/javascript" src="lib/melonJS-0.9.5-min.js"></script>
 	<script type="text/javascript" src="game/entities/power-up.js"></script>
@@ -34,9 +49,7 @@
 	<script type="text/javascript" src="game/screens/game.js"></script>
 	<script type="text/javascript" src="game/main.js"></script>
 </head>
-<center>
 <body>
 	<div id="canvas"></canvas>
 </body>
-<center>
 </html>

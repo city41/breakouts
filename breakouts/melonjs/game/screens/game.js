@@ -55,7 +55,7 @@ var PlayScreen = me.ScreenObject.extend( {
 	// call by EntityBall
 	onBallDeath: function () {
 		if (me.game.getEntityByName('ball').length === 0) {
-			if (this.lives -1 < 0) {
+			if (this.lives -1 <= 0) {
 				me.state.change(me.state.GAMEOVER);
 			} else {
 				this.lives--;

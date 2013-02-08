@@ -32,7 +32,7 @@ var game = {
 		}
 		
 		// init the video (with auto-scaling on)
-		if (!me.video.init('canvas', 320, 416, true, 'auto')) {
+		if (!me.video.init('canvas', 320, 416, true)) {
 			alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
 			return;
 		}
