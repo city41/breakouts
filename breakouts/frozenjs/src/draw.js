@@ -6,10 +6,10 @@ define([
   return function(ctx){
     //ctx.fillRect(0, 0, this.width, this.height);
     ctx.drawImage(background, 0, 0);
-    //for(var id in state.world){
-    //  state.world[id].draw(ctx);
+    //for(var id in this.entities){
+    //  this.entities[id].draw(ctx);
     //}
-    state.world.paddle.draw(ctx);
+    this.entities.paddle.draw(ctx);
     state.balls[0].draw(ctx);
     if(state.currentBricks){
       for (var i = 0; i < state.currentBricks.length; i++) {
