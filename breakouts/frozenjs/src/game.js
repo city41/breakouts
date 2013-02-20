@@ -17,18 +17,28 @@ define([
   var game = new BoxGame({
     height: 416,
     width: 320,
-    box: new Box({resolveCollisions: true, gravityY: 1}),
+    box: new Box({resolveCollisions: true, gravityY: 2}),
+    boxUpdating: false, //don't start off doing physics calculations
     canvasId: 'canvas',
-    gameAreaId: 'gameArea',
-    canvasPercentage: 0.98,
+    //gameAreaId: 'gameArea',
+    //canvasPercentage: 0.98,
     update: update,
     draw: draw,
-    currentLevel: 0,
     state: {
       screen: 0,
-      lives: 3
+      lives: 3,
+      currentLevel: 0
+    },
+    initInput: function(im){
+
     },
     handleInput: function(im){
+      if(this.state.screen === 0 && (im.touchAction.isPressed() || im.mouseAction.isPressed())){
+        this.state.screen = 1;
+        this.loadLevel(0);
+        this.boxUpdating = true;
+      }
+
       if(im.touchAction.position){
         movePaddle(im.touchAction.position.x);
       }
@@ -92,7 +102,7 @@ define([
   game.state.balls.push(new Ball({x: 100, y: 230, id: 'ball1'}));
   game.box.addBody(game.state.balls[0]);
   game.entities.ball1 = game.state.balls[0];
-  game.box.applyImpulseDegrees('ball1',165,1.5);
+  game.box.applyImpulseDegrees('ball1',165,2.5);
 
   game.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint',
     jointAttributes: {
@@ -109,6 +119,6 @@ define([
 
   //launch the game!
   game.run();
-  game.loadLevel(game.currentLevel);
+  //game.loadLevel(game.state.currentLevel);
 
 });
