@@ -1,0 +1,17 @@
+body {
+  background-color: #222;
+  color: #fff;
+}
+
+a {
+  color: #10B7FB;
+}
+
+#status {
+  text-align: center;
+}
+
+#gameArea {
+  margin: 0 auto;
+  cursor: none;
+}

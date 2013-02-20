@@ -1,0 +1,21 @@
+{
+  "name": "frozen-dev-boilerplate",
+  "version": "0.1.0",
+  "volo": {
+    "baseUrl": "deps",
+    "dependencies": {
+      "dojo": "github:dojo/dojo/1.8.3",
+      "util": "github:dojo/util/1.8.3",
+      "dcl": "github:uhop/dcl/1.0.2",
+      "Box2d.min": "https://box2dweb.googlecode.com/svn/trunk/Box2d.min.js",
+      "frozen": "github:iceddev/frozen/0.2.0"
+    }
+  },
+  "dojoBuild": "game.profile.js",
+  "devDependencies": {
+    "grunt-dojo": "~0.1.2",
+    "grunt-reload": "~0.2.0",
+    "grunt-contrib-clean": "~0.3.1",
+    "grunt": "~0.3.17"
+  }
+}

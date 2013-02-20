@@ -1,0 +1,115 @@
+define([
+  'dcl',
+  'dcl/bases/Mixer',
+  'frozen/box2d/RectangleEntity',
+  'frozen/Animation',
+  'frozen/plugins/loadImage!resources/tiles.png',
+  'dojo/on'
+], function(dcl, Mixer, Rectangle, Animation, tiles, on){
+
+  'use strict';
+
+  var colors = {
+    red: 2,
+    blue: 0,
+    orange: 1,
+    green: 3
+  };
+
+  var animFrameTime = 100;
+
+  var flippedTiles = null;
+
+  //create a flipped image of the tiles when the original tiles image finishes loading
+  on(tiles, 'load', function(){
+    var offscreenCanvas = document.createElement('canvas');
+    offscreenCanvas.height = tiles.height;
+    offscreenCanvas.width = tiles.width;
+    var ctx = offscreenCanvas.getContext('2d');
+    ctx.translate(offscreenCanvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(tiles,0,0);
+    flippedTiles = offscreenCanvas;
+  });
+
+  return dcl([Mixer, Rectangle], {
+    img: tiles,
+    x: 100,
+    y: 376,
+    halfWidth: 15.5,
+    halfHeight: 7.5,
+    staticBody: true,
+    friction: 0,
+    dyingAnim: null,
+    birthingAnim: null,
+    dead: false,
+    dying: false,
+    dyingMillis: animFrameTime * 3,
+    birthing: true,
+    birthingMillis: animFrameTime * 3,
+    powerUp: false,
+    powerDown: false,
+    brick: true,
+    brickType: 0, // 0 - 3 for the differs colors
+    constructor: function(){
+      this.brickType = colors[this.color];
+    },
+    getBirthingAnim: function(){
+      //lazy load to wait for flipped image creation
+      if(!this.birthingAnim){
+          this.birthingAnim =  new Animation().createFromSheet(3, animFrameTime, flippedTiles, 32, 16);
+          this.birthingAnim.offsetX = 32;
+          this.birthingAnim.offsetY = 16 * this.brickType;
+      }
+      return this.birthingAnim;
+    },
+    getDyingAnim: function(){
+      if(!this.dyingAnim){
+        this.dyingAnim = new Animation().createFromSheet(4, animFrameTime, tiles, 32, 16);
+        this.dyingAnim.offsetX = 64;
+        this.dyingAnim.offsetY = 16 * this.brickType;
+      }
+      return this.dyingAnim;
+    },
+    updateAnimation : function(millis){
+      if(this.dying){
+        this.getDyingAnim().update(millis);
+        this.dyingMillis -= millis;
+        if(this.dyingMillis <= 0){
+          this.dying = false;
+          this.dead = true;
+        }
+      }
+      else if(this.birthing){
+        this.getBirthingAnim().update(millis);
+        this.birthingMillis -= millis;
+        if(this.birthingMillis <= 0){
+          this.birthing = false;
+        }
+      }
+
+    },
+
+    draw: function(ctx){
+        if(!this.dead){
+          if(this.dying){
+            this.getDyingAnim().draw(ctx, this.x * this.scale - 16, this.y * this.scale - 8);
+          }
+          else if(this.birthing){
+            this.getBirthingAnim().draw(ctx, this.x * this.scale - 16, this.y * this.scale - 8);
+          }
+          else{
+            ctx.drawImage(this.img,
+            0, this.brickType * 16, //clip start
+            32, 16,
+            this.x * this.scale - 16 , this.y * this.scale - 8,
+            32, 16
+            );
+          }
+        }
+    }
+
+
+  });
+
+});
