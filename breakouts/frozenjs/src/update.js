@@ -1,18 +1,16 @@
-define([
-  './gameState'
-], function(state){
+define([], function(){
 
 
   return function(millis){
 
     var i, colObj;
-    if(state.currentBricks){
-      for (i = 0; i < state.currentBricks.length; i++) {
-        state.currentBricks[i].updateAnimation(millis);
+    if(this.state.currentBricks){
+      for (i = 0; i < this.state.currentBricks.length; i++) {
+        this.state.currentBricks[i].updateAnimation(millis);
       }
     }
 
-    state.balls[0].updateAnimation(millis);
+    this.state.balls[0].updateAnimation(millis);
 
 
     if(this.entities.paddle.collisions){
@@ -33,9 +31,9 @@ define([
 
     }
 
-    if(state.balls[0].collisions){
-      for (i = 0; i < state.balls[0].collisions.length; i++) {
-        colObj = this.entities[state.balls[0].collisions[i].id];
+    if(this.state.balls[0].collisions){
+      for (i = 0; i < this.state.balls[0].collisions.length; i++) {
+        colObj = this.entities[this.state.balls[0].collisions[i].id];
         if(colObj.brick){
           colObj.dying = true;
           this.box.removeBody(colObj.id);
@@ -44,9 +42,9 @@ define([
     }
 
     var aliveBricks = false;
-    if(state.currentBricks){
-      for (i = 0; i < state.currentBricks.length; i++) {
-        if(!state.currentBricks[i].dead){
+    if(this.state.currentBricks){
+      for (i = 0; i < this.state.currentBricks.length; i++) {
+        if(!this.state.currentBricks[i].dead){
           aliveBricks = true;
         }
       }

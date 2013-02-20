@@ -1,5 +1,4 @@
 define([
-  './gameState',
   './update',
   './draw',
   './walls',
@@ -12,7 +11,7 @@ define([
   'frozen/box2d/Box',
   'frozen/box2d/RectangleEntity',
   'frozen/box2d/joints/Prismatic'
-], function(state, update, draw, walls, Ball, Paddle, Brick, levels, BoxGame, ResourceManager, Box, Rectangle, Prismatic){
+], function(update, draw, walls, Ball, Paddle, Brick, levels, BoxGame, ResourceManager, Box, Rectangle, Prismatic){
 
    //setup a GameCore instance
   var game = new BoxGame({
@@ -25,6 +24,10 @@ define([
     update: update,
     draw: draw,
     currentLevel: 0,
+    state: {
+      screen: 0,
+      lives: 3
+    },
     handleInput: function(im){
       if(im.touchAction.position){
         movePaddle(im.touchAction.position.x);
@@ -45,7 +48,7 @@ define([
         xPos = game.width / game.box.scale - game.entities.paddle.halfWidth;
       }
       game.box.setPosition(game.entities.paddle.id, xPos, game.entities.paddle.y);
-      state.lastX = x;
+      game.state.lastX = x;
     //}
   };
 
@@ -53,12 +56,12 @@ define([
     var i;
     var offsetX = (game.width / 2) - 112;// / game.box.scale;
     var offsetY = 70;// / game.box.scale;
-    if(state.currentBricks){
-      for (i = 0; i < state.currentBricks.length; i++) {
-        game.box.removeBody(state.currentBricks[i].id);
+    if(game.state.currentBricks){
+      for (i = 0; i < game.state.currentBricks.length; i++) {
+        game.box.removeBody(game.state.currentBricks[i].id);
       }
     }
-    state.currentBricks = [];
+    game.state.currentBricks = [];
     for (i = 0; i < levels[lvl].bricks.length; i++) {
       var row = levels[lvl].bricks[i];
       for (var j = 0; j < row.length; j++) {
@@ -72,7 +75,7 @@ define([
           });
           game.entities[brick.id] = brick;
           game.box.addBody(brick);
-          state.currentBricks.push(brick);
+          game.state.currentBricks.push(brick);
         }
       }
     }
@@ -85,20 +88,20 @@ define([
 
   game.entities.paddle = new Paddle();
   game.box.addBody(game.entities.paddle);
-  state.balls = [];
-  state.balls.push(new Ball({x: 100, y: 230, id: 'ball1'}));
-  game.box.addBody(state.balls[0]);
-  game.entities.ball1 = state.balls[0];
+  game.state.balls = [];
+  game.state.balls.push(new Ball({x: 100, y: 230, id: 'ball1'}));
+  game.box.addBody(game.state.balls[0]);
+  game.entities.ball1 = game.state.balls[0];
   game.box.applyImpulseDegrees('ball1',165,1.5);
 
-  state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint',
+  game.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint',
     jointAttributes: {
       maxMotorTorque : 20.0,
       motorSpeed : -40.0,
       enableMotor : true
     }
   });
-  game.box.addJoint(state.pJoint);
+  game.box.addJoint(game.state.pJoint);
 
 
   //if you want to take a look at the game object in dev tools

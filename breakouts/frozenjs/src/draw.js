@@ -1,7 +1,6 @@
 define([
-  './gameState',
   'frozen/plugins/loadImage!resources/bg_prerendered.png'
-], function(state, background){
+], function(background){
 
   return function(ctx){
     //ctx.fillRect(0, 0, this.width, this.height);
@@ -10,10 +9,10 @@ define([
     //  this.entities[id].draw(ctx);
     //}
     this.entities.paddle.draw(ctx);
-    state.balls[0].draw(ctx);
-    if(state.currentBricks){
-      for (var i = 0; i < state.currentBricks.length; i++) {
-        state.currentBricks[i].draw(ctx);
+    this.state.balls[0].draw(ctx);
+    if(this.state.currentBricks){
+      for (var i = 0; i < this.state.currentBricks.length; i++) {
+        this.state.currentBricks[i].draw(ctx);
       }
     }
   };
