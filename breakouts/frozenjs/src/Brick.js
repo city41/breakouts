@@ -47,8 +47,8 @@ define([
     dyingMillis: animFrameTime * 3,
     birthing: true,
     birthingMillis: animFrameTime * 3,
-    powerUp: false,
-    powerDown: false,
+    powerUpBrick: false,
+    powerDownBrick: false,
     brick: true,
     brickType: 0, // 0 - 3 for the differs colors
     constructor: function(){

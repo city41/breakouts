@@ -15,8 +15,8 @@ define([
         [o,b,g,g,g,b,o],
         [X,b,b,b,b,b,X]
       ],
-      powerUps: 1,
-      powerDowns: 1
+      powerUps: 4,
+      powerDowns: 4
     },
     {
       name: "how's it going?",

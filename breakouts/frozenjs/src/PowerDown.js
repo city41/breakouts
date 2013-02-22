@@ -11,7 +11,7 @@ define([
     halfWidth: 8,
     halfHeight: 8,
     staticBody: false,
-    powerUp: true,
+    powerDown: true,
     impulse: 2,
     constructor: function(){
       this.maskBits = 2;
@@ -19,7 +19,7 @@ define([
     },
     draw: function(ctx){
       ctx.drawImage(tiles,
-          96, 96, //clip start
+          112, 96, //clip start
           16, 16,
           this.x * this.scale - 8 , this.y * this.scale - 8,
           16, 16

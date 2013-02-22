@@ -16,13 +16,20 @@ define([
     restitution: 1.0,
     friction: 0,
     impulse: 2,
+    slowY: 0, //tracker of box2d to keep from slowing vertically
+    aliveTime: 0,
+    //categoryBits: 0x0004,
+    //maskBits: 0xFFFF & ~0x0004,
+    //groupIndex: -1,
     constructor: function(){
       this.anim = new Animation().createFromSheet(5, 200, this.img, 16, 16);
       this.anim.offsetX = 48;
       this.anim.offsetY = 64;
+      this.groupIndex = -1;
     },
     updateAnimation : function(millis){
       this.anim.update(millis);
+      this.aliveTime+= millis;
     },
     draw: dcl.superCall(function(sup){
       return function(ctx){
