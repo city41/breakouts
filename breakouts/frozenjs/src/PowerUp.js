@@ -12,7 +12,7 @@ define([
     halfHeight: 8,
     staticBody: false,
     powerUp: true,
-    impulse: 2,
+    impulse: 1,
     constructor: function(){
       this.maskBits = 2;
       this.groupIndex = -1;

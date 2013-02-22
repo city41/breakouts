@@ -4,6 +4,15 @@ define([
   'frozen/plugins/loadImage!resources/tiles.png'
 ], function(background, logo, tiles){
 
+  function drawCountdownNumber(ctx, num){
+    ctx.drawImage(tiles,
+      num * 32, 96, //clip start
+      32, 48,
+      144 , 180,
+      32, 48
+    );
+  }
+
   return function(ctx){
     ctx.font = '20px Arial';
     ctx.fillStyle = '#000';
@@ -44,28 +53,14 @@ define([
       ctx.textAlign = 'right';
       ctx.fillText('level: ' + (this.state.currentLevel + 1), 300, 405);
       if(this.launchMillis > 2000){
-        ctx.drawImage(tiles,
-          0, 96, //clip start
-          32, 48,
-          this.width/2 - 16 , 160,
-          32, 48
-        );
+        drawCountdownNumber(ctx, 0);
       }else if(this.launchMillis > 1000){
-        ctx.drawImage(tiles,
-          32, 96, //clip start
-          32, 48,
-          this.width/2 - 16 , 160,
-          32, 48
-        );
+        drawCountdownNumber(ctx, 1);
       }
       else if(this.launchMillis > 0){
-        ctx.drawImage(tiles,
-          64, 96, //clip start
-          32, 48,
-          this.width/2 - 16 , 160,
-          32, 48
-        );
+        drawCountdownNumber(ctx, 2);
       }
+
     }else if(this.state.screen === 2){ // game over
       ctx.drawImage(logo, this.width/2 - logo.width/2, 70);
       ctx.textAlign = 'center';

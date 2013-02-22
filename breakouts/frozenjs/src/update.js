@@ -7,8 +7,11 @@ define([
     './PowerDown',
     'frozen/box2d/joints/Prismatic',
     'frozen/plugins/loadSound!resources/sfx/brickDeath.wav',
-    'frozen/plugins/loadSound!resources/sfx/countdownBlip.wav'
-  ], function(remove, Ball, Paddle, levels, PowerUp, PowerDown, Prismatic, brickDeath, countdownBlip){
+    'frozen/plugins/loadSound!resources/sfx/countdownBlip.wav',
+    'frozen/plugins/loadSound!resources/sfx/powerup.wav',
+    'frozen/plugins/loadSound!resources/sfx/powerdown.wav',
+    'frozen/plugins/loadSound!resources/sfx/recover.wav'
+  ], function(remove, Ball, Paddle, levels, PowerUp, PowerDown, Prismatic, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
 
 
   return function(millis){
@@ -31,7 +34,18 @@ define([
         if(this.launchMillis >= 0 && (Math.floor(this.prevLaunchMillis / 1000.0) !== Math.floor(this.launchMillis / 1000.0))){
           countdownBlip.play();
         }
-        this.boxUpdating = false;
+        if(this.launchMillis <= 0){ //move paddle into mouse position
+          this.boxUpdating = true;
+        }else{
+          this.boxUpdating = false;
+        }
+        var paddleX = 0;
+        if(this.inputManager.touchAction.position){
+          paddleX = this.inputManager.touchAction.position.x;
+        }else if(this.inputManager.mouseAction.position){
+          paddleX = this.inputManager.mouseAction.position.x;
+        }
+        paddle.x = paddleX / paddle.scale;
       }else{
 
         this.boxUpdating = true;
@@ -58,7 +72,7 @@ define([
               var maxAngle = 45;
               var maxDistance = paddle.halfWidth + colObj.radius;
               var angle = (distance / maxDistance) * maxAngle;
-              console.log(maxDistance, distance, angle, colObj.x - paddle.x);
+              //console.log(maxDistance, distance, angle, colObj.x - paddle.x);
               this.box.removeBody(colObj.id);
               this.box.addBody(this.entities[colObj.id]);
               this.box.applyImpulseDegrees(colObj.id, angle, colObj.impulse);
@@ -68,11 +82,12 @@ define([
               delete this.entities[colObj.id];
               this.state.powerUps = remove(this.state.powerUps, colObj);
               this.state.geomId++;
-              newBall = new Ball({x: this.state.startBallX, y: this.state.startBallY, id: this.state.geomId});
+              newBall = new Ball({id: this.state.geomId});
               this.state.balls.push(newBall);
               this.box.addBody(newBall);
               this.entities[newBall.id] = newBall;
               this.box.applyImpulseDegrees(newBall.id, 155, newBall.impulse * 0.75);
+              powerupSound.play();
 
             }else if(colObj.powerDown){
               this.box.removeBody(colObj.id);
@@ -91,12 +106,13 @@ define([
                 this.entities.paddle = newPaddle;
                 this.entities.paddle.collisions = paddle.collisions;
               }
+              powerdownSound.play();
             }
           }
         }
         if(paddle && paddle.smallMillis > 0){
           paddle.smallMillis -= millis;
-          if(paddle <= 0){
+          if(paddle.smallMillis <= 0){
             newPaddle = new Paddle({x: paddle.x * paddle.scale, y: paddle.y * paddle.scale, halfWidth: paddle.bigHalfWidth});
             this.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint'});
             this.box.destroyJoint('pJoint');
@@ -104,6 +120,7 @@ define([
             this.box.addBody(newPaddle);
             this.box.addJoint(this.state.pJoint);
             this.entities.paddle = newPaddle;
+            recover.play();
           }
         }
 
@@ -119,19 +136,19 @@ define([
                 this.box.removeBody(colObj.id);
                 brickDeath.play();
                 if(colObj.powerUpBrick){
-                  console.log('power up');
+                  //console.log('power up');
                   this.state.geomId++;
                   var power = new PowerUp({x: colObj.x * colObj.scale, y: colObj.y * colObj.scale, id: this.state.geomId});
                   this.box.addBody(power);
-                  //this.box.applyImpulseDegrees(power.id, 180, power.impulse);
+                  this.box.applyImpulseDegrees(power.id, 180, power.impulse);
                   this.entities[power.id] = power;
                   this.state.powerUps.push(power);
                 }else if(colObj.powerDownBrick){
-                  console.log('power down');
+                  //console.log('power down');
                   this.state.geomId++;
                   var powerDown = new PowerDown({x: colObj.x * colObj.scale, y: colObj.y * colObj.scale, id: this.state.geomId});
                   this.box.addBody(powerDown);
-                  //this.box.applyImpulseDegrees(power.id, 180, power.impulse);
+                  this.box.applyImpulseDegrees(powerDown.id, 180, powerDown.impulse);
                   this.entities[powerDown.id] = powerDown;
                   this.state.powerDowns.push(powerDown);
                 }
@@ -140,12 +157,12 @@ define([
             }
           }
 
-          if(ball.linearVelocity &&  Math.abs(ball.linearVelocity.y) < -3){
+          if(ball.linearVelocity &&  Math.abs(ball.linearVelocity.y) < 3){
             ball.slowY++;
-            if(ball.slowY > 1 && ball.aliveTime > 500){
+            if(ball.slowY > 1 && ball.aliveTime > 300){
               console.log('slow ' + ball.linearVelocity.y);
               this.box.removeBody(ball.id);
-              newBall = new Ball({x:ball.x,y:ball.y, alreadyScaled: true, id: ball.id, scale: this.box.scale});
+              newBall = new Ball({x:ball.x * ball.scale, y:ball.y * ball.scale, id: ball.id});
               this.state.balls[i] = newBall;
               this.box.addBody(newBall);
               this.entities[ball.id] = newBall;
@@ -164,7 +181,7 @@ define([
               }
 
               newBall.slowY = 0;
-              console.log(newBall);
+             // console.log(newBall);
             }
           }else{
             ball.slowY = 0;
@@ -194,7 +211,7 @@ define([
           this.state.lives --;
           if(this.state.lives > 0){
             this.state.geomId++;
-            newBall = new Ball({x: this.state.startBallX, y: this.state.startBallY, id: this.state.geomId});
+            newBall = new Ball({id: this.state.geomId});
             this.state.balls.push(newBall);
             this.box.addBody(newBall);
             this.entities[newBall.id] = newBall;
@@ -204,8 +221,6 @@ define([
             this.state.screen = 2; //game over
           }
         }
-
-
 
     }
 
