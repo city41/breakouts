@@ -22,31 +22,40 @@ define([
       var newBall, newPaddle;
 
       var i,j, colObj;
+
+
+      //check if the level cleared
+      var aliveBricks = false;
       if(this.state.currentBricks){
         for (i = 0; i < this.state.currentBricks.length; i++) {
-          this.state.currentBricks[i].updateAnimation(millis);
+          if(!this.state.currentBricks[i].dead){
+            this.state.currentBricks[i].updateAnimation(millis); //update animation here for effeciency
+            aliveBricks = true;
+          }
+        }
+
+        if(!aliveBricks){
+          this.state.currentLevel++;
+          if(this.state.currentLevel < levels.length){
+            this.loadLevel(this.state.currentLevel);
+          }else{
+            this.state.screen = 3; //you win!
+          }
         }
       }
 
-      if(this.launchMillis > 0){
-        this.prevLaunchMillis = this.launchMillis;
-        this.launchMillis-= millis;
-        if(this.launchMillis >= 0 && (Math.floor(this.prevLaunchMillis / 1000.0) !== Math.floor(this.launchMillis / 1000.0))){
+      //check if we're in countdown mode
+      if(this.state.launchMillis > 0){
+        this.prevLaunchMillis = this.state.launchMillis;
+        this.state.launchMillis-= millis;
+        if(this.state.launchMillis >= 0 && (Math.floor(this.prevLaunchMillis / 1000.0) !== Math.floor(this.state.launchMillis / 1000.0))){
           countdownBlip.play();
         }
-        if(this.launchMillis <= 0){
+        if(this.state.launchMillis <= 0){
           this.boxUpdating = true;
         }else{
           this.boxUpdating = false;
         }
-        //move paddle into mouse position for purposes of rendering during the countdown
-        var paddleX = 0;
-        if(this.inputManager.touchAction.position){
-          paddleX = this.inputManager.touchAction.position.x;
-        }else if(this.inputManager.mouseAction.position){
-          paddleX = this.inputManager.mouseAction.position.x;
-        }
-        paddle.x = paddleX / paddle.scale;
       }else{
 
         this.boxUpdating = true;
@@ -54,8 +63,8 @@ define([
         if(this.state.balls){
           var ballsInPlay = [];
           for (i = 0; i < this.state.balls.length; i++) {
-            this.state.balls[i].updateAnimation(millis);
             if(this.state.balls[i].y < this.height / this.box.scale){
+              this.state.balls[i].updateAnimation(millis);
               ballsInPlay.push(this.state.balls[i]);
             }else{
               this.box.removeBody(this.state.balls[i].id);
@@ -193,25 +202,6 @@ define([
           }
         }
 
-        //check if the level cleared
-        var aliveBricks = false;
-        if(this.state.currentBricks){
-          for (i = 0; i < this.state.currentBricks.length; i++) {
-            if(!this.state.currentBricks[i].dead){
-              aliveBricks = true;
-            }
-          }
-
-          if(!aliveBricks){
-            this.state.currentLevel++;
-            if(this.state.currentLevel < levels.length){
-              this.loadLevel(this.state.currentLevel);
-            }else{
-              this.state.screen = 3; //you win!
-            }
-          }
-        }
-
         //check if there's any balls left on the screen
         if(this.state.balls.length === 0){
           this.state.lives --;
@@ -222,7 +212,7 @@ define([
             this.box.addBody(newBall);
             this.entities[newBall.id] = newBall;
             this.box.applyImpulseDegrees(newBall.id, 155, newBall.impulse * 0.75);
-            this.launchMillis = 3001;
+            this.state.launchMillis = 3001;
           }else{
             this.state.screen = 2; //game over
           }

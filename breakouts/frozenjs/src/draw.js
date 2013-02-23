@@ -24,10 +24,13 @@ define([
 
       var x = this.width / 2;
       ctx.textAlign = 'center';
-      ctx.fillText('Click to start', x, 300);
-      ctx.fillText('during the game: use L/R arrow', x, 360);
-      ctx.fillText('keys to skip levels', x, 380);
-
+      if(this.mobile){
+        ctx.fillText('Tap to start', x, 315);
+      }else{
+        ctx.fillText('Click to start', x, 315);
+        ctx.fillText('during the game: use L/R arrow', x, 380);
+        ctx.fillText('keys to skip levels', x, 400);
+      }
     }else if(this.state.screen === 1){ //game playing
       var i;
       this.entities.paddle.draw(ctx);
@@ -50,12 +53,12 @@ define([
       ctx.fillText('level: ' + (this.state.currentLevel + 1), 300, 405);
 
       //draw the countdown numbers
-      if(this.launchMillis > 2000){
+      if(this.state.launchMillis > 2000){
         drawCountdownNumber(ctx, 0);
-      }else if(this.launchMillis > 1000){
+      }else if(this.state.launchMillis > 1000){
         drawCountdownNumber(ctx, 1);
       }
-      else if(this.launchMillis > 0){
+      else if(this.state.launchMillis > 0){
         drawCountdownNumber(ctx, 2);
       }
 

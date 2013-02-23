@@ -70,7 +70,9 @@ var profile = (function(){
         include: [
           'game',
           'frozen/sounds/WebAudio',
-          'frozen/sounds/HTML5Audio'
+          'frozen/sounds/HTML5Audio',
+          'dojo/touch',
+          'dojo/mouse'
         ],
         customBase: true,
         boot: true

@@ -48,7 +48,7 @@ define([
     }
 
     //reset launch counter
-    this.launchMillis = 3001;
+    this.state.launchMillis = 3001;
 
     //if small paddle, reduce wait
     if(this.entities.paddle.slowMillis > 0){
