@@ -3,15 +3,17 @@
 So you want to contribute another engine to Breakouts? Awesome! Here's how to do it...
 
 ## Before You Start
-I have no idea if Breakouts will take off and become popular. But if it does, maybe contact me first to make sure someone else isn't already working on the engine you had in mind? I'm at [matt.e.greer@gmail.com](mailto:matt.e.greer@gmail.com) or [on Twitter](http://twitter.com/cityfortyone)
-
+I have no idea if Breakouts will take off and become popular. But if it does, maybe contact me first to make sure someone else isn't already working on the engine you had in mind? I'm at [matt.e.greer@gmail.com](mailto:matt.e.greer@gmail.com) or [on Twitter](http://twitter.com/cityfortyone)  
+  
+You can also check out the [incoming implementations wiki page](https://github.com/city41/breakouts/wiki/Incoming-Implementations) to see which versions are coming or claimed.
+  
 ## Engines We're Looking For
 
 Currently we are only looking for JavaScript engines that focus on 2D games. It doesn't matter how popular or finished the engine is, as long as you can write the game in JavaScript and come up with an implementation that is on par with the existing ones.  
   
 Please don't write your implementation in anything but JavaScript. The point is to get to know the engines, and having implementations in different languages clouds the comparison. So yeah, please no CoffeeScript, TypeScript, anything like that.  
   
-On a similar note, we're not interested in systems that compile down to JavaScript, like HaXe or XNA to JavaScript compilers. We *might* expand into this in the future, but for now our goal is purely JavaScript.  
+On a similar note, we're not *yet* interested in systems that compile down to JavaScript, like HaXe or XNA to JavaScript compilers. I think we do want to expand into these at some point, and there has been some interest shown to do this. If you have such a system and want to be the guinea pig to see what it means/takes to get a Breakout implementation in for it, please contact me.
   
 Oh and commercial engines are just fine. Just be sure to note they are commercial in your README (see **Supply A Good README** below).
 

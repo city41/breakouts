@@ -4,13 +4,30 @@
   <title>Breakout - Quintus</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <script src='javascripts/quintus-all-0.0.4.js'></script> 
+  <script src='javascripts/quintus-all-0.0.5.js'></script> 
   <script src='javascripts/breakout-ui.js'></script>
   <script src='javascripts/breakout-sprites.js'></script>
   <script src='javascripts/breakout-scenes.js'></script>
   <script src='javascripts/breakout-levels.js'></script>
   <script src='javascripts/breakout.js'></script>
-  <style> body, * { padding:0px; margin: 0px; } </style>
+  <style>
+		body {
+			background-color: black;
+			padding:0px; margin: 0px;
+		}
+
+		@media (min-width: 641px) {
+			#quintus_container {
+				position: absolute !important;
+				height: 416px;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto !important;
+			}
+		}
+	</style>
 </head>
 <body>
 </body>
