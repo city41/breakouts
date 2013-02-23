@@ -10,14 +10,14 @@ define([
 
   return dcl([Mixer, Circle], {
     x: 60,
-    y: 200,
+    y: 210,
     ball: true,
     radius: 8,
     img: tile,
     anim: null,
     restitution: 1.0,
     friction: 0,
-    impulse: 1.6,
+    impulse: 1.8,
     slowY: 0, //tracker of box2d to keep from slowing vertically
     aliveTime: 0,
     constructor: function(){

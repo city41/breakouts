@@ -204,7 +204,7 @@ define([
 
           if(!aliveBricks){
             this.state.currentLevel++;
-            if(this.state.currentLevel < (levels.length -1)){
+            if(this.state.currentLevel < levels.length){
               this.loadLevel(this.state.currentLevel);
             }else{
               this.state.screen = 3; //you win!
