@@ -34,11 +34,12 @@ define([
         if(this.launchMillis >= 0 && (Math.floor(this.prevLaunchMillis / 1000.0) !== Math.floor(this.launchMillis / 1000.0))){
           countdownBlip.play();
         }
-        if(this.launchMillis <= 0){ //move paddle into mouse position
+        if(this.launchMillis <= 0){
           this.boxUpdating = true;
         }else{
           this.boxUpdating = false;
         }
+        //move paddle into mouse position for purposes of rendering during the countdown
         var paddleX = 0;
         if(this.inputManager.touchAction.position){
           paddleX = this.inputManager.touchAction.position.x;
@@ -110,9 +111,11 @@ define([
             }
           }
         }
+
+        //if the paddle is small, countdown how much time is left in the small state
         if(paddle && paddle.smallMillis > 0){
           paddle.smallMillis -= millis;
-          if(paddle.smallMillis <= 0){
+          if(paddle.smallMillis <= 0){ // it's done being small, replace wiht a big sized paddle, and replace the joint
             newPaddle = new Paddle({x: paddle.x * paddle.scale, y: paddle.y * paddle.scale, halfWidth: paddle.bigHalfWidth});
             this.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint'});
             this.box.destroyJoint('pJoint');
@@ -124,6 +127,7 @@ define([
           }
         }
 
+        //handle ball collisions
         for (i = 0; i < this.state.balls.length; i++) {
           var ball = this.state.balls[i];
 
@@ -157,6 +161,8 @@ define([
             }
           }
 
+          // Sometimes in box2d, especially withough gravity, things can get stuck bouncing sideways.
+          // If that happens for a couple of iterations, remove the ball, replace it, and shoot it out diagnolly in the same direction it was heading
           if(ball.linearVelocity &&  Math.abs(ball.linearVelocity.y) < 3){
             ball.slowY++;
             if(ball.slowY > 1 && ball.aliveTime > 300){
@@ -181,14 +187,13 @@ define([
               }
 
               newBall.slowY = 0;
-             // console.log(newBall);
             }
           }else{
             ball.slowY = 0;
           }
         }
 
-
+        //check if the level cleared
         var aliveBricks = false;
         if(this.state.currentBricks){
           for (i = 0; i < this.state.currentBricks.length; i++) {
@@ -207,6 +212,7 @@ define([
           }
         }
 
+        //check if there's any balls left on the screen
         if(this.state.balls.length === 0){
           this.state.lives --;
           if(this.state.lives > 0){

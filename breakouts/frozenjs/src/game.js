@@ -76,7 +76,7 @@ define([
     }
   });
 
-  var movePaddle = function(x){
+  function movePaddle(x){
     var xPos = x / game.box.scale;
     if(xPos < game.entities.paddle.halfWidth){
       xPos = game.entities.paddle.halfWidth;
@@ -85,19 +85,16 @@ define([
     }
     game.box.setPosition(game.entities.paddle.id, xPos, game.entities.paddle.y);
     game.state.lastX = x;
-  };
+  }
 
+
+  //add walls and paddle to the box
   walls.objs.forEach(function(rect){
     game.entities[rect.id] = new Rectangle(rect);
     game.box.addBody(game.entities[rect.id]);
   });
-
   game.entities.paddle = new Paddle();
   game.box.addBody(game.entities.paddle);
-
-
-
-
   game.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint'});
   game.box.addJoint(game.state.pJoint);
 

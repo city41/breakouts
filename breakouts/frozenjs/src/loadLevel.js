@@ -35,8 +35,9 @@ define([
         }
       }
     }
+
+    //shuffle the bricks to randomly assign powerUps and powerDowns to them
     shuffle(this.state.currentBricks);
-    console.log(this.state.currentBricks);
     for (i = 0; i < level.powerUps; i++) {
       this.state.currentBricks[powerCounter].powerUpBrick = true;
       powerCounter++;

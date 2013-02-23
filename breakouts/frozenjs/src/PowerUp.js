@@ -14,6 +14,7 @@ define([
     powerUp: true,
     impulse: 1,
     constructor: function(){
+      //explict props on this instance, not on protoype because of a soon to be fixed bug :)
       this.maskBits = 2;
       this.groupIndex = -1;
     },

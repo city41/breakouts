@@ -19,10 +19,6 @@ define([
 
     ctx.drawImage(background, 0, 0);
 
-    //for(var id in this.entities){
-    //  this.entities[id].draw(ctx);
-    //}
-
     if(this.state.screen === 0){ //title screen
       ctx.drawImage(logo, this.width/2 - logo.width/2, 65);
 
@@ -52,6 +48,8 @@ define([
       ctx.fillText('score: ' + this.state.score, this.width/2, 405);
       ctx.textAlign = 'right';
       ctx.fillText('level: ' + (this.state.currentLevel + 1), 300, 405);
+
+      //draw the countdown numbers
       if(this.launchMillis > 2000){
         drawCountdownNumber(ctx, 0);
       }else if(this.launchMillis > 1000){
