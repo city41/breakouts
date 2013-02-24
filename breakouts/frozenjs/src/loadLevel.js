@@ -1,9 +1,8 @@
 define([
-  './Ball',
   './Brick',
   './levels',
   'lodash'
-], function(Ball, Brick, levels, _){
+], function(Brick, levels, _){
 
   'use strict';
 
@@ -57,11 +56,7 @@ define([
     this.state.powerUps = [];
     this.state.powerDowns = [];
 
-    var newBall = new Ball();
-    this.state.balls.push(newBall);
-    this.box.addBody(newBall);
-    this.entities[newBall.id] = newBall;
-    this.box.applyImpulseDegrees(newBall.id, 155, newBall.impulse * 0.75);
+    this.newBall();
   };
 
 });

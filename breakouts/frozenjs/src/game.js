@@ -3,6 +3,7 @@ define([
   './draw',
   './walls',
   './Paddle',
+  './Ball',
   './levels',
   './loadLevel',
   'lodash',
@@ -12,7 +13,7 @@ define([
   'frozen/box2d/Box',
   'frozen/box2d/RectangleEntity',
   'frozen/box2d/joints/Prismatic'
-], function(update, draw, walls, Paddle, levels, loadLevel, _, keys, has, BoxGame, Box, Rectangle, Prismatic){
+], function(update, draw, walls, Paddle, Ball, levels, loadLevel, _, keys, has, BoxGame, Box, Rectangle, Prismatic){
 
   'use strict';
 
@@ -92,6 +93,12 @@ define([
       _.forEach(entities, function(entity){
         this.removeBody(entity);
       }, this);
+    },
+    newBall: function(){
+      var newBall = new Ball();
+      this.state.balls.push(newBall);
+      this.addBody(newBall);
+      this.box.applyImpulseDegrees(newBall.id, 155, newBall.impulse * 0.75);
     }
   });
 
