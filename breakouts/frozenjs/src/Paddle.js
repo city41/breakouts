@@ -1,13 +1,12 @@
 define([
   'dcl',
-  'dcl/bases/Mixer',
   'frozen/box2d/RectangleEntity',
   'frozen/plugins/loadImage!resources/tiles.png'
-], function(dcl, Mixer, Rectangle, tiles){
+], function(dcl, Rectangle, tiles){
 
   'use strict';
 
-  return dcl([Mixer, Rectangle], {
+  return dcl(Rectangle, {
     id: 'paddle',
     x: 110,
     y: 376,
@@ -18,22 +17,22 @@ define([
     smallMillis: 0,
     smallMillisStart : 10000,
     friction: 0,
-    constructor: function(){
-      this.categoryBits = 2;
-    },
+    categoryBits: 2,
     draw: function(ctx){
       if(this.smallMillis > 0){
-        ctx.drawImage(tiles,
+        ctx.drawImage(
+          tiles,
           0, 80, //clip start
           32, 16,
-          this.x * this.scale - this.halfWidth * this.scale, this.y * this.scale - this.halfHeight * this.scale,
+          (this.x - this.halfWidth) * this.scale, (this.y - this.halfHeight) * this.scale,
           32, 16
         );
-      }else{
-        ctx.drawImage(tiles,
+      } else {
+        ctx.drawImage(
+          tiles,
           0, 64, //clip start
           48, 16,
-          this.x * this.scale - this.halfWidth * this.scale, this.y * this.scale - this.halfHeight * this.scale,
+          (this.x - this.halfWidth) * this.scale, (this.y - this.halfHeight) * this.scale,
           48, 16
         );
       }

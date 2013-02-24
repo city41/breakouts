@@ -1,28 +1,26 @@
 define([
-    './remove',
-    './Ball',
-    './Paddle',
-    './levels',
-    './PowerUp',
-    './PowerDown',
-    'frozen/box2d/joints/Prismatic',
-    'frozen/plugins/loadSound!resources/sfx/brickDeath.wav',
-    'frozen/plugins/loadSound!resources/sfx/countdownBlip.wav',
-    'frozen/plugins/loadSound!resources/sfx/powerup.wav',
-    'frozen/plugins/loadSound!resources/sfx/powerdown.wav',
-    'frozen/plugins/loadSound!resources/sfx/recover.wav'
-  ], function(remove, Ball, Paddle, levels, PowerUp, PowerDown, Prismatic, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
+  './Ball',
+  './Paddle',
+  './levels',
+  './PowerUp',
+  './PowerDown',
+  'lodash',
+  'frozen/box2d/joints/Prismatic',
+  'frozen/plugins/loadSound!resources/sfx/brickDeath.wav',
+  'frozen/plugins/loadSound!resources/sfx/countdownBlip.wav',
+  'frozen/plugins/loadSound!resources/sfx/powerup.wav',
+  'frozen/plugins/loadSound!resources/sfx/powerdown.wav',
+  'frozen/plugins/loadSound!resources/sfx/recover.wav'
+], function(Ball, Paddle, levels, PowerUp, PowerDown, _, Prismatic, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
 
+  'use strict';
 
   return function(millis){
     if(this.state.screen === 1){ // in play
-
-
       var paddle = this.entities.paddle;
       var newBall, newPaddle;
 
-      var i,j, colObj;
-
+      var i, j, colObj;
 
       //check if the level cleared
       var aliveBricks = false;
@@ -90,9 +88,8 @@ define([
             }else if(colObj.powerUp){
               this.box.removeBody(colObj.id);
               delete this.entities[colObj.id];
-              this.state.powerUps = remove(this.state.powerUps, colObj);
-              this.state.geomId++;
-              newBall = new Ball({id: this.state.geomId});
+              this.state.powerUps = _.reject(this.state.powerUps, { id: colObj.id });
+              newBall = new Ball();
               this.state.balls.push(newBall);
               this.box.addBody(newBall);
               this.entities[newBall.id] = newBall;
@@ -102,7 +99,7 @@ define([
             }else if(colObj.powerDown){
               this.box.removeBody(colObj.id);
               delete this.entities[colObj.id];
-              this.state.powerDowns = remove(this.state.powerDowns, colObj);
+              this.state.powerDowns = _.reject(this.state.powerDowns, { id: colObj.id });
               if(paddle.smallMillis > 0){ //just start the count over
                 paddle.smallMillis = paddle.smallMillisStart;
               }
@@ -149,17 +146,19 @@ define([
                 this.box.removeBody(colObj.id);
                 brickDeath.play();
                 if(colObj.powerUpBrick){
-                  //console.log('power up');
-                  this.state.geomId++;
-                  var power = new PowerUp({x: colObj.x * colObj.scale, y: colObj.y * colObj.scale, id: this.state.geomId});
+                  var power = new PowerUp({
+                    x: colObj.x * colObj.scale,
+                    y: colObj.y * colObj.scale
+                  });
                   this.box.addBody(power);
                   this.box.applyImpulseDegrees(power.id, 180, power.impulse);
                   this.entities[power.id] = power;
                   this.state.powerUps.push(power);
                 }else if(colObj.powerDownBrick){
-                  //console.log('power down');
-                  this.state.geomId++;
-                  var powerDown = new PowerDown({x: colObj.x * colObj.scale, y: colObj.y * colObj.scale, id: this.state.geomId});
+                  var powerDown = new PowerDown({
+                    x: colObj.x * colObj.scale,
+                    y: colObj.y * colObj.scale
+                  });
                   this.box.addBody(powerDown);
                   this.box.applyImpulseDegrees(powerDown.id, 180, powerDown.impulse);
                   this.entities[powerDown.id] = powerDown;
@@ -206,8 +205,7 @@ define([
         if(this.state.balls.length === 0){
           this.state.lives --;
           if(this.state.lives > 0){
-            this.state.geomId++;
-            newBall = new Ball({id: this.state.geomId});
+            newBall = new Ball();
             this.state.balls.push(newBall);
             this.box.addBody(newBall);
             this.entities[newBall.id] = newBall;

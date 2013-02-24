@@ -1,18 +1,18 @@
 define([
+  'lodash',
   'dcl',
-  'dcl/bases/Mixer',
   'frozen/box2d/RectangleEntity',
   'frozen/Animation',
   'frozen/plugins/loadImage!resources/tiles.png',
   'dojo/on'
-], function(dcl, Mixer, Rectangle, Animation, tiles, on){
+], function(_, dcl, Rectangle, Animation, tiles, on){
 
   'use strict';
 
   var colors = {
-    red: 2,
     blue: 0,
     orange: 1,
+    red: 2,
     green: 3
   };
 
@@ -32,7 +32,7 @@ define([
     flippedTiles = offscreenCanvas;
   });
 
-  return dcl([Mixer, Rectangle], {
+  return dcl(Rectangle, {
     img: tiles,
     x: 100,
     y: 376,
@@ -52,20 +52,23 @@ define([
     brick: true,
     brickType: 0, // 0 - 3 for the differs colors
     constructor: function(){
+      if(!this.id){
+        this.id = _.uniqueId();
+      }
       this.brickType = colors[this.color];
     },
     getBirthingAnim: function(){
       //lazy load to wait for flipped image creation
       if(!this.birthingAnim){
-          this.birthingAnim =  new Animation().createFromSheet(3, animFrameTime, flippedTiles, 32, 16);
-          this.birthingAnim.offsetX = 32;
-          this.birthingAnim.offsetY = 16 * this.brickType;
+        this.birthingAnim = Animation.prototype.createFromSheet(3, animFrameTime, flippedTiles, 32, 16);
+        this.birthingAnim.offsetX = 32;
+        this.birthingAnim.offsetY = 16 * this.brickType;
       }
       return this.birthingAnim;
     },
     getDyingAnim: function(){
       if(!this.dyingAnim){
-        this.dyingAnim = new Animation().createFromSheet(4, animFrameTime, tiles, 32, 16);
+        this.dyingAnim = Animation.prototype.createFromSheet(4, animFrameTime, tiles, 32, 16);
         this.dyingAnim.offsetX = 64;
         this.dyingAnim.offsetY = 16 * this.brickType;
       }
@@ -79,37 +82,42 @@ define([
           this.dying = false;
           this.dead = true;
         }
+        return;
       }
-      else if(this.birthing){
+
+      if(this.birthing){
         this.getBirthingAnim().update(millis);
         this.birthingMillis -= millis;
         if(this.birthingMillis <= 0){
           this.birthing = false;
         }
+        return;
+      }
+    },
+    draw: function(ctx){
+      if(this.dead){
+        return;
       }
 
-    },
+      if(this.dying){
+        this.getDyingAnim().draw(ctx, this.x * this.scale - 16, this.y * this.scale - 8);
+        return;
+      }
 
-    draw: function(ctx){
-        if(!this.dead){
-          if(this.dying){
-            this.getDyingAnim().draw(ctx, this.x * this.scale - 16, this.y * this.scale - 8);
-          }
-          else if(this.birthing){
-            this.getBirthingAnim().draw(ctx, this.x * this.scale - 16, this.y * this.scale - 8);
-          }
-          else{
-            ctx.drawImage(this.img,
-            0, this.brickType * 16, //clip start
-            32, 16,
-            this.x * this.scale - 16 , this.y * this.scale - 8,
-            32, 16
-            );
-          }
-        }
+      if(this.birthing){
+        this.getBirthingAnim().draw(ctx, this.x * this.scale - 16, this.y * this.scale - 8);
+        return;
+      }
+
+      ctx.drawImage(
+        this.img,
+        0, this.brickType * 16, //clip start
+        32, 16,
+        this.x * this.scale - 16 , this.y * this.scale - 8,
+        32, 16
+      );
+      return;
     }
-
-
   });
 
 });

@@ -1,7 +1,5 @@
-define(
-
-{
-  "objs": [
+define({
+  "entities": [
     {
       "x": 5,
       "y": 182,
@@ -20,7 +18,7 @@ define(
       "staticBody": true,
       "zone": false,
       "type": "Rectangle",
-      "id": 1
+      "id": "rightWall"
     },
     {
       "x": 159,
@@ -30,7 +28,7 @@ define(
       "staticBody": true,
       "zone": false,
       "type": "Rectangle",
-      "id": 2
+      "id": "top"
     },
     {
       "x": 313,
@@ -40,7 +38,7 @@ define(
       "staticBody": true,
       "zone": false,
       "type": "Rectangle",
-      "id": 3
+      "id": "rightBottom"
     },
     {
       "x": 6,
@@ -50,7 +48,7 @@ define(
       "staticBody": true,
       "zone": false,
       "type": "Rectangle",
-      "id": 4
+      "id": "leftBottom"
     },
     {
       "x": -10,
@@ -60,7 +58,7 @@ define(
       "staticBody": true,
       "zone": false,
       "type": "Rectangle",
-      "id": 5
+      "id": "leftBlocker"
     },
     {
       "x": 330,
@@ -70,13 +68,12 @@ define(
       "staticBody": true,
       "zone": false,
       "type": "Rectangle",
-      "id": 6
+      "id": "rightBlocker"
     }
   ],
+  "joints": [],
   "canvas": {
     "height": 416,
     "width": 320
   }
-}
-
-);
+});

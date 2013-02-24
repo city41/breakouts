@@ -1,14 +1,14 @@
 define([
+  'lodash',
   'dcl',
-  'dcl/bases/Mixer',
   'frozen/box2d/CircleEntity',
   'frozen/Animation',
   'frozen/plugins/loadImage!resources/tiles.png'
-], function(dcl, Mixer, Circle, Animation, tile){
+], function(_, dcl, Circle, Animation, tile){
 
   'use strict';
 
-  return dcl([Mixer, Circle], {
+  return dcl(Circle, {
     x: 60,
     y: 210,
     ball: true,
@@ -20,20 +20,22 @@ define([
     impulse: 1.8,
     slowY: 0, //tracker of box2d to keep from slowing vertically
     aliveTime: 0,
+    groupIndex: -1,
     constructor: function(){
-      this.anim = new Animation().createFromSheet(5, 200, this.img, 16, 16);
+      if(!this.id){
+        this.id = _.uniqueId();
+      }
+      this.anim = Animation.prototype.createFromSheet(5, 200, this.img, 16, 16);
       this.anim.offsetX = 48;
       this.anim.offsetY = 64;
-      this.groupIndex = -1;
     },
     updateAnimation : function(millis){
       this.anim.update(millis);
-      this.aliveTime+= millis;
+      this.aliveTime += millis;
     },
     draw: function(ctx){
-      this.anim.draw(ctx, this.x * this.scale - this.radius * this.scale, this.y * this.scale - this.radius * this.scale);
+      this.anim.draw(ctx, (this.x - this.radius) * this.scale, (this.y - this.radius) * this.scale);
     }
-
   });
 
 });

@@ -1,6 +1,7 @@
-define([
+define(function(){
 
-], function(){
+  'use strict';
+
   var r = 'red';
   var b = 'blue';
   var o = 'orange';

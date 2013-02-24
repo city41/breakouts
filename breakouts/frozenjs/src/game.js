@@ -2,23 +2,21 @@ define([
   './update',
   './draw',
   './walls',
-  './Ball',
   './Paddle',
-  './Brick',
   './levels',
-  './shuffle',
   './loadLevel',
+  'lodash',
   'dojo/keys',
   'dojo/has',
-  'dojo/has!touch?dojo/touch:dojo/mouse',
   'frozen/box2d/BoxGame',
-  'frozen/ResourceManager',
   'frozen/box2d/Box',
   'frozen/box2d/RectangleEntity',
   'frozen/box2d/joints/Prismatic'
-], function(update, draw, walls, Ball, Paddle, Brick, levels, shuffle, loadLevel, keys, has, hid, BoxGame, ResourceManager, Box, Rectangle, Prismatic){
+], function(update, draw, walls, Paddle, levels, loadLevel, _, keys, has, BoxGame, Box, Rectangle, Prismatic){
 
-   //setup a GameCore instance
+  'use strict';
+
+  //setup a GameCore instance
   var game = new BoxGame({
     height: 416,
     width: 320,
@@ -36,11 +34,10 @@ define([
       lives: 3,
       currentLevel: 0,
       score: 0,
-      geomId: 20, //counter to add IDs to box2d world
+      balls: [],
       powerUps: [],
       powerDowns: [],
-      startBallX: 60,
-      startBallY: 200,
+      currentBricks: [],
       launchMillis: 0, //for countdown
       prevLaunchMillis: 3001 //to calc if should beep on countdown time change
     },
@@ -73,6 +70,28 @@ define([
         this.state.currentLevel++;
         this.loadLevel(this.state.currentLevel);
       }
+    },
+    addBody: function(entity){
+      this.entities[entity.id] = entity;
+      this.box.addBody(entity);
+    },
+    addBodies: function(){
+      var args = _.toArray(arguments);
+      var entities = _.flatten(args, true);
+      _.forEach(entities, function(entity){
+        this.addBody(entity);
+      }, this);
+    },
+    removeBody: function(entity){
+      this.box.removeBody(entity.id);
+      delete this.entities[entity.id];
+    },
+    removeBodies: function(){
+      var args = _.toArray(arguments);
+      var entities = _.flatten(args, true);
+      _.forEach(entities, function(entity){
+        this.removeBody(entity);
+      }, this);
     }
   });
 
@@ -93,15 +112,16 @@ define([
   }
 
   //add walls and paddle and joint to the box
-  walls.objs.forEach(function(rect){
-    game.entities[rect.id] = new Rectangle(rect);
-    game.box.addBody(game.entities[rect.id]);
+  walls.entities.forEach(function(rect){
+    game.addBody(new Rectangle(rect));
   });
-  game.entities.paddle = new Paddle();
-  game.box.addBody(game.entities.paddle);
-  game.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint'});
+  game.addBody(new Paddle());
+  game.state.pJoint = new Prismatic({
+    bodyId1: 'paddle',
+    bodyId2: 'leftWall',
+    id: 'pJoint'
+  });
   game.box.addJoint(game.state.pJoint);
-
 
   //launch the game!
   game.run();
