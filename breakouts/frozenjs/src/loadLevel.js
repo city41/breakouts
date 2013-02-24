@@ -17,10 +17,10 @@ define([
     this.state.currentBricks = [];
 
     _.forEach(level.bricks, function(row, i){
-      _.forEach(row, function(color, j){
-        if(color){
+      _.forEach(row, function(brickType, j){
+        if(brickType !== null){
           var brick = new Brick({
-            color: color,
+            brickType: brickType,
             x: offsetX + (j * 32) + 16,
             y: offsetY + (i * 16) + 8
           });

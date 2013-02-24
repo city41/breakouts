@@ -9,13 +9,6 @@ define([
 
   'use strict';
 
-  var colors = {
-    blue: 0,
-    orange: 1,
-    red: 2,
-    green: 3
-  };
-
   var animFrameTime = 100;
 
   var flippedTiles = null;
@@ -55,7 +48,6 @@ define([
       if(!this.id){
         this.id = _.uniqueId();
       }
-      this.brickType = colors[this.color];
     },
     getBirthingAnim: function(){
       //lazy load to wait for flipped image creation

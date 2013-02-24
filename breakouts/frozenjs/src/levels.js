@@ -2,10 +2,10 @@ define(function(){
 
   'use strict';
 
-  var r = 'red';
-  var b = 'blue';
-  var o = 'orange';
-  var g = 'green';
+  var r = 2; // red
+  var b = 0; // blue
+  var o = 1; // orange
+  var g = 3; // green
   var X = null;
 
   return [
