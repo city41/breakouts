@@ -16,6 +16,11 @@ var dojoConfig = {
       main: 'GameCore'
     },
     {
+      name: 'lodash',
+      location: 'deps/lodash',
+      main: 'lodash'
+    },
+    {
       name: 'game',
       location: 'src',
       main: 'game'
