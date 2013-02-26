@@ -1,4 +1,4 @@
-/** 
+/**
  * a brick entity
  */
 EntityBrick = me.ObjectEntity.extend({
@@ -11,7 +11,7 @@ EntityBrick = me.ObjectEntity.extend({
 
 		this.type = "brick";
 		this.collidable = true;
-		
+
 		this.dying = false;
 
 		// get the brick color
@@ -22,28 +22,28 @@ EntityBrick = me.ObjectEntity.extend({
 
 		// Add the animations
 		this.addAnimation('blue', [0]);
-		this.addAnimation('bluedeath', [1, 2, 3, 4], me.sys.fps/30);
-		this.addAnimation('bluebirth', [4, 3, 2, 1, 0]);
 		this.addAnimation('orange', [6]);
-		this.addAnimation('orangedeath', [7, 8, 9, 10], me.sys.fps/30);
-		this.addAnimation('orangebirth', [10, 9, 8, 7, 6]);
 		this.addAnimation('red', [12]);
-		this.addAnimation('reddeath', [13,14, 15, 16], me.sys.fps/30);
-		this.addAnimation('redbirth', [16, 15, 14, 13, 12]);
 		this.addAnimation('green', [18]);
-		this.addAnimation('greendeath', [19, 20, 21, 22], me.sys.fps/30);
-		this.addAnimation('greenbirth', [22, 21, 20, 19, 18]);
 		// set default one
-		this.setCurrentAnimation(this.color + 'birth', this.color);
+		this.setCurrentAnimation(this.color);
+
+		// Animate new bricks
+		this.resize(0.01);
+		var anim = new me.Tween(this.scale);
+		anim.to({ x : 1.0, y : 1.0 }, 300).start();
 	},
 
 	onCollision: function(res, obj) {
 		if (!this.dying) {
 			this.dying = true;
 			this.collidable = false;
-			// play sound + change animation
+			// play sound + animate brick death
 			me.audio.play("brickdeath");
-			this.setCurrentAnimation(this.color + 'death', function(){me.game.remove(this)});
+			var anim = new me.Tween(this.scale);
+			anim.to({ x : 0.0, y : 0.0 }, 300).onComplete((function () {
+				me.game.remove(this);
+			}).bind(this)).start();
 			// add score and decrease brick count
 			me.state.current().addScore(this.type);
 			me.state.current().countBrick();
