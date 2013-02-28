@@ -1,17 +1,17 @@
 define([
   './Ball',
   './Paddle',
+  './PaddleJoint',
   './levels',
   './PowerUp',
   './PowerDown',
   'lodash',
-  'frozen/box2d/joints/Prismatic',
   'frozen/plugins/loadSound!resources/sfx/brickDeath.wav',
   'frozen/plugins/loadSound!resources/sfx/countdownBlip.wav',
   'frozen/plugins/loadSound!resources/sfx/powerup.wav',
   'frozen/plugins/loadSound!resources/sfx/powerdown.wav',
   'frozen/plugins/loadSound!resources/sfx/recover.wav'
-], function(Ball, Paddle, levels, PowerUp, PowerDown, _, Prismatic, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
+], function(Ball, Paddle, PaddleJoint, levels, PowerUp, PowerDown, _, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
 
   'use strict';
 
@@ -78,55 +78,56 @@ define([
       }, this);
 
       if(paddle && paddle.collisions){
-        for (i = 0; i < paddle.collisions.length; i++) {
-          colObj = this.entities[paddle.collisions[i].id];
+        _.forEach(paddle.collisions, function(collision){
+          colObj = this.entities[collision.id];
           if(colObj.ball && colObj.y < paddle.y){
             var distance = colObj.x - paddle.x;
             var maxAngle = 45;
             var maxDistance = paddle.halfWidth + colObj.radius;
             var angle = (distance / maxDistance) * maxAngle;
-            this.box.removeBody(colObj.id);
-            this.box.addBody(this.entities[colObj.id]);
+            this.removeBody(colObj);
+            this.addBody(colObj);
             this.box.applyImpulseDegrees(colObj.id, angle, colObj.impulse);
-
-          }else if(colObj.powerUp){
+          } else if(colObj.powerUp){
             this.removeBody(colObj);
             this.state.powerUps = _.reject(this.state.powerUps, { id: colObj.id });
             this.newBall();
             powerupSound.play();
-
-          }else if(colObj.powerDown){
+          } else if(colObj.powerDown){
             this.removeBody(colObj);
             this.state.powerDowns = _.reject(this.state.powerDowns, { id: colObj.id });
             if(paddle.smallMillis > 0){ //just start the count over
               paddle.smallMillis = paddle.smallMillisStart;
-            }
-            else{ //create a new small sized paddle
-              newPaddle = new Paddle({x: paddle.x * paddle.scale, y: paddle.y * paddle.scale, halfWidth: paddle.smallHalfWidth, smallMillis: paddle.smallMillisStart});
-              this.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint'});
-              this.box.destroyJoint('pJoint');
-              this.box.removeBody(paddle.id);
-              this.box.addBody(newPaddle);
-              this.box.addJoint(this.state.pJoint);
-              this.entities.paddle = newPaddle;
-              this.entities.paddle.collisions = paddle.collisions;
+            } else { //create a new small sized paddle
+              newPaddle = new Paddle({
+                x: paddle.x * paddle.scale,
+                y: paddle.y * paddle.scale,
+                halfWidth: paddle.smallHalfWidth,
+                smallMillis: paddle.smallMillisStart
+              });
+              this.removeJoint(this.joints.pJoint);
+              this.removeBody(paddle);
+              this.addBody(newPaddle);
+              this.addJoint(new PaddleJoint());
             }
             powerdownSound.play();
           }
-        }
+        }, this);
       }
 
       //if the paddle is small, countdown how much time is left in the small state
       if(paddle && paddle.smallMillis > 0){
         paddle.smallMillis -= millis;
         if(paddle.smallMillis <= 0){ // it's done being small, replace wiht a big sized paddle, and replace the joint
-          newPaddle = new Paddle({x: paddle.x * paddle.scale, y: paddle.y * paddle.scale, halfWidth: paddle.bigHalfWidth});
-          this.state.pJoint = new Prismatic({bodyId1: 'paddle', bodyId2: 'leftWall', id: 'pJoint'});
-          this.box.destroyJoint('pJoint');
-          this.box.removeBody(paddle.id);
-          this.box.addBody(newPaddle);
-          this.box.addJoint(this.state.pJoint);
-          this.entities.paddle = newPaddle;
+          newPaddle = new Paddle({
+            x: paddle.x * paddle.scale,
+            y: paddle.y * paddle.scale,
+            halfWidth: paddle.bigHalfWidth
+          });
+          this.removeJoint(this.joints.pJoint);
+          this.removeBody(paddle);
+          this.addBody(newPaddle);
+          this.addJoint(new PaddleJoint());
           recover.play();
         }
       }
@@ -138,27 +139,25 @@ define([
         if(ball.collisions){
           for (j = 0; j < ball.collisions.length; j++) {
             colObj = this.entities[ball.collisions[j].id];
-            if(colObj.brick){
+            if(colObj && colObj.brick){
               colObj.dying = true;
-              this.box.removeBody(colObj.id);
+              this.removeBody(colObj);
               brickDeath.play();
               if(colObj.powerUpBrick){
                 var power = new PowerUp({
                   x: colObj.x * colObj.scale,
                   y: colObj.y * colObj.scale
                 });
-                this.box.addBody(power);
+                this.addBody(power);
                 this.box.applyImpulseDegrees(power.id, 180, power.impulse);
-                this.entities[power.id] = power;
                 this.state.powerUps.push(power);
               }else if(colObj.powerDownBrick){
                 var powerDown = new PowerDown({
                   x: colObj.x * colObj.scale,
                   y: colObj.y * colObj.scale
                 });
-                this.box.addBody(powerDown);
+                this.addBody(powerDown);
                 this.box.applyImpulseDegrees(powerDown.id, 180, powerDown.impulse);
-                this.entities[powerDown.id] = powerDown;
                 this.state.powerDowns.push(powerDown);
               }
               this.state.score+= 100;
@@ -179,8 +178,7 @@ define([
               id: ball.id
             });
             this.state.balls[i] = newBall;
-            this.box.addBody(newBall);
-            this.entities[ball.id] = newBall;
+            this.addBody(newBall);
             var degrees;
             if(ball.linearVelocity.y > 0){
               if(ball.linearVelocity.x > 0){

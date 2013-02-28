@@ -8,7 +8,7 @@
       "util": "github:dojo/util/1.8.3",
       "dcl": "github:uhop/dcl/1.0.2",
       "Box2d.min": "https://box2dweb.googlecode.com/svn/trunk/Box2d.min.js",
-      "frozen": "github:iceddev/frozen/0.2.0"
+      "frozen": "github:iceddev/frozen/0.3.0"
     }
   },
   "dojoBuild": "game.profile.js",

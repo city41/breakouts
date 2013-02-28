@@ -1,19 +1,19 @@
 define([
+  './handleInput',
   './update',
   './draw',
   './walls',
   './Paddle',
+  './PaddleJoint',
   './Ball',
-  './levels',
   './loadLevel',
   'lodash',
   'dojo/keys',
   'dojo/has',
   'frozen/box2d/BoxGame',
   'frozen/box2d/Box',
-  'frozen/box2d/RectangleEntity',
-  'frozen/box2d/joints/Prismatic'
-], function(update, draw, walls, Paddle, Ball, levels, loadLevel, _, keys, has, BoxGame, Box, Rectangle, Prismatic){
+  'frozen/box2d/RectangleEntity'
+], function(handleInput, update, draw, walls, Paddle, PaddleJoint, Ball, loadLevel, _, keys, has, BoxGame, Box, Rectangle){
 
   'use strict';
 
@@ -27,6 +27,7 @@ define([
     gameAreaId: has('touch') ? 'gameArea' : null,
     canvasPercentage: has('touch') ? 0.98 : null,
     mobile: has('touch') ? true : false,
+    handleInput: handleInput,
     update: update,
     draw: draw,
     loadLevel: loadLevel,
@@ -47,45 +48,12 @@ define([
       im.addKeyAction(keys.LEFT_ARROW, true);
       im.addKeyAction(keys.RIGHT_ARROW, true);
     },
-    handleInput: function(im){
-      //start game
-      if(this.state.screen === 0 && (im.touchAction.isPressed() || im.mouseAction.isPressed())){
-        this.state.screen = 1;
-        this.loadLevel(0);
-      }
-
-      //move paddles
-      if(im.touchAction.position){
-        movePaddle(im.touchAction.position.x);
-      }
-      else if(im.mouseAction.position){
-        movePaddle(im.mouseAction.position.x);
-      }
-
-      //advance the levels
-      if(im.keyActions[keys.LEFT_ARROW].getAmount() && this.state.currentLevel > 0){
-        this.state.currentLevel--;
-        this.loadLevel(this.state.currentLevel);
-
-      }else if(im.keyActions[keys.RIGHT_ARROW].getAmount() && this.state.currentLevel < (levels.length - 1)){
-        this.state.currentLevel++;
-        this.loadLevel(this.state.currentLevel);
-      }
-    },
-    addBody: function(entity){
-      this.entities[entity.id] = entity;
-      this.box.addBody(entity);
-    },
     addBodies: function(){
       var args = _.toArray(arguments);
       var entities = _.flatten(args, true);
       _.forEach(entities, function(entity){
         this.addBody(entity);
       }, this);
-    },
-    removeBody: function(entity){
-      this.box.removeBody(entity.id);
-      delete this.entities[entity.id];
     },
     removeBodies: function(){
       var args = _.toArray(arguments);
@@ -102,33 +70,12 @@ define([
     }
   });
 
-  function movePaddle(x){
-    if(game.state.screen === 1 && game.entities.paddle){
-      var xPos = x / game.box.scale;
-      if(xPos < game.entities.paddle.halfWidth){
-        xPos = game.entities.paddle.halfWidth;
-      }else if(xPos > game.width / game.box.scale - game.entities.paddle.halfWidth){
-        xPos = game.width / game.box.scale - game.entities.paddle.halfWidth;
-      }
-      if(game.state.launchMillis <= 0){
-        game.box.setPosition(game.entities.paddle.id, xPos, game.entities.paddle.y);
-      }else{
-        game.entities.paddle.x = xPos; //force update to render paddle movement during countdown
-      }
-    }
-  }
-
   //add walls and paddle and joint to the box
   walls.entities.forEach(function(rect){
     game.addBody(new Rectangle(rect));
   });
   game.addBody(new Paddle());
-  game.state.pJoint = new Prismatic({
-    bodyId1: 'paddle',
-    bodyId2: 'leftWall',
-    id: 'pJoint'
-  });
-  game.box.addJoint(game.state.pJoint);
+  game.addJoint(new PaddleJoint());
 
   //launch the game!
   game.run();

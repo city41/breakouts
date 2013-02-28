@@ -29,7 +29,7 @@ define([
       this.anim.offsetX = 48;
       this.anim.offsetY = 64;
     },
-    updateAnimation : function(millis){
+    updateAnimation: function(millis){
       this.anim.update(millis);
       this.aliveTime += millis;
     },

@@ -66,7 +66,7 @@ define([
       }
       return this.dyingAnim;
     },
-    updateAnimation : function(millis){
+    updateAnimation: function(millis){
       if(this.dying){
         this.getDyingAnim().update(millis);
         this.dyingMillis -= millis;
