@@ -24,6 +24,10 @@ var dojoConfig = {
       name: 'game',
       location: 'src',
       main: 'game'
+    },
+    {
+      name: 'sounds',
+      location: 'resources/sfx'
     }
   ],
   deps: ['game'],

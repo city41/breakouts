@@ -7,7 +7,6 @@ define([
   'use strict';
 
   return function loadLevel(lvl){
-    var i;
     var offsetX = (this.width / 2) - 112; // game.box.scale;
     var offsetY = 70; // game.box.scale;
     var level = levels[lvl];
@@ -32,14 +31,14 @@ define([
 
     //shuffle the bricks to randomly assign powerUps and powerDowns to them
     var shuffled = _.shuffle(this.state.currentBricks);
-    for (i = 0; i < level.powerUps; i++) {
+    _.times(level.powerUps, function(){
       shuffled[powerCounter].powerUpBrick = true;
       powerCounter++;
-    }
-    for (i = 0; i < level.powerDowns; i++) {
+    });
+    _.times(level.powerDowns, function(){
       shuffled[powerCounter].powerDownBrick = true;
       powerCounter++;
-    }
+    });
     this.state.currentBricks = shuffled;
 
     //reset launch counter

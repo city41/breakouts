@@ -6,11 +6,11 @@ define([
   './PowerUp',
   './PowerDown',
   'lodash',
-  'frozen/plugins/loadSound!resources/sfx/brickDeath.wav',
-  'frozen/plugins/loadSound!resources/sfx/countdownBlip.wav',
-  'frozen/plugins/loadSound!resources/sfx/powerup.wav',
-  'frozen/plugins/loadSound!resources/sfx/powerdown.wav',
-  'frozen/plugins/loadSound!resources/sfx/recover.wav'
+  'frozen/plugins/loadSound!sounds/brickDeath.wav',
+  'frozen/plugins/loadSound!sounds/countdownBlip.wav',
+  'frozen/plugins/loadSound!sounds/powerup.wav',
+  'frozen/plugins/loadSound!sounds/powerdown.wav',
+  'frozen/plugins/loadSound!sounds/recover.wav'
 ], function(Ball, Paddle, PaddleJoint, levels, PowerUp, PowerDown, _, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
 
   'use strict';
@@ -31,8 +31,6 @@ define([
     var paddle = this.entities.paddle;
     var newBall, newPaddle;
 
-    var i, j, colObj;
-
     //check if the level cleared
     var aliveBricks = false;
     _.forEach(this.state.currentBricks, function(brick){
@@ -46,7 +44,7 @@ define([
       this.state.currentLevel++;
       if(this.state.currentLevel < levels.length){
         this.loadLevel(this.state.currentLevel);
-      }else{
+      } else {
         this.state.screen = 3; //you win!
       }
     }
@@ -60,10 +58,10 @@ define([
       }
       if(this.state.launchMillis <= 0){
         this.boxUpdating = true;
-      }else{
+      } else {
         this.boxUpdating = false;
       }
-    }else{
+    } else {
 
       this.boxUpdating = true;
 
@@ -79,7 +77,7 @@ define([
 
       if(paddle && paddle.collisions){
         _.forEach(paddle.collisions, function(collision){
-          colObj = this.entities[collision.id];
+          var colObj = this.entities[collision.id];
           if(colObj.ball && colObj.y < paddle.y){
             var distance = colObj.x - paddle.x;
             var maxAngle = 45;
@@ -133,24 +131,22 @@ define([
       }
 
       //handle ball collisions
-      for (i = 0; i < this.state.balls.length; i++) {
-        var ball = this.state.balls[i];
-
+      _.forEach(this.state.balls, function(ball, idx){
         if(ball.collisions){
-          for (j = 0; j < ball.collisions.length; j++) {
-            colObj = this.entities[ball.collisions[j].id];
+          _.forEach(ball.collisions, function(collision){
+            var colObj = this.entities[collision.id];
             if(colObj && colObj.brick){
               colObj.dying = true;
               this.removeBody(colObj);
-              brickDeath.play();
+              brickDeath.play(0.5);
               if(colObj.powerUpBrick){
-                var power = new PowerUp({
+                var powerUp = new PowerUp({
                   x: colObj.x * colObj.scale,
                   y: colObj.y * colObj.scale
                 });
-                this.addBody(power);
-                this.box.applyImpulseDegrees(power.id, 180, power.impulse);
-                this.state.powerUps.push(power);
+                this.addBody(powerUp);
+                this.box.applyImpulseDegrees(powerUp.id, 180, powerUp.impulse);
+                this.state.powerUps.push(powerUp);
               }else if(colObj.powerDownBrick){
                 var powerDown = new PowerDown({
                   x: colObj.x * colObj.scale,
@@ -162,7 +158,7 @@ define([
               }
               this.state.score+= 100;
             }
-          }
+          }, this);
         }
 
         // Sometimes in box2d, especially withough gravity, things can get stuck bouncing sideways.
@@ -177,7 +173,7 @@ define([
               y: ball.y * ball.scale,
               id: ball.id
             });
-            this.state.balls[i] = newBall;
+            this.state.balls[idx] = newBall;
             this.addBody(newBall);
             var degrees;
             if(ball.linearVelocity.y > 0){
@@ -186,7 +182,7 @@ define([
               }else{
                 degrees = 315;
               }
-            }else{
+            } else {
               if(ball.linearVelocity.x > 0){
                 degrees = 135;
               }else{
@@ -197,10 +193,10 @@ define([
 
             newBall.slowY = 0;
           }
-        }else{
+        } else {
           ball.slowY = 0;
         }
-      }
+      }, this);
 
       //check if there's any balls left on the screen
       if(this.state.balls.length === 0){
@@ -208,7 +204,7 @@ define([
         if(this.state.lives > 0){
           this.newBall();
           this.state.launchMillis = 3001;
-        }else{
+        } else {
           this.state.screen = 2; //game over
         }
       }

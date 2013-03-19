@@ -12,7 +12,7 @@ define([
   'dojo/has',
   'frozen/box2d/BoxGame',
   'frozen/box2d/Box',
-  'frozen/box2d/RectangleEntity'
+  'frozen/box2d/entities/Rectangle'
 ], function(handleInput, update, draw, walls, Paddle, PaddleJoint, Ball, loadLevel, _, keys, has, BoxGame, Box, Rectangle){
 
   'use strict';
@@ -71,7 +71,7 @@ define([
   });
 
   //add walls and paddle and joint to the box
-  walls.entities.forEach(function(rect){
+  _.forEach(walls.entities, function(rect){
     game.addBody(new Rectangle(rect));
   });
   game.addBody(new Paddle());

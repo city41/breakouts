@@ -1,7 +1,7 @@
 define([
   'lodash',
   'dcl',
-  'frozen/box2d/CircleEntity',
+  'frozen/box2d/entities/Circle',
   'frozen/Animation',
   'frozen/plugins/loadImage!resources/tiles.png'
 ], function(_, dcl, Circle, Animation, tile){

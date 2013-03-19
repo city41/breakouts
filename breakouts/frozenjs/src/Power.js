@@ -1,7 +1,7 @@
 define([
   'lodash',
   'dcl',
-  'frozen/box2d/RectangleEntity',
+  'frozen/box2d/entities/Rectangle',
   'frozen/plugins/loadImage!resources/tiles.png'
 ], function(_, dcl, Rectangle, tiles){
 

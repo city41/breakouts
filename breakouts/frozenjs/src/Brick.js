@@ -1,7 +1,7 @@
 define([
   'lodash',
   'dcl',
-  'frozen/box2d/RectangleEntity',
+  'frozen/box2d/entities/Rectangle',
   'frozen/Animation',
   'frozen/plugins/loadImage!resources/tiles.png',
   'dojo/on'
@@ -83,7 +83,6 @@ define([
         if(this.birthingMillis <= 0){
           this.birthing = false;
         }
-        return;
       }
     },
     draw: function(ctx){
@@ -108,7 +107,6 @@ define([
         this.x * this.scale - 16 , this.y * this.scale - 8,
         32, 16
       );
-      return;
     }
   });
 
