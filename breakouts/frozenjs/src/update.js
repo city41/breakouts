@@ -6,6 +6,7 @@ define([
   './PowerUp',
   './PowerDown',
   'lodash',
+  /* sounds/ is aliased in dojoConfig - plugins use require.toUrl to determine path */
   'frozen/plugins/loadSound!sounds/brickDeath.wav',
   'frozen/plugins/loadSound!sounds/countdownBlip.wav',
   'frozen/plugins/loadSound!sounds/powerup.wav',
@@ -166,7 +167,6 @@ define([
         if(ball.linearVelocity &&  Math.abs(ball.linearVelocity.y) < 3){
           ball.slowY++;
           if(ball.slowY > 1 && ball.aliveTime > 300){
-            console.log('slow ' + ball.linearVelocity.y);
             this.box.removeBody(ball.id);
             newBall = new Ball({
               x: ball.x * ball.scale,
