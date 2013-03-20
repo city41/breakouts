@@ -5,6 +5,11 @@ body {
   margin: 0;
   padding: 0;
 }
+
+#gameArea {
+  margin: 0 auto;
+}
+
 #canvas {
   width: 320px;
   height: 416px;
@@ -27,4 +32,3 @@ body {
     margin: auto;
   }
 }
-

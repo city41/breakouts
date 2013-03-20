@@ -68,11 +68,7 @@ var profile = (function(){
       },
       "dist/game": {
         include: [
-          'game',
-          'frozen/sounds/WebAudio',
-          'frozen/sounds/HTML5Audio',
-          'dojo/touch',
-          'dojo/mouse'
+          'game'
         ],
         customBase: true,
         boot: true

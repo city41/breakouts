@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>FrozenJS - Breakouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="gameStyles.css" type="text/css" rel="stylesheet" />
+    <link href="styles/game.css" type="text/css" rel="stylesheet" />
     <script src="dojoConfig.js"></script>
     <script src="deps/Box2d.min.js"></script>
-    <script src="dist/game.js"></script>
+    <script src="dist/game.js.uncompressed.js"></script>
     <script>
-      if(!window.require){
+      if(typeof define !== "function" || !define.amd){
         console.log('Game not built, using dojo for loader');
         var hd = document.getElementsByTagName("head")[0],
         el = document.createElement("script");
