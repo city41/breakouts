@@ -6,12 +6,15 @@ define([
   './PowerUp',
   './PowerDown',
   'lodash',
-  /* sounds/ is aliased in dojoConfig - plugins use require.toUrl to determine path */
-  'frozen/plugins/loadSound!sounds/brickDeath.wav',
-  'frozen/plugins/loadSound!sounds/countdownBlip.wav',
-  'frozen/plugins/loadSound!sounds/powerup.wav',
-  'frozen/plugins/loadSound!sounds/powerdown.wav',
-  'frozen/plugins/loadSound!sounds/recover.wav'
+  /*
+   * sounds/ is aliased in dojoConfig - plugins use require.toUrl to determine path
+   * not specifying an extension let's frozen auto-select one that works for the current browser
+   */
+  'frozen/plugins/loadSound!sounds/brickDeath',
+  'frozen/plugins/loadSound!sounds/countdownBlip',
+  'frozen/plugins/loadSound!sounds/powerup',
+  'frozen/plugins/loadSound!sounds/powerdown',
+  'frozen/plugins/loadSound!sounds/recover'
 ], function(Ball, Paddle, PaddleJoint, levels, PowerUp, PowerDown, _, brickDeath, countdownBlip, powerupSound, powerdownSound, recover){
 
   'use strict';
