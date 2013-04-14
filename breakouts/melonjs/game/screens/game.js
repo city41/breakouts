@@ -20,6 +20,7 @@ var PlayScreen = me.ScreenObject.extend( {
 		
 		// init a font object
 		this.font = new me.Font('Arial', 20, 'black');
+		this.font.textBaseline = "bottom";
 		this.fontYpos = me.game.viewport.height - 10;
 		
 		// enable keyboard

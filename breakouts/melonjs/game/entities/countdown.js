@@ -10,11 +10,11 @@ EntityCountdown = me.ObjectEntity.extend({
 		this.lastFrame = -1;
 		
 		// sync the animation with the fps (1 sec)
-		this.addAnimation('idle', [12, 13, 14], me.sys.fps);
-		this.setCurrentAnimation('idle', function(){
+		this.renderable.addAnimation('idle', [12, 13, 14], me.sys.fps);
+		this.renderable.setCurrentAnimation('idle', (function(){
 			me.audio.play('countdownblip', false, null, 0.3);
 			me.game.remove(this);
-		});
+		}).bind(this));
 		
 		// center it
 		this.pos.x = me.game.viewport.width / 2 - this.width / 2;
@@ -24,10 +24,12 @@ EntityCountdown = me.ObjectEntity.extend({
 
 	update: function() {
 		this.parent();
-		if(this.getCurrentAnimationFrame() != this.lastFrame) {
-			me.audio.play('countdownblip', false, null, 0.3);
+		if (this.renderable) {
+			if(this.renderable.getCurrentAnimationFrame() != this.lastFrame) {
+				me.audio.play('countdownblip', false, null, 0.3);
+			}
+			this.lastFrame = this.renderable.getCurrentAnimationFrame();
 		}
-		this.lastFrame = this.getCurrentAnimationFrame();
 		return true;
 	},
 

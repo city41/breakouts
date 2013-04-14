@@ -6,8 +6,8 @@ EntityPowerDown = me.ObjectEntity.extend({
 		settings.spriteheight = 16;
 		this.parent(x, y, settings);
 		
-		this.addAnimation('idle', [79]);
-		this.setCurrentAnimation('idle');
+		this.renderable.addAnimation('idle', [79]);
+		this.renderable.setCurrentAnimation('idle');
 			
 		this.collidable = true;
 		this.vel.x = 0;

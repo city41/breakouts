@@ -13,8 +13,8 @@ EntityBall = me.ObjectEntity.extend({
 		// since ball entities can also be added manually
 		this.name = 'ball';
 		
-		this.addAnimation('idle', [51, 52, 53, 54, 55]);
-		this.setCurrentAnimation('idle');
+		this.renderable.addAnimation('idle', [51, 52, 53, 54, 55]);
+		this.renderable.setCurrentAnimation('idle');
 
 		this.speed = Math.round(170 / me.sys.fps);
 		
@@ -68,6 +68,7 @@ EntityBall = me.ObjectEntity.extend({
 			// force immediate object destruction (true parameter)
 			me.game.remove(this, true);
 			me.state.current().onBallDeath();
+			return true;
 		}
 		
 		// check for collision with paddle & bricks

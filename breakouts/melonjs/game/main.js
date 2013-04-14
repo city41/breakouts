@@ -24,13 +24,8 @@ var game = {
 	 * Initialize the application
 	 */
 	onload: function() {
-	
-		if (me.sys.touch) {
-			// there is no need to request 60fps for a breakout
-			// and this will make things smoother on mobile (touch?) devices
-			me.sys.fps = 30;
-		}
-		
+		me.sys.useNativeAnimFrame = true;
+
 		// init the video (with auto-scaling on)
 		if (!me.video.init('canvas', 320, 416)) {
 			alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
