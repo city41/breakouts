@@ -1,0 +1,344 @@
+[
+  {
+    "feature": "Version",
+    "crafty": "0.5.3",
+    "frozen": "0.3.0",
+    "impact": "1.21",
+    "lime": "Dec 22, 2012",
+    "melon": "0.9.5",
+    "quintus": "0.0.5"
+  },
+  {
+    "feature": "Release Date",
+    "crafty": "Nov 2012",
+    "frozen": "Mar 19, 2013",
+    "impact": "Dec 4, 2012",
+    "lime": "Dec 22, 2012",
+    "melon": "Feb 2013",
+    "quintus": "Feb 2, 2013"
+  },
+  {
+    "feature": "License",
+    "crafty": "MIT & GPL",
+    "frozen": "MIT",
+    "impact": "Commercial (US$99)",
+    "lime": "Apache",
+    "melon": "MIT",
+    "quintus": "MIT & GPL"
+  },
+  {
+    "feature": "Resources"
+  },
+  {
+    "feature": "Preload Images",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Preload Audio",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": false,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Sprite Sheets",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": false,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Level Editor",
+    "crafty": false,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"http://phated.github.com/frozen-editor\">Frozen Editor</a>"
+    },
+    "impact": true,
+    "lime": false,
+    "melon": {
+      "value": true,
+      "info": "<a href=\"http://www.mapeditor.org/\">Tiled</a>"
+    },
+    "quintus": false
+  },
+  {
+    "feature": "Tile Loading",
+    "crafty": {
+      "value": true,
+      "plugin": "http://craftycomponents.com/components/single/18/tiledlevel"
+    },
+    "frozen": false,
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": false
+  },
+  {
+    "feature": "WebAudio",
+    "crafty": false,
+    "frozen": true,
+    "impact": {
+      "value": true,
+      "plugin": "https://github.com/mandarinx/audia"
+    },
+    "lime": false,
+    "melon": {
+      "value": false,
+      "info": "<a href=\"https://github.com/obiot/melonJS/issues/157\">Planned</a>"
+    },
+    "quintus": {
+      "value": false,
+      "info": "Added in <a href=\"https://github.com/cykod/Quintus#010-web-audio-and-better-tweens---21613\">0.1.0</a>"
+    }
+  },
+  {
+    "feature": "HTML5 Audio",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Audio Sprites",
+    "crafty": false,
+    "frozen": true,
+    "impact": false,
+    "lime": true,
+    "melon": false,
+    "quintus": false
+  },
+  {
+    "feature": "Rendering"
+  },
+  {
+    "feature": "DOM",
+    "crafty": true,
+    "frozen": false,
+    "impact": false,
+    "lime": true,
+    "melon": false,
+    "quintus": false
+  },
+  {
+    "feature": "Canvas",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Browser Fonts",
+    "crafty": true,
+    "frozen": true,
+    "impact": {
+      "value": true,
+      "plugin": "https://github.com/quidmonkey/Canvas-Native-Fonts-Plugin"
+    },
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Physics"
+  },
+  {
+    "feature": "Collision Detection",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Simple Physics",
+    "crafty": false,
+    "frozen": true,
+    "impact": true,
+    "lime": false,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Physics Engine Integrated",
+    "crafty": {
+      "value": true,
+      "plugin": "https://github.com/shogoki-vnz/CraftyBox2D"
+    },
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"https://code.google.com/p/box2dweb/\">Box2D</a>"
+    },
+    "impact": false,
+    "lime": true,
+    "melon": false,
+    "quintus": false
+  },
+  {
+    "feature": "Animation"
+  },
+  {
+    "feature": "Frame (Sprite)",
+    "crafty": true,
+    "frozen": true,
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Scaling",
+    "crafty": false,
+    "frozen": true,
+    "impact": false,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Rotating",
+    "crafty": false,
+    "frozen": true,
+    "impact": false,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Moving",
+    "crafty": false,
+    "frozen": true,
+    "impact": false,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Fading",
+    "crafty": false,
+    "frozen": false,
+    "impact": false,
+    "lime": true,
+    "melon": false,
+    "quintus": true
+  },
+  {
+    "feature": "Sequencing",
+    "crafty": false,
+    "frozen": false,
+    "impact": false,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Developing"
+  },
+  {
+    "feature": "Class Oriented",
+    "crafty": false,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"http://www.dcljs.org/\">dcl</a> abstraction"
+    },
+    "impact": true,
+    "lime": true,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Component Oriented",
+    "crafty": true,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"https://github.com/amdjs/amdjs-api\">AMD</a>"
+    },
+    "impact": false,
+    "lime": false,
+    "melon": false,
+    "quintus": true
+  },
+  {
+    "feature": "Plugin Support",
+    "crafty": true,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"https://github.com/amdjs/amdjs-api/wiki/Loader-Plugins\">AMD Plugins</a>"
+    },
+    "impact": true,
+    "lime": false,
+    "melon": true,
+    "quintus": true
+  },
+  {
+    "feature": "Dynamically Loading JS Files",
+    "crafty": false,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"https://github.com/amdjs/amdjs-api\">AMD</a>"
+    },
+    "impact": true,
+    "lime": true,
+    "melon": false,
+    "quintus": false
+  },
+  {
+    "feature": "Debugging Tools",
+    "crafty": true,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"http://www.dcljs.org/docs/debug_js/\">dcl/debug</a>"
+    },
+    "impact": true,
+    "lime": false,
+    "melon": true,
+    "quintus": false
+  },
+  {
+    "feature": "Package Manager",
+    "crafty": false,
+    "frozen": {
+      "value": true,
+      "info": "<a href=\"http://volojs.org/\">Volo</a>"
+    },
+    "impact": false,
+    "lime": false,
+    "melon": false,
+    "quintus": false
+  },
+  {
+    "feature": "Deployment"
+  },
+  {
+    "feature": "Concatting JS Files",
+    "crafty": false,
+    "frozen": true,
+    "impact": true,
+    "lime": true,
+    "melon": false,
+    "quintus": false
+  },
+  {
+    "feature": "Minification",
+    "crafty": false,
+    "frozen": true,
+    "impact": false,
+    "lime": true,
+    "melon": false,
+    "quintus": false
+  }
+]

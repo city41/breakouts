@@ -1,0 +1,69 @@
+.tundra .ui-widget-header, .tundra .dgrid-footer {
+  background: #EFEFEF; /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #EFEFEF 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#EFEFEF)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* IE10+ */
+  background: linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#EFEFEF',GradientType=0 ); /* IE6-9 */
+  font-weight: bold;
+}
+
+.tundra .dgrid {
+  height: 60em;
+}
+
+.dgrid .dgrid-content {
+  height: auto;
+}
+
+.dgrid .field-feature {
+  border-right: 0;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .dgrid .field-feature {
+    width: 20%;
+  }
+}
+
+@media (max-width: 767px) {
+  .dgrid .field-feature {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  .dgrid .field-feature {
+    width: 28%;
+  }
+}
+
+.dgrid .dgrid-row-odd {
+  background-color: #EFEFEF;
+}
+
+.dgrid .section-header {
+  display: none;
+  font-size: 150%;
+  padding: 10px;
+  border-left-width: 0;
+  border-right-width: 0;
+}
+
+.dgrid .section-header:first-child {
+  border-left-width: 1px;
+  border-right-width: 1px;
+  display: table-cell;
+  background: #EFEFEF; /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #EFEFEF 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#EFEFEF)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* IE10+ */
+  background: linear-gradient(top, #ffffff 0%,#EFEFEF 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#EFEFEF',GradientType=0 ); /* IE6-9 */
+  font-weight: bold;
+}
