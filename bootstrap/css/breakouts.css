@@ -124,3 +124,7 @@ ul.features {
 	height: 40px;
 	vertical-align: middle;
 }
+
+#grid {
+	max-height: 500px;
+}

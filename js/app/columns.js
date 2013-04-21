@@ -5,7 +5,7 @@ define([
   'use strict';
 
   function checkmark(value){
-    return value ? '&#10003;' : '-';
+    return (value && '&#10003;') || '-';
   }
 
   function createColumn(label){
@@ -42,13 +42,13 @@ define([
   }
 
   var columns = {
-    "feature": createColumn('feature'),
-    "crafty": createColumn("Crafty"),
-    "impact": createColumn("Impact"),
-    "lime": createColumn("Lime"),
-    "melon": createColumn("MelonJS"),
-    "quintus": createColumn("Quintus"),
-    "frozen": createColumn("Frozen")
+    'feature': createColumn('feature'),
+    'crafty': createColumn('Crafty'),
+    'frozen': createColumn('Frozen'),
+    'impact': createColumn('Impact'),
+    'lime': createColumn('Lime'),
+    'melon': createColumn('MelonJS'),
+    'quintus': createColumn('Quintus')
   };
 
   return columns;

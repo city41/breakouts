@@ -1,7 +1,11 @@
 js/dgrid/
 js/dojo/
+js/dijit/
 js/libs/
 js/put-selector/
 js/util/
 js/xstyle/
 js/grid.js.*
+.DS_Store
+*swp
+

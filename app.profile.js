@@ -67,7 +67,6 @@ var profile = (function(){
         include: [
           'dojo/dojo',
           'dojo/request/xhr',
-          'xstyle/load-css',
           'app/main'
         ],
         customBase: true,
