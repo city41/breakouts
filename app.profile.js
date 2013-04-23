@@ -14,14 +14,19 @@ var profile = (function(){
     mini: true,
     stripConsole: 'warn',
     selectorEngine: 'lite',
- 
+
+    plugins: {
+      'xstyle/css': 'xstyle/build/amd-css'
+    },
+
     defaultConfig: {
       hasCache:{
         'dojo-built': 1,
         'dojo-loader': 1,
         'dom': 1,
         'host-browser': 1,
-        'config-selectorEngine': 'lite'
+        'config-selectorEngine': 'lite',
+        'css-transforms3d': 0
       },
       async: 1
     },
@@ -67,7 +72,8 @@ var profile = (function(){
         include: [
           'dojo/dojo',
           'dojo/request/xhr',
-					'xstyle/core/load-css',
+          'xstyle/load-css',
+          'dgrid/TouchScroll',
           'app/main'
         ],
         customBase: true,
