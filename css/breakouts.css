@@ -20,7 +20,7 @@ a.home-link {
 }
 
 .breakouts-logo-small {
-	background-image: url(../img/logoSmall.png);
+	background-image: url(../img/logoSmall.gif);
 	background-repeat: no-repeat;
 	width: 260px;
 	height: 71px;
@@ -127,4 +127,10 @@ ul.features {
 
 #grid {
 	max-height: 500px;
+}
+
+.thanks {
+	font-size: 0.8em;
+	font-style: italic;
+	margin-top: 4px;
 }
