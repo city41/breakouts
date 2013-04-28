@@ -1,6 +1,6 @@
 ![logo](https://raw.github.com/city41/breakouts/master/logo.png)
 
-last updated: Feb-2-2013
+last updated: Mar-20-2013
 
 ## Helping You Select a JavaScript Game Engine
 
@@ -21,6 +21,7 @@ So far we have Breakout implementations for
 * [LimeJS](http://www.limejs.com)
 * [MelonJS](http://www.melonjs.org)
 * [Quintus](http://html5quintus.com/)
+* [Frozen](http://frozenjs.com/)
 
 ## About Breakout
 
@@ -53,8 +54,8 @@ It's interesting to see an engine's support for tiles, so all the implementation
 
 ## Contribute
 
-If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://github.com/city41/breakouts/blob/master/ImplementationGuidelines.md) to get started.  
-  
+If you would like to contribute a Breakout implementation, great! Please head over to [the implementation guidelines](https://github.com/city41/breakouts/blob/master/ImplementationGuidelines.md) to get started.
+
 If you have a bug fix, suggestion or anything for any existing implementations or the project as a whole, please send it in. You can fork and do a pull request, submit a defect, whatever makes sense.
 
 ## Todo
