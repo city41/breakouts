@@ -21,16 +21,16 @@ EntityBrick = me.ObjectEntity.extend({
 		this.hasPowerDown = settings.hasPowerDown===true;
 
 		// Add the animations
-		this.addAnimation('blue', [0]);
-		this.addAnimation('orange', [6]);
-		this.addAnimation('red', [12]);
-		this.addAnimation('green', [18]);
+		this.renderable.addAnimation('blue', [0]);
+		this.renderable.addAnimation('orange', [6]);
+		this.renderable.addAnimation('red', [12]);
+		this.renderable.addAnimation('green', [18]);
 		// set default one
-		this.setCurrentAnimation(this.color);
+		this.renderable.setCurrentAnimation(this.color);
 
 		// Animate new bricks
-		this.resize(0.01);
-		var anim = new me.Tween(this.scale);
+		this.renderable.resize(0.01);
+		var anim = new me.Tween(this.renderable.scale);
 		anim.to({ x : 1.0, y : 1.0 }, 300).start();
 	},
 
@@ -40,10 +40,11 @@ EntityBrick = me.ObjectEntity.extend({
 			this.collidable = false;
 			// play sound + animate brick death
 			me.audio.play("brickdeath");
-			var anim = new me.Tween(this.scale);
+			var anim = new me.Tween(this.renderable.scale);
 			anim.to({ x : 0.0, y : 0.0 }, 300).onComplete((function () {
 				me.game.remove(this);
 			}).bind(this)).start();
+			me.game.viewport.shake(5, 500);
 			// add score and decrease brick count
 			me.state.current().addScore(this.type);
 			me.state.current().countBrick();
