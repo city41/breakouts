@@ -12,8 +12,7 @@ EntityCountdown = me.ObjectEntity.extend({
 		// sync the animation with the fps (1 sec)
 		this.renderable.addAnimation('idle', [12, 13, 14], me.sys.fps);
 		this.renderable.setCurrentAnimation('idle', (function(){
-			me.audio.play('countdownblip', false, null, 0.3);
-			me.game.remove(this);
+			me.game.remove(this, true);
 		}).bind(this));
 		
 		// center it
