@@ -5,32 +5,27 @@ var game = {
 
 	// game assets
 	assets : [	
-		{name: "logo",			type:"image",	src: "media/logo.png"},
-		{name: "tiles16",		type:"image",	src: "media/tiles16.png"},
-		//{name: "bounce",		type: "audio",	src: "media/sfx/",	channel : 2},
-		{name: "brickdeath",	type: "audio",	src: "media/sfx/",	channel : 2},
-		{name: "countdownblip",	type: "audio",	src: "media/sfx/",	channel : 1},
-		{name: "powerdown",		type: "audio",	src: "media/sfx/",	channel : 1},
-		{name: "powerup",		type: "audio",	src: "media/sfx/",	channel : 1},
-		{name: "recover",		type: "audio",	src: "media/sfx/",	channel : 1},
-		{name: "title",			type: "tmx",	src: "game/levels/title.tmx"},
-		{name: "level0",		type: "tmx",	src: "game/levels/level0.tmx"},
-		{name: "level1",		type: "tmx",	src: "game/levels/level1.tmx"},
-		{name: "level2",		type: "tmx",	src: "game/levels/level2.tmx"},
-		{name: "level3",		type: "tmx",	src: "game/levels/level3.tmx"}
+		{name: "logo",			type:"image",	src: "data/img/logo.png"},
+		{name: "tiles16",		type:"image",	src: "data/img/tiles16.png"},
+		//{name: "bounce",		type: "audio",	src: "data/sfx/",	channel : 2},
+		{name: "brickdeath",	type: "audio",	src: "data/sfx/",	channel : 2},
+		{name: "countdownblip",	type: "audio",	src: "data/sfx/",	channel : 1},
+		{name: "powerdown",		type: "audio",	src: "data/sfx/",	channel : 1},
+		{name: "powerup",		type: "audio",	src: "data/sfx/",	channel : 1},
+		{name: "recover",		type: "audio",	src: "data/sfx/",	channel : 1},
+		{name: "title",			type: "tmx",	src: "data/map/title.tmx"},
+		{name: "level0",		type: "tmx",	src: "data/map/level0.tmx"},
+		{name: "level1",		type: "tmx",	src: "data/map/level1.tmx"},
+		{name: "level2",		type: "tmx",	src: "data/map/level2.tmx"},
+		{name: "level3",		type: "tmx",	src: "data/map/level3.tmx"}
 	],
 	
 	/**
 	 * Initialize the application
 	 */
 	onload: function() {
-	
-		if (me.sys.touch) {
-			// there is no need to request 60fps for a breakout
-			// and this will make things smoother on mobile (touch?) devices
-			me.sys.fps = 30;
-		}
-		
+		me.sys.useNativeAnimFrame = true;
+
 		// init the video (with auto-scaling on)
 		if (!me.video.init('canvas', 320, 416)) {
 			alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
