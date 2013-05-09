@@ -44,7 +44,7 @@ EntityBrick = me.ObjectEntity.extend({
 			anim.to({ x : 0.0, y : 0.0 }, 300).onComplete((function () {
 				me.game.remove(this);
 			}).bind(this)).start();
-			me.game.viewport.shake(5, 500);
+
 			// add score and decrease brick count
 			me.state.current().addScore(this.type);
 			me.state.current().countBrick();
