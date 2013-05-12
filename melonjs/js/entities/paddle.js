@@ -32,9 +32,9 @@ EntityPaddle = me.ObjectEntity.extend({
 
 		this.type = "paddle";
 		
-		this.addAnimation("idle", [16]);
-		this.addAnimation("mini", [20]);
-		this.setCurrentAnimation("idle");
+		this.renderable.addAnimation("idle", [16]);
+		this.renderable.addAnimation("mini", [20]);
+		this.renderable.setCurrentAnimation("idle");
 				
 		this.collidable = true;
 		
@@ -67,8 +67,8 @@ EntityPaddle = me.ObjectEntity.extend({
 	
 	
 	onPowerDown: function() {
-		if (this.isCurrentAnimation('idle')) {
-			this.setCurrentAnimation("mini");
+		if (this.renderable.isCurrentAnimation('idle')) {
+			this.renderable.setCurrentAnimation("mini");
 			// adjust the bounding box
 			this.updateColRect(this.miniSize.x,this.miniSize.w,this.miniSize.y,this.miniSize.h);
 			this.timer = me.timer.getTime()
@@ -76,9 +76,9 @@ EntityPaddle = me.ObjectEntity.extend({
 	},
 	
 	onPowerDownEnd: function() {
-		if (this.isCurrentAnimation('mini')) {
+		if (this.renderable.isCurrentAnimation('mini')) {
 			this.timer = -1;
-			this.setCurrentAnimation("idle");
+			this.renderable.setCurrentAnimation("idle");
 			// adjust the bounding box
 			this.updateColRect(this.fullSize.x,this.fullSize.w,this.fullSize.y,this.fullSize.h);
 			me.audio.play('recover');

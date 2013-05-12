@@ -1,4 +1,4 @@
-EntityPowerUp = me.ObjectEntity.extend({
+EntityPowerDown = me.ObjectEntity.extend({
 	init: function(x, y) {
 		var settings = {};
 		settings.image = "tiles16";
@@ -6,9 +6,9 @@ EntityPowerUp = me.ObjectEntity.extend({
 		settings.spriteheight = 16;
 		this.parent(x, y, settings);
 		
-		this.addAnimation('idle', [78]);
-		this.setCurrentAnimation('idle');
-		
+		this.renderable.addAnimation('idle', [79]);
+		this.renderable.setCurrentAnimation('idle');
+			
 		this.collidable = true;
 		this.vel.x = 0;
 		this.vel.y = 80 / me.sys.fps;
@@ -26,12 +26,13 @@ EntityPowerUp = me.ObjectEntity.extend({
 		// just check if res is defined since we have only 1 paddle 
 		if (res) {
 			this.collidable = false;
-			me.audio.play('powerup');
-			res.obj.onPowerUp();
+			me.audio.play('powerdown');
+			res.obj.onPowerDown();
 			me.game.remove(this);
 		}
 		return true;
 	}
 });
+
 
 
