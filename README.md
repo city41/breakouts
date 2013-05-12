@@ -58,11 +58,6 @@ If you would like to contribute a Breakout implementation, great! Please head ov
 
 If you have a bug fix, suggestion or anything for any existing implementations or the project as a whole, please send it in. You can fork and do a pull request, submit a defect, whatever makes sense.
 
-## Todo
-
-A major gap is mobile devices. I only have iOS devices, so these games have had no loving for Android or anything else yet. If you find anything wrong on your mobile device with these games, please file a bug.
-
-
 ## License
 
 All of the various engines have their own licenses, but the Breakout code itself (and the resources) is MIT licensed. Generally speaking, feel free to do whatever you want with it.
