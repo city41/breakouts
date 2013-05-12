@@ -30,7 +30,7 @@ These audio files are in the `sfx` directory and provided in mp3, ogg and wav fo
 
 ## The Background
 
-There are two choices here for the background, either prerendered or using a Tiled tmx file. The prerendered version is the entire background in one image, where as thee tile approach builds the background from `tiles.png` and `bg.tmx`.  
+There are two choices here for the background, either prerendered or using a Tiled tmx file. The prerendered version is the entire background in one image, where as the tile approach builds the background from `tiles.png` and `bg.tmx` or `bg.json`.  
   
 Most implementations are going the prerendered route for performance reasons. If your engine supports tiling via tmx or some other method, it'd be cool to offer that as an alternative. If you do, the way I've been doing that is with 'usetiles' as a query parameter in the URL. For example on the Lime version:  
   
@@ -42,3 +42,8 @@ Most implementations are going the prerendered route for performance reasons. If
 * `bg.tmx` -- the tile layout for the walls and background of the game and the menu screens
 
 This is the background in Tiled format.
+
+### Tiled json file
+
+* `bg.json` -- the tile layout for the walls and background in JSON format, as exported from Tiled
+
