@@ -1,5 +1,7 @@
 ![logo](https://raw.github.com/city41/breakouts/master/logo.png)
 
+[![Stories in Ready](http://badge.waffle.io/city41/breakouts.png)](http://waffle.io/city41/breakouts)
+
 last updated: May-12-2013
 
 ## Helping You Select a JavaScript Game Engine
