@@ -1,0 +1,12 @@
+AddType text/cache-manifest .manifest
+
+RewriteEngine on
+
+RewriteCond %{HTTP_USER_AGENT} "firefox|opera|chrome" [NC]
+RewriteRule ^cache\.manifest$ ogg.manifest [L]
+
+RewriteCond %{HTTP_USER_AGENT} "android|silk|ipod|ipad|iphone" [NC]
+RewriteRule ^cache\.manifest$ m4aCombined.manifest [L]
+
+RewriteCond %{HTTP_USER_AGENT} "msie|safari" [NC]
+RewriteRule ^cache\.manifest$ mp3.manifest [L]
