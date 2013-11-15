@@ -1,6 +1,7 @@
 #Breakouts -- Platypus
 
-http://github.com/PBS-KIDS/Platypus
+Platypus Game Engine: http://github.com/PBS-KIDS/Platypus
+Platypus Breakout source: https://github.com/gopherwood/Platypus-Breakout
 
 ##Status
 
