@@ -1,0 +1,15 @@
+/*
+ * 
+ */
+{
+	"id": "gui",
+	"components":[
+		{
+			"type": "logic-gui"
+		},{
+			"type": "entity-container", 
+				"entities": [{}],
+				"childEvents": ['handle-logic', 'handle-render', 'handle-render-load']
+		}
+	]
+}

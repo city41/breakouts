@@ -1,0 +1,13 @@
+{
+	"id": "tile-layer",
+	"components":[
+		{
+			"type": "render-tiles",
+			"spriteSheet": "import",
+			"imageMap":    "import"
+		},{
+			"type": "collision-tiles",
+			"collisionMap": "import"
+		}
+	]
+}

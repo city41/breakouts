@@ -1,0 +1,60 @@
+{
+	"id": "score-keeper",
+	"components":[
+        {
+            "type": "dom-element",
+            "id": "score-keeper"
+        },{
+            "type": "dom-element",
+            "parent": "score-keeper",
+            "className": "lives",
+            "innerHTML": "lives: 3",
+            "aliases": {
+                "change-lives": "update-content"
+            }
+        },{
+            "type": "dom-element",
+            "parent": "score-keeper",
+            "className": "score",
+            "innerHTML": "score: 0",
+            "aliases": {
+                "change-score": "update-content"
+            }
+        },{
+            "type": "dom-element",
+            "parent": "score-keeper",
+            "className": "level",
+            "innerHTML": "level: 1",
+            "aliases": {
+                "change-level": "update-content"
+            }
+        },{
+            "type": "dom-element",
+            "className": "countdown",
+            "updateClassName": true
+        },{
+            "type": "logic-state-machine",
+            "inputs": {
+                "countdown-3": {
+                    "on-3": true,
+                    "on-0": false
+                },
+                "countdown-2": {
+                    "on-2": true,
+                    "on-3": false
+                },
+                "countdown-1": {
+                    "on-1": true,
+                    "on-2": false
+                },
+                "countdown-0": {
+                    "on-0": true,
+                    "on-1": false
+                }
+            }
+        },{
+            "type": "entity-linker",
+            "linkId": "paddle"
+        }
+	]
+}

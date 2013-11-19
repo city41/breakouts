@@ -1,0 +1,22 @@
+{
+	"id": "fps-counter",
+	"components":[
+		{
+			"type": "logic-fps-counter"
+		},{
+            "type": "dom-element",
+            "className": "fps-counter",
+            "style": {
+                "position": "absolute",
+                "left": "0.5em",
+                "top": "0.5em",
+                "color": "white",
+                "fontSize": "2em",
+                "fontWeight": "bold",
+                "fontFamily": "Arial",
+                "pointerEvents": "none",
+                "zIndex": 11
+            }
+        }
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"id": "progress-bar",
+	"components":[
+        {
+            "type": "dom-element",
+            "element": "div",
+            "className": "progress-bar",
+            "innerHTML": "Loading..."
+        },{
+            "type": "entity-container", 
+            "entities": [{
+                "id": "container",
+                "components":[{
+                    "type": "change-scene",
+                    "scene": "menu",
+                    "message": "complete"
+                },{
+                    "type": "asset-loader",
+                    "useXHR": false
+                }]
+            }]
+        }
+	]
+}

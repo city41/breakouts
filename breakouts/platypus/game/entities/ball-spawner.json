@@ -1,0 +1,21 @@
+{
+	"id": "ball-spawner",
+	"components":[
+		{
+            "type": "logic-spawner",
+            "spawneeClass": "ball",
+            "speed": 0.16
+        },{
+            "type": "entity-linker",
+            "linkId": "paddle"
+//      },{
+//          "type": "render-debug"
+		}
+	],
+	"properties":{
+		"state": {
+            "bottom": true,
+            "right": true
+		}
+	}
+}

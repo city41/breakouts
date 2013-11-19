@@ -1,0 +1,17 @@
+{
+    "id": "multitouch-interface-layer",
+    "filter": {
+        "includes": ["mobile", "multitouch"]
+    },
+    "components": [
+        {"type": "handler-logic"},
+        {"type": "handler-render-dom"},
+        {"type": "entity-container", 
+            "entities": [
+            {"type": "button-fullscreen"},
+                {"type": "score-keeper"}
+            ],
+            "childEvents": ["link-entity"]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "id": "button-fullscreen",
+    "components":[{
+        "type": "dom-element",
+        "parent": "root",
+        "className": "button-fullscreen",
+        "onmouseup": "toggle-fullscreen",
+        "ontouchend": "toggle-fullscreen"
+    },{
+        "type": "fullscreen"
+    }]
+}        
