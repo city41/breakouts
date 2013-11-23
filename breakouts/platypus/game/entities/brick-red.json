@@ -1,0 +1,77 @@
+{
+	"id": "brick-red",
+	"components":[
+		{
+			"type": "collision-basic", 
+			"collisionType": "brick",
+			"immobile": true,
+			"solidCollisions": {
+			    "ball": "dying"
+            },
+            "aliases": {
+                "dying": "collide-off"
+			}
+        },{
+            "type": "random-events",
+            "events": {
+                "dying": ["launch-minus", "launch-plus", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing"]
+            }
+        },{
+            "type": "logic-spawner",
+            "spawneeClass": "pill-plus",
+            "speed": 0.08,
+            "offsetX": 16,
+            "aliases": {
+                "launch-plus": "spawn"
+            }
+        },{
+            "type": "logic-spawner",
+            "spawneeClass": "pill-minus",
+            "speed": 0.08,
+            "offsetX": 16,
+            "aliases": {
+                "launch-minus": "spawn"
+            }
+        },{
+            "type": "render-animation",
+            "spriteSheet": {
+                "images": ["tiles"],
+                "frames": {
+                    "width":  32,
+                    "height": 16,
+                    "regY":   8,
+                    "regX":   0
+                },
+                "animations": {
+                    "fading-out": {"frames": [13,13,14,14,15,15,16,16,5,5,5,5,5,5,5,5,5,5,5,5,5]},
+                    "stationary": {"frames": [12]},
+                    "default":    {"frames": [16,15,14,13,12], "next": "stationary"}
+                }
+            }
+        },{
+            "type": "logic-state-machine",
+            "inputs": {
+                "load": {
+                    "bottom": true
+                },
+                "dying": {
+                    "fading-out": true
+                }
+            }
+        },{
+            "type": "audio",
+            "audioMap": {
+                "dying": "death"
+            }
+        },{
+            "type": "render-destroy-me",
+            "animationId": "fading-out"
+//		},{
+//		    "type": "render-debug"
+        }
+	],
+	"properties":{
+		"width": 32,
+		"height": 16
+	}
+}

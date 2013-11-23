@@ -1,0 +1,13 @@
+{
+	"layers":[
+        {
+			"type": "action-layer",
+			"properties": {
+			    "level": "level2"
+			}
+        },
+        {"type": "multitouch-interface-layer"},
+        {"type": "touch-interface-layer"},
+        {"type": "desktop-interface-layer"}
+	]
+}

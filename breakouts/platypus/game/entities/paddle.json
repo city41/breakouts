@@ -1,0 +1,144 @@
+{
+	"id": "paddle",
+	"components":[
+		{
+		    "type": "component-switcher",
+		    "componentMap": {
+		        "minify": {
+                    "remove": ["collision-basic", "render-image"],
+                    "add": [{
+                        "type": "collision-basic",
+                        "collisionType": "paddle",
+                        "shapes": [{
+                            "type":"rectangle",
+                            "offsetX": 16,
+                            "width": 32,
+                            "height": 16
+                        }],
+                        "softCollisions": {
+                            "power-up": "new-ball"
+                        },
+                        "solidCollisions": {
+                            "ball": "ball-collision"
+                        }
+                    },{
+                        "type": "render-image", 
+                        "image": "tiles",
+                        "source": {
+                                "width":  32,
+                                "height": 16,
+                                "y": 80,
+                                "x": 0   
+                        },
+                        "regX":   0,
+                        "regY":   8
+                    }]
+		        },
+		        "maxify": {
+		            "remove": ["collision-basic", "render-image"],
+		            "add": [{
+                        "type": "collision-basic",
+                        "collisionType": "paddle",
+                        "shapes": [{
+                            "type":"rectangle",
+                            "offsetX": 24,
+                            "width": 48,
+                            "height": 16
+                        }],
+                        "softCollisions": {
+                            "power-up": "new-ball",
+                            "power-down": "minify"
+                        },
+                        "solidCollisions": {
+                            "ball": "ball-collision"
+                        }
+                    },{
+                        "type": "render-image", 
+                        "image": "tiles",
+                        "source": {
+                                "width":  48,
+                                "height": 16,
+                                "y": 64,
+                                "x": 0   
+                        },
+                        "regX":   0,
+                        "regY":   8
+                    }]
+		        }
+		    }
+		},{
+			"type": "entity-controller",
+			"controlMap":{
+                "key:left-arrow":   "prev-level",
+				"key:right-arrow": 	"next-level"
+			}
+        },{
+            "type": "render-image", 
+            "image": "tiles",
+            "source": {
+                    "width":  48,
+                    "height": 16,
+                    "y": 64,
+                    "x": 0   
+            },
+            "regX":   0,
+            "regY":   8
+        },{
+            "type": "logic-paddle"
+        },{
+            "type": "logic-delay-message",
+            "events":{
+                "minify": {
+                    "event": "maxify",
+                    "delay": "10000"
+                },
+                "scene-live": {
+                    "event": "time-2",
+                    "delay": "1000"
+                },
+                "time-2": {
+                    "event": "time-1",
+                    "delay": "1000"
+                },
+                "time-1": {
+                    "event": "time-0",
+                    "delay": "1000"
+                }
+            }
+        },{
+            "type": "audio",
+            "audioMap": {
+                "minify": "down",
+                "maxify": "recover",
+                "new-ball": "up",
+                "scene-live": "blip",
+                "time-2": "blip",
+                "time-1": "blip"
+            }
+        },{
+            "type": "entity-linker",
+            "linkId": "paddle",
+            "events":{
+                "update-lives": "change-lives",
+                "update-score": "change-score",
+                "update-level": "change-level",
+                "new-ball": "spawn",
+                "scene-live": "countdown-3",
+                "time-2": "countdown-2",
+                "time-1": "countdown-1",
+                "time-0": ["spawn", "countdown-0"]
+            }
+        },{
+            "type": "change-scene"
+//      },{
+//          "type": "render-debug"
+		}
+	],
+	"properties":{
+		"width": 48,
+		"height": 16,
+		"state": {
+		    "top": true
+		}
+	}
+}

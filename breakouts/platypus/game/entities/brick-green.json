@@ -1,0 +1,77 @@
+{
+	"id": "brick-green",
+	"components":[
+		{
+			"type": "collision-basic", 
+			"collisionType": "brick",
+			"immobile": true,
+			"solidCollisions": {
+			    "ball": "dying"
+			},
+			"aliases": {
+			    "dying": "collide-off"
+			}
+        },{
+            "type": "random-events",
+            "events": {
+                "dying": ["launch-minus", "launch-plus", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing", "do-nothing"]
+            }
+        },{
+            "type": "logic-spawner",
+            "spawneeClass": "pill-plus",
+            "speed": 0.08,
+            "offsetX": 16,
+            "aliases": {
+                "launch-plus": "spawn"
+            }
+        },{
+            "type": "logic-spawner",
+            "spawneeClass": "pill-minus",
+            "speed": 0.08,
+            "offsetX": 16,
+            "aliases": {
+                "launch-minus": "spawn"
+            }
+        },{
+            "type": "render-animation",
+            "spriteSheet": {
+                "images": ["tiles"],
+                "frames": {
+                    "width":  32,
+                    "height": 16,
+                    "regY":   8,
+                    "regX":   0
+                },
+                "animations": {
+                    "fading-out": {"frames": [19,19,20,20,21,21,22,22,5,5,5,5,5,5,5,5,5,5,5,5,5]},
+                    "stationary": {"frames": [18]},
+                    "default":    {"frames": [22,21,20,19,18], "next": "stationary"}
+                }
+            }
+        },{
+            "type": "logic-state-machine",
+            "inputs": {
+                "load": {
+                    "bottom": true
+                },
+                "dying": {
+                    "fading-out": true
+                }
+            }
+        },{
+            "type": "audio",
+            "audioMap": {
+                "dying": "death"
+            }
+        },{
+            "type": "render-destroy-me",
+            "animationId": "fading-out"
+//		},{
+//		    "type": "render-debug"
+        }
+	],
+	"properties":{
+		"width": 32,
+		"height": 16
+	}
+}

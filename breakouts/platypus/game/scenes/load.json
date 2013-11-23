@@ -1,0 +1,18 @@
+{
+	"layers":[
+        {
+            "id": "load-layer",
+            "components": [
+                {"type": "handler-logic"},
+                {"type": "handler-render-dom"},
+                {"type": "entity-container", 
+                    "entities": [
+                        {"type": "title-screen"},
+                        {"type": "progress-bar"}
+                    ],
+                    "childEvents": ["link-entity"]
+                }
+            ]
+        }
+	]
+}
