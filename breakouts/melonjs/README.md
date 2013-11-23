@@ -29,7 +29,7 @@ globally working, though it might requires some tweaks.
 
 ##Running the game locally (as opposed to from a website)
 Due to the "cross-origin request" security mechanism implemented, 
-most broswer will complain when trying to load the game locally. 
+most browsers will complain when trying to load the game locally. 
 On Chrome, the "--disable-web-security" parameter or better 
 "--allow-file-access-from-files" can be used when launching the 
-browser in order deactivate the security policy check.
+browser in order to deactivate the security policy check.
