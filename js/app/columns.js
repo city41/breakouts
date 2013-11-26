@@ -48,6 +48,7 @@ define([
     'impact': createColumn('Impact'),
     'lime': createColumn('Lime'),
     'melon': createColumn('MelonJS'),
+    'platypus': createColumn('Platypus'),
     'quintus': createColumn('Quintus')
   };
 
