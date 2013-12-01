@@ -2,7 +2,7 @@
 
 [![Stories in Ready](https://badge.waffle.io/city41/breakouts.png)](http://waffle.io/city41/breakouts)
 
-last updated: May-12-2013
+last updated: Dec-1-2013
 
 ## Helping You Select a JavaScript Game Engine
 
