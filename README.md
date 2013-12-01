@@ -25,6 +25,7 @@ So far we have Breakout implementations for
 * [ImpactJS](http://www.impactjs.com)
 * [LimeJS](http://www.limejs.com)
 * [MelonJS](http://www.melonjs.org)
+* [PhaserJS](http://phaser.io)
 * [Platypus](http://github.com/PBS-KIDS/Platypus)
 * [Quintus](http://html5quintus.com/)
 
