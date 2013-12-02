@@ -19,7 +19,7 @@ three engines that were a part of Breakouts (Impact, Lime and Crafty).
 So far we have Breakout implementations for
 
 * [Crafty](http://www.craftyjs.com)
-* [CreateJS](http://www.craftyjs.com)
+* [CreateJS](http://www.createjs.com)
 * [FriGame](http://frigame.org/)
 * [Frozen](http://frozenjs.com/)
 * [ImpactJS](http://www.impactjs.com)
