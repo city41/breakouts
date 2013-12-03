@@ -7,7 +7,8 @@
     "lime": "Dec 22, 2012",
     "melon": "0.9.7",
     "platypus": "Nov 21, 2013",
-    "quintus": "0.1.1"
+    "quintus": "0.1.1",
+    "phaser": "1.1.4"
   },
   {
     "feature": "Release Date",
@@ -17,7 +18,8 @@
     "lime": "Dec 22, 2012",
     "melon": "May 2013",
     "platypus": "Nov 21, 2013",
-    "quintus": "Feb 17, 2013"
+    "quintus": "Feb 17, 2013",
+    "phaser": "Nov 29, 2013"
   },
   {
     "feature": "License",
@@ -27,7 +29,8 @@
     "lime": "Apache",
     "melon": "MIT",
     "platypus": "BSD",
-    "quintus": "MIT & GPL"
+    "quintus": "MIT & GPL",
+    "phaser": "MIT"
   },
   {
     "feature": "Resources"
@@ -40,7 +43,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Preload Audio",
@@ -50,7 +54,8 @@
     "lime": false,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Sprite Sheets",
@@ -60,7 +65,8 @@
     "lime": false,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Level Editor",
@@ -79,7 +85,11 @@
       "value": true,
       "info": "<a href=\"http://www.mapeditor.org/\">Tiled</a>"
     },
-    "quintus": false
+    "quintus": false,
+    "phaser": {
+      "value": true,
+      "info": "<a href=\"http://www.mapeditor.org/\">Tiled</a>"
+    },
   },
   {
     "feature": "Tile Loading",
@@ -92,7 +102,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": false
+    "quintus": false,
+    "phaser": true
   },
   {
     "feature": "WebAudio",
@@ -111,7 +122,8 @@
     "quintus": {
       "value": false,
       "info": "Added in <a href=\"https://github.com/cykod/Quintus#010-web-audio-and-better-tweens---21613\">0.1.0</a>"
-    }
+    },
+    "phaser": true
   },
   {
     "feature": "HTML5 Audio",
@@ -121,7 +133,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Audio Sprites",
@@ -131,7 +144,8 @@
     "lime": true,
     "melon": false,
     "platypus": true,
-    "quintus": false
+    "quintus": false,
+    "phaser": true
   },
   {
     "feature": "Rendering"
@@ -144,7 +158,8 @@
     "lime": true,
     "melon": false,
     "platypus": true,
-    "quintus": false
+    "quintus": false,
+    "phaser": false
   },
   {
     "feature": "Canvas",
@@ -154,7 +169,19 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
+  },
+  {
+    "feature": "WebGL (2D)",
+    "crafty": false,
+    "frozen": false,
+    "impact": false,
+    "lime": false,
+    "melon": false,
+    "platypus": false,
+    "quintus": false,
+    "phaser": true
   },
   {
     "feature": "Browser Fonts",
@@ -167,7 +194,11 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": {
+      "value": true,
+      "info": "+ Bitmap Fonts"
+    },
   },
   {
     "feature": "Physics"
@@ -180,7 +211,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Simple Physics",
@@ -190,7 +222,8 @@
     "lime": false,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Physics Engine Integrated",
@@ -206,7 +239,11 @@
     "lime": true,
     "melon": false,
     "platypus": false,
-    "quintus": false
+    "quintus": false,
+    "phaser": {
+      "value": true,
+      "info": "<a href=\"http://schteppe.github.io/p2.js//\">p2.js</a> (dev)"
+    },
   },
   {
     "feature": "Animation"
@@ -219,7 +256,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Scaling",
@@ -229,7 +267,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Rotating",
@@ -239,7 +278,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Moving",
@@ -249,7 +289,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Fading",
@@ -259,7 +300,8 @@
     "lime": true,
     "melon": false,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Sequencing",
@@ -269,7 +311,8 @@
     "lime": true,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Developing"
@@ -285,7 +328,8 @@
     "lime": true,
     "melon": true,
     "platypus": false,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Component Oriented",
@@ -298,7 +342,8 @@
     "lime": false,
     "melon": false,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": false
   },
   {
     "feature": "Plugin Support",
@@ -311,7 +356,8 @@
     "lime": false,
     "melon": true,
     "platypus": true,
-    "quintus": true
+    "quintus": true,
+    "phaser": true
   },
   {
     "feature": "Dynamically Loading JS Files",
@@ -324,7 +370,11 @@
     "lime": true,
     "melon": false,
     "platypus": false,
-    "quintus": false
+    "quintus": false,
+    "phaser": {
+      "value": true,
+      "info": "via Loader class"
+    },
   },
   {
     "feature": "Debugging Tools",
@@ -337,7 +387,8 @@
     "lime": false,
     "melon": true,
     "platypus": false,
-    "quintus": false
+    "quintus": false,
+    "phaser": true
   },
   {
     "feature": "Package Manager",
@@ -350,7 +401,8 @@
     "lime": false,
     "melon": false,
     "platypus": false,
-    "quintus": false
+    "quintus": false,
+    "phaser": false
   },
   {
     "feature": "Deployment"
@@ -363,7 +415,8 @@
     "lime": true,
     "melon": false,
     "platypus": true,
-    "quintus": false
+    "quintus": false,
+    "phaser": true
   },
   {
     "feature": "Minification",
@@ -373,6 +426,7 @@
     "lime": true,
     "melon": false,
     "platypus": true,
-    "quintus": false
+    "quintus": false,
+    "phaser": true
   }
 ]
