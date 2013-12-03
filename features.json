@@ -89,7 +89,7 @@
     "phaser": {
       "value": true,
       "info": "<a href=\"http://www.mapeditor.org/\">Tiled</a>"
-    },
+    }
   },
   {
     "feature": "Tile Loading",
@@ -195,10 +195,7 @@
     "melon": true,
     "platypus": true,
     "quintus": true,
-    "phaser": {
-      "value": true,
-      "info": "+ Bitmap Fonts"
-    },
+    "phaser": true
   },
   {
     "feature": "Physics"
@@ -243,7 +240,7 @@
     "phaser": {
       "value": true,
       "info": "<a href=\"http://schteppe.github.io/p2.js//\">p2.js</a> (dev)"
-    },
+    }
   },
   {
     "feature": "Animation"
@@ -374,7 +371,7 @@
     "phaser": {
       "value": true,
       "info": "via Loader class"
-    },
+    }
   },
   {
     "feature": "Debugging Tools",
