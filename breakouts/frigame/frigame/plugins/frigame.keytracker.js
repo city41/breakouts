@@ -1,7 +1,7 @@
 /*global jQuery, friGame */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
-// Copyright (c) 2011-2012 Franco Bugnano
+// Copyright (c) 2011-2014 Franco Bugnano
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
 
 (function ($, fg) {
+	'use strict';
+
 	// Some constants that map to the keyCode
 	fg.keyCodes = {
 		8: 'backspace',

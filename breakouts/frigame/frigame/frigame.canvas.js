@@ -1,7 +1,7 @@
 /*global jQuery, friGame */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
-// Copyright (c) 2011-2012 Franco Bugnano
+// Copyright (c) 2011-2014 Franco Bugnano
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,10 @@
 // Akihabara Copyright (c) 2010 Francesco Cottone, http://www.kesiev.com/, licensed under the MIT
 
 (function ($, fg) {
+	'use strict';
+
 	var
-		baseSprite = fg.PSprite,
-		baseSpriteGroup = fg.PSpriteGroup
+		overrides = {}
 	;
 
 	// ******************************************************************** //
@@ -205,7 +206,6 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	fg.PSprite = Object.create(baseSprite);
 	$.extend(fg.PSprite, {
 		draw: function () {
 			var
@@ -223,7 +223,7 @@
 				ctx = fg.ctx
 			;
 
-			if (animation && alpha && !options.hidden) {
+			if (this.insidePlayground && animation && alpha && scaleh && scalev && !options.hidden) {
 				ctx.save();
 
 				ctx.translate(this.centerx, this.centery);
@@ -262,15 +262,18 @@
 		}
 	});
 
-	fg.Sprite = fg.Maker(fg.PSprite);
-
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	fg.PSpriteGroup = Object.create(baseSpriteGroup);
+	overrides.PSpriteGroup = fg.pick(fg.PSpriteGroup, [
+		'init',
+		'remove',
+		'draw'
+	]);
+
 	$.extend(fg.PSpriteGroup, {
 		init: function (name, options, parent) {
 			var
@@ -278,8 +281,6 @@
 				width,
 				height
 			;
-
-			baseSpriteGroup.init.apply(this, arguments);
 
 			this.old_options = {};
 
@@ -301,6 +302,9 @@
 
 				fg.ctx = dom.get(0).getContext('2d');
 			}
+
+			// Call the overridden function last, in order to have the callbacks called once the object has been fully initialized
+			overrides.PSpriteGroup.init.apply(this, arguments);
 		},
 
 		// Public functions
@@ -311,7 +315,7 @@
 				old_background = this.old_options.background
 			;
 
-			baseSpriteGroup.remove.apply(this, arguments);
+			overrides.PSpriteGroup.remove.apply(this, arguments);
 
 			if (old_background && old_background.removeGroup) {
 				old_background.removeGroup(this);
@@ -337,7 +341,8 @@
 				top = this.top,
 				width = this.width,
 				height = this.height,
-				background = options.background,
+				insidePlayground = this.insidePlayground,
+				background = insidePlayground && options.background,
 				old_background = old_options.background,
 				angle = options.angle,
 				scaleh = options.scaleh,
@@ -355,38 +360,40 @@
 				fg.globalAlpha = 1;
 			}
 
-			if (background !== old_background) {
-				if (old_background && old_background.removeGroup) {
-					old_background.removeGroup(this);
-				}
+			if (insidePlayground) {
+				if (background !== old_background) {
+					if (old_background && old_background.removeGroup) {
+						old_background.removeGroup(this);
+					}
 
-				if (background && background.addGroup) {
-					background.addGroup(this);
-				}
-
-				old_options.width = width;
-				old_options.height = height;
-				old_options.background = background;
-			} else {
-				if ((width !== old_options.width) || (height !== old_options.height)) {
-					// Reset the background in order to create a new one with the new width and height
-					if (background) {
-						if (background.removeGroup) {
-							background.removeGroup(this);
-						}
-
-						if (background.addGroup) {
-							background.addGroup(this);
-						}
+					if (background && background.addGroup) {
+						background.addGroup(this);
 					}
 
 					old_options.width = width;
 					old_options.height = height;
+					old_options.background = background;
+				} else {
+					if ((width !== old_options.width) || (height !== old_options.height)) {
+						// Reset the background in order to create a new one with the new width and height
+						if (background) {
+							if (background.removeGroup) {
+								background.removeGroup(this);
+							}
+
+							if (background.addGroup) {
+								background.addGroup(this);
+							}
+						}
+
+						old_options.width = width;
+						old_options.height = height;
+					}
 				}
 			}
 
-			if ((this.layers.length || background) && alpha && !options.hidden) {
-				if ((angle) || (scaleh !== 1) || (scalev !== 1)) {
+			if ((this.layers.length || background) && alpha && scaleh && scalev && !options.hidden) {
+				if (angle || (scaleh !== 1) || (scalev !== 1)) {
 					ctx.save();
 					context_saved = true;
 
@@ -439,7 +446,7 @@
 					ctx.clip();
 				}
 
-				baseSpriteGroup.draw.apply(this, arguments);
+				overrides.PSpriteGroup.draw.apply(this, arguments);
 
 				if (context_saved) {
 					// ctx.restore restores also the globalAlpha value
@@ -454,8 +461,6 @@
 			}
 		}
 	});
-
-	fg.SpriteGroup = fg.Maker(fg.PSpriteGroup);
 
 	// ******************************************************************** //
 	// ******************************************************************** //
