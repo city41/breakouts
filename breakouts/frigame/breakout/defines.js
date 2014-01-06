@@ -1,11 +1,11 @@
 /*global jQuery, friGame, G */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
 (function ($, fg) {
+	'use strict';
+
 	// The global game object
 	window.G = {
-		REFRESH_RATE: 1000 / 30,
-
 		paused: false,
 
 		score: 0,

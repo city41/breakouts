@@ -1,7 +1,9 @@
 /*global jQuery, friGame, G */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
 (function ($, fg) {
+	'use strict';
+
 	function setupLevel(levelAsset) {
 		fg.s.playground
 			.clear()
@@ -38,6 +40,10 @@
 			;
 
 			$('#playground').one('click', function () {
+				// Play a muted sound in an user event in order to have
+				// the sound working in mobile platforms
+				fg.r.countdownBlip.play({muted: true});
+
 				G.Scene.level1();
 			});
 
@@ -192,6 +198,22 @@
 			G.nextScene = 'winner';
 		}
 	};
+
+	// Enable controlling the paddle with the touch events
+	fg.playgroundCallback(function (dom) {
+		dom.on('touchmove', function (e) {
+			var
+				touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0],
+				mouseTracker = fg.mouseTracker,
+				offset = dom.offset()
+			;
+
+			e.preventDefault();
+
+			mouseTracker.x = touch.pageX - offset.left;
+			mouseTracker.y = touch.pageY - offset.top;
+		});
+	});
 
 	// Level Skipping
 	G.initLevelSkipping = function () {

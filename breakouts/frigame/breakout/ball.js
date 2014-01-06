@@ -1,7 +1,9 @@
 /*global jQuery, friGame, G */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
 (function ($, fg) {
+	'use strict';
+
 	var
 		ballCounter = 0
 	;
@@ -28,13 +30,13 @@
 
 		fg.s[ball_name].registerCallback(function () {
 			this.userData.update();
-		}, G.REFRESH_RATE);
+		});
 	};
 
 	G.PBall = {
 		init: function (name, active) {
 			this.node = fg.s[name];
-			this.speed = 170 / G.REFRESH_RATE;
+			this.speed = 170 / (fg.REFRESH_RATE * 2);
 			this.active = active;
 			this.vel = {
 				x: this.speed,
@@ -79,7 +81,9 @@
 
 			this.checkWallCollision();
 			this.checkBlockCollision();
-			this.checkPaddleCollision();
+			if (fg.s.paddle) {
+				this.checkPaddleCollision();
+			}
 		},
 
 		checkWallCollision: function () {
