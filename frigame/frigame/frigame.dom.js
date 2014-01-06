@@ -1,7 +1,7 @@
 /*global Modernizr, btoa, jQuery, friGame */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
-// Copyright (c) 2011-2012 Franco Bugnano
+// Copyright (c) 2011-2014 Franco Bugnano
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,10 @@
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
 
 (function ($, fg) {
+	'use strict';
+
 	var
-		baseSprite = fg.PSprite,
-		baseSpriteGroup = fg.PSpriteGroup
+		overrides = {}
 	;
 
 	// ******************************************************************** //
@@ -285,7 +286,7 @@
 			;
 
 			// Apply the transformation matrix
-			if ((angle) || (scaleh !== 1) || (scalev !== 1)) {
+			if (angle || (scaleh !== 1) || (scalev !== 1)) {
 				cos = Math.cos(angle);
 				sin = Math.sin(angle);
 				filter = [
@@ -349,13 +350,16 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	fg.PSprite = Object.create(baseSprite);
+	overrides.PSprite = fg.pick(fg.PSprite, [
+		'init',
+		'remove'
+	]);
+
 	$.extend(fg.PSprite, {
 		init: function (name, options, parent) {
-			baseSprite.init.apply(this, arguments);
+			overrides.PSprite.init.apply(this, arguments);
 
 			this.old_options = {};
-
 		},
 
 		// Public functions
@@ -365,7 +369,7 @@
 				this.dom.remove();
 			}
 
-			baseSprite.remove.apply(this, arguments);
+			overrides.PSprite.remove.apply(this, arguments);
 		},
 
 		// Implementation details
@@ -378,6 +382,7 @@
 				currentFrame = options.currentFrame,
 				animation = options.animation,
 				animation_options = this.animation_options,
+				insidePlayground = this.insidePlayground,
 				dom = this.dom,
 				left = this.left,
 				top = this.top,
@@ -398,7 +403,7 @@
 				last_sprite = fg.last_sprite
 			;
 
-			if (animation && alpha && !options.hidden) {
+			if (insidePlayground && animation && alpha && scaleh && scalev && !options.hidden) {
 				if (!dom) {
 					dom = $(['<div id="', fg.domPrefix, this.name, '"></div>'].join(''));
 					dom.addClass(fg.cssClass);	// Reset background properties set by external CSS
@@ -437,6 +442,11 @@
 
 				fg.last_sprite = this.name;
 
+				if (insidePlayground !== old_options.insidePlayground) {
+					dom.show();
+					old_options.insidePlayground = insidePlayground;
+				}
+
 				if (hidden !== old_options.hidden) {
 					dom.show();
 					old_options.hidden = hidden;
@@ -466,7 +476,7 @@
 					update_position = true;
 
 					if (ieFilter) {
-						if ((angle) || (scaleh !== 1) || (scalev !== 1)) {
+						if (angle || (scaleh !== 1) || (scalev !== 1)) {
 							// For transformed objects force the update of the ie filters in order
 							// to have the position adjusted according to the transformed width and height
 							apply_ie_filters = true;
@@ -498,6 +508,10 @@
 					||	(scaleh !== old_options.scaleh)
 					||	(scalev !== old_options.scalev)
 					) {
+					if ((!old_options.scaleh) || (!old_options.scalev)) {
+						dom.show();
+					}
+
 					if (transformFunction) {
 						css_options[transformFunction] = this.transform();
 						update_css = true;
@@ -546,9 +560,11 @@
 				}
 			} else {
 				if (dom) {
-					if (hidden && (hidden !== old_options.hidden)) {
+					fg.last_sprite = this.name;
+
+					if (!insidePlayground && (insidePlayground !== old_options.insidePlayground)) {
 						dom.hide();
-						old_options.hidden = hidden;
+						old_options.insidePlayground = insidePlayground;
 					}
 
 					if ((!animation) && (animation !== old_options.animation)) {
@@ -559,31 +575,47 @@
 						old_options.animation = animation;
 					}
 
+					if (hidden && (hidden !== old_options.hidden)) {
+						dom.hide();
+						old_options.hidden = hidden;
+					}
+
 					if ((!alpha) && (alpha !== old_options.alpha)) {
 						dom.hide();
 						old_options.alpha = alpha;
+					}
+
+					if ((!scaleh) && (scaleh !== old_options.scaleh)) {
+						dom.hide();
+						old_options.scaleh = scaleh;
+					}
+
+					if ((!scalev) && (scalev !== old_options.scalev)) {
+						dom.hide();
+						old_options.scalev = scalev;
 					}
 				}
 			}
 		}
 	});
 
-	fg.Sprite = fg.Maker(fg.PSprite);
-
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	fg.PSpriteGroup = Object.create(baseSpriteGroup);
+	overrides.PSpriteGroup = fg.pick(fg.PSpriteGroup, [
+		'init',
+		'remove',
+		'draw'
+	]);
+
 	$.extend(fg.PSpriteGroup, {
 		init: function (name, options, parent) {
 			var
 				dom
 			;
-
-			baseSpriteGroup.init.apply(this, arguments);
 
 			this.old_options = {};
 
@@ -614,12 +646,15 @@
 					fg.support.ieFilter = false;
 				}
 			}
+
+			// Call the overridden function last, in order to have the callbacks called once the object has been fully initialized
+			overrides.PSpriteGroup.init.apply(this, arguments);
 		},
 
 		// Public functions
 
 		remove: function () {
-			baseSpriteGroup.remove.apply(this, arguments);
+			overrides.PSpriteGroup.remove.apply(this, arguments);
 
 			if (this.dom) {
 				this.dom.remove();
@@ -662,7 +697,7 @@
 				fg.last_sprite = last_sprite;
 			}
 
-			if ((this.layers.length || background) && alpha && !options.hidden) {
+			if ((this.layers.length || background) && alpha && scaleh && scalev && !options.hidden) {
 				if (!this.dom) {
 					dom = $(['<div id="', fg.domPrefix, this.name, '"></div>'].join(''));
 					dom.addClass(fg.cssClass);	// Reset background properties set by external CSS
@@ -727,7 +762,7 @@
 					update_css = true;
 
 					if (ieFilter) {
-						if ((angle) || (scaleh !== 1) || (scalev !== 1)) {
+						if (angle || (scaleh !== 1) || (scalev !== 1)) {
 							// For transformed objects force the update of the ie filters in order
 							// to have the position adjusted according to the transformed width and height
 							apply_ie_filters = true;
@@ -742,7 +777,7 @@
 					update_css = true;
 
 					if (ieFilter) {
-						if ((angle) || (scaleh !== 1) || (scalev !== 1)) {
+						if (angle || (scaleh !== 1) || (scalev !== 1)) {
 							// For transformed objects force the update of the ie filters in order
 							// to have the position adjusted according to the transformed width and height
 							apply_ie_filters = true;
@@ -757,6 +792,10 @@
 					||	(scaleh !== old_options.scaleh)
 					||	(scalev !== old_options.scalev)
 					) {
+					if ((!old_options.scaleh) || (!old_options.scalev)) {
+						dom.show();
+					}
+
 					if (transformFunction) {
 						css_options[transformFunction] = this.transform();
 						update_css = true;
@@ -848,12 +887,14 @@
 					this.applyIeFilters();
 				}
 
-				baseSpriteGroup.draw.apply(this, arguments);
+				overrides.PSpriteGroup.draw.apply(this, arguments);
 
 				// Update the last sprite after drawing all the children nodes
 				fg.last_sprite = name;
 			} else {
 				if (dom) {
+					fg.last_sprite = this.name;
+
 					if (hidden && (hidden !== old_options.hidden)) {
 						dom.hide();
 						old_options.hidden = hidden;
@@ -863,11 +904,19 @@
 						dom.hide();
 						old_options.alpha = alpha;
 					}
+
+					if ((!scaleh) && (scaleh !== old_options.scaleh)) {
+						dom.hide();
+						old_options.scaleh = scaleh;
+					}
+
+					if ((!scalev) && (scalev !== old_options.scalev)) {
+						dom.hide();
+						old_options.scalev = scalev;
+					}
 				}
 			}
 		}
 	});
-
-	fg.SpriteGroup = fg.Maker(fg.PSpriteGroup);
 }(jQuery, friGame));
 

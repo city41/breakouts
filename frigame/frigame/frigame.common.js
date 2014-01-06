@@ -1,7 +1,7 @@
-/*global jQuery, friGame */
-/*jslint sloppy: true, white: true, browser: true */
+/*global jQuery, friGame, requestAnimFrame, performance */
+/*jslint white: true, browser: true */
 
-// Copyright (c) 2011-2012 Franco Bugnano
+// Copyright (c) 2011-2014 Franco Bugnano
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,19 +25,26 @@
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
 
 (function ($) {
+	'use strict';
+
 	var
 		fg = {},
-		exports = this,
-		myGradient,
-		myAnimation,
-		myRect,
-		myBaseSprite,
-		mySprite,
-		mySpriteGroup
+
+		// shim layer with setTimeout fallback by Paul Irish
+		requestAnimFrame = (function () {
+			return window.requestAnimationFrame ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				window.oRequestAnimationFrame ||
+				window.msRequestAnimationFrame ||
+				function (callback) {
+					window.setTimeout(callback, 1000 / 60);
+				};
+		}())
 	;
 
 	// The friGame namespace
-	exports.friGame = fg;
+	window.friGame = fg;
 
 	// Prototypal Inheritance by Douglas Crockford
 	if (typeof Object.create !== 'function') {
@@ -48,25 +55,26 @@
 		};
 	}
 
-	// shim layer with setTimeout fallback by Paul Irish
-	if (!window.requestAnimFrame) {
-		window.requestAnimFrame = (function () {
-			return window.requestAnimationFrame ||
-				window.webkitRequestAnimationFrame ||
-				window.mozRequestAnimationFrame ||
-				window.oRequestAnimationFrame ||
-				window.msRequestAnimationFrame ||
-				function (callback) {
-					window.setTimeout(callback, 1000 / 60);
-				};
-		}());
-	}
-
 	// Date.now() by Mozilla
 	if (!Date.now) {
 		Date.now = function () {
 			return (new Date()).getTime();
 		};
+	}
+
+	// performance.now by Tony Gentilcore
+	if (!window.performance) {
+		window.performance = {};
+	}
+
+	if (!window.performance.now) {
+		window.performance.now = (function() {
+			return	window.performance.mozNow ||
+					window.performance.msNow ||
+					window.performance.oNow ||
+					window.performance.webkitNow ||
+					Date.now;
+		}());
 	}
 
 	$.extend(fg, {
@@ -81,9 +89,9 @@
 		BACKGROUND_TILED: 0,
 		BACKGROUND_STRETCHED: 1,
 
-		// Implementation details
+		REFRESH_RATE: 1000 / 60
 
-		refreshRate: 30
+		// Implementation details
 	});
 
 	$.extend(fg, {
@@ -99,7 +107,8 @@
 
 		playgroundCallbacks: [],
 		idUpdate: null,
-		drawDone: true
+		nextUpdate: 0,
+		needsRedraw: false
 	});
 
 	// r is mapped to resources and s is mapped to sprites in order to have a more convenient
@@ -113,48 +122,50 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	fg.Maker = function (proto) {
-		return function () {
+	$.extend(fg, {
+		Maker: function (proto) {
+			return function () {
+				var
+					obj = Object.create(proto)
+				;
+
+				obj.init.apply(obj, arguments);
+
+				return obj;
+			};
+		},
+
+		// Return a new object with only the keys defined in the keys array parameter
+		pick: function (obj, keys) {
 			var
-				obj = Object.create(proto)
+				len_keys = keys.length,
+				result = {},
+				key,
+				i
 			;
 
-			obj.init.apply(obj, arguments);
-
-			return obj;
-		};
-	};
-
-	// Return a new object with only the keys defined in the keys array parameter
-	fg.pick = function (obj, keys) {
-		var
-			len_keys = keys.length,
-			result = {},
-			key,
-			i
-		;
-
-		for (i = 0; i < len_keys; i += 1) {
-			key = keys[i];
-			if (obj[key] !== undefined) {
-				result[key] = obj[key];
+			for (i = 0; i < len_keys; i += 1) {
+				key = keys[i];
+				if (obj[key] !== undefined) {
+					result[key] = obj[key];
+				}
 			}
+
+			return result;
+		},
+
+		truncate: function (n) {
+			if (n < 0) {
+				return Math.ceil(n);
+			}
+
+			return Math.floor(n);
+		},
+
+		clamp: function (n, minVal, maxVal) {
+			return Math.min(Math.max(n, minVal), maxVal);
 		}
-
-		return result;
-	};
-
-	fg.truncate = function(n) {
-		if (n < 0) {
-			return Math.ceil(n);
-		}
-
-		return Math.floor(n);
-	};
-
-	fg.clamp = function(n, minVal, maxVal) {
-		return Math.min(Math.max(n, minVal), maxVal);
-	};
+	});
 
 	// ******************************************************************** //
 	// ******************************************************************** //
@@ -183,7 +194,10 @@
 
 		removeResource: function (name) {
 			if (fg.r[name]) {
-				fg.r[name].remove();
+				if (fg.r[name].remove) {
+					fg.r[name].remove();
+				}
+
 				delete fg.r[name];
 			}
 
@@ -226,11 +240,12 @@
 				loadCallback = resourceManager.loadCallback,
 				start_callbacks = resourceManager.startCallbacks,
 				len_start_callbacks = start_callbacks.length,
+				completeCallback = resourceManager.completeCallback,
 				i
 			;
 
 			for (i = 0; i < len_preload_list; i += 1) {
-				if (preload_list[i].complete()) {
+				if ((!(preload_list[i].complete)) || (preload_list[i].complete())) {
 					completed += 1;
 				}
 			}
@@ -248,11 +263,15 @@
 					resourceManager.loadCallback = null;
 				}
 
-				clearInterval(resourceManager.idPreload);
-				resourceManager.idPreload = null;
+				if (resourceManager.idPreload !== null) {
+					clearInterval(resourceManager.idPreload);
+					resourceManager.idPreload = null;
+				}
 
 				for (i = 0; i < len_preload_list; i += 1) {
-					preload_list[i].onLoad();
+					if (preload_list[i].onLoad) {
+						preload_list[i].onLoad();
+					}
 				}
 				preload_list.splice(0, len_preload_list);
 
@@ -261,13 +280,19 @@
 				}
 				start_callbacks.splice(0, len_start_callbacks);
 
-				if (resourceManager.completeCallback) {
-					resourceManager.completeCallback.call(fg);
-					resourceManager.completeCallback = null;
+				// Trigger the update before the completeCallback in order to allow calling stopGame
+				// from the completeCallback
+				if ((fg.idUpdate === null) && (fg.s.playground)) {
+					fg.nextUpdate = performance.now() + fg.REFRESH_RATE;
+					fg.idUpdate = setTimeout(fg.update, 4);
+					requestAnimFrame(fg.draw);
 				}
 
-				if (fg.idUpdate === null) {
-					fg.idUpdate = setInterval(fg.update, fg.refreshRate);
+				if (completeCallback) {
+					// Set to null the completeCallback before calling the completeCallback
+					// in order to enable recursion
+					resourceManager.completeCallback = null;
+					completeCallback.call(fg);
 				}
 			}
 		}
@@ -278,9 +303,8 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
-	myGradient = {};
-	fg.PGradient = myGradient;
-	$.extend(fg.PGradient, {
+
+	fg.PGradient = {
 		init: function (startColor, endColor, type) {
 			var
 				clamp = fg.clamp,
@@ -345,17 +369,10 @@
 					this.setBackground({background: null});
 				}
 			});
-		},
+		}
 
 		// Implementation details
-
-		complete: function () {
-			return true;
-		},
-
-		onLoad: function () {
-		}
-	});
+	};
 
 	fg.Gradient = fg.Maker(fg.PGradient);
 
@@ -376,9 +393,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	myAnimation = {};
-	fg.PAnimation = myAnimation;
-	$.extend(fg.PAnimation, {
+	fg.PAnimation = {
 		// Public options
 
 		// Implementation details
@@ -389,7 +404,7 @@
 				my_options,
 				new_options = options || {},
 				img,
-				PAnimation = myAnimation
+				PAnimation = fg.PAnimation
 			;
 
 			if (this.options) {
@@ -403,7 +418,7 @@
 			$.extend(my_options, {
 				// Public options
 				numberOfFrame: 1,
-				rate: fg.refreshRate,
+				rate: fg.REFRESH_RATE,
 				type: fg.ANIMATION_HORIZONTAL,
 				once: false,
 				pingpong: false,
@@ -437,10 +452,7 @@
 				'frameHeight'
 			]));
 
-			new_options.rate = Math.round(new_options.rate / fg.refreshRate);
-			if (new_options.rate === 0) {
-				new_options.rate = 1;
-			}
+			new_options.rate = Math.round(new_options.rate / fg.REFRESH_RATE) || 1;
 			my_options.rate = new_options.rate;
 
 			my_options.imageURL = imageURL;
@@ -465,7 +477,7 @@
 		remove: function () {
 			var
 				imageURL = this.options.imageURL,
-				PAnimation = myAnimation,
+				PAnimation = fg.PAnimation,
 				animation = this
 			;
 
@@ -540,7 +552,7 @@
 			this.halfWidth = options.halfWidth;
 			this.halfHeight = options.halfHeight;
 		}
-	});
+	};
 
 	fg.Animation = fg.Maker(fg.PAnimation);
 
@@ -561,9 +573,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	myRect = {};
-	fg.PRect = myRect;
-	$.extend(fg.PRect, {
+	fg.PRect = {
 		init: function (options) {
 			// Set default options
 			$.extend(this, {
@@ -772,7 +782,7 @@
 
 			return (((dx * dx) + (dy * dy)) < (radii * radii));
 		}
-	});
+	};
 
 	fg.Rect = fg.Maker(fg.PRect);
 
@@ -782,8 +792,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	myBaseSprite = Object.create(myRect);
-	fg.PBaseSprite = myBaseSprite;
+	fg.PBaseSprite = Object.create(fg.PRect);
 	$.extend(fg.PBaseSprite, {
 		init: function (name, options, parent) {
 			var
@@ -824,14 +833,17 @@
 			this.name = name;
 			this.parent = parent;
 
+			// A public read-only rect that is always relative to the playground
+			this.absRect = fg.Rect(options);
+
 			// A public userData property can be useful to the game
-			this.userData = {};
+			this.userData = null;
 
 			// Implementation details
 			this.callbacks = [];
 
-			// Call myRect.init after setting this.parent
-			myRect.init.call(this, options);
+			// Call fg.PRect.init after setting this.parent
+			fg.PRect.init.call(this, options);
 		},
 
 		// Public functions
@@ -859,13 +871,70 @@
 			delete fg.s[name];
 		},
 
-		registerCallback: function (callback, rate) {
-			rate = Math.round(rate / fg.refreshRate);
-			if (rate === 0) {
-				rate = 1;
+		resize: function (options) {
+			this.absRect.resize(options);
+
+			fg.PRect.resize.call(this, options);
+
+			return this;
+		},
+
+		move: function (options) {
+			var
+				absRect = this.absRect,
+				parentAbsRect
+			;
+
+			fg.PRect.move.call(this, options);
+
+			if (this.parent) {
+				parentAbsRect = fg.s[this.parent].absRect;
+				absRect.move({
+					left: parentAbsRect.left + this.left,
+					top: parentAbsRect.top + this.top
+				});
+
+				this.insidePlayground = absRect.collideRect(fg.s.playground);
+			} else {
+				absRect.move({
+					left: this.left,
+					top: this.top
+				});
+
+				this.insidePlayground = true;
 			}
 
+			return this;
+		},
+
+		registerCallback: function (callback, rate) {
+			rate = Math.round(rate / fg.REFRESH_RATE) || 1;
+
 			this.callbacks.push({callback: callback, rate: rate, idleCounter: 0});
+
+			return this;
+		},
+
+		removeCallback: function (callback) {
+			var
+				callbacks = this.callbacks,
+				len_callbacks = callbacks.length,
+				remove_callbacks = [],
+				len_remove_callbacks,
+				i
+			;
+
+			for (i = 0; i < len_callbacks; i += 1) {
+				// The same callback function might have been registered more than once
+				if (callbacks[i].callback === callback) {
+					remove_callbacks.unshift(i);
+				}
+			}
+
+			len_remove_callbacks = remove_callbacks.length;
+			for (i = 0; i < len_remove_callbacks; i += 1) {
+				callbacks.splice(remove_callbacks[i], 1);
+			}
 
 			return this;
 		},
@@ -1178,7 +1247,7 @@
 				return this.options.alpha;
 			}
 
-			this.options.alpha = alpha;
+			this.options.alpha = fg.clamp(alpha, 0, 1);
 
 			return this;
 		},
@@ -1210,7 +1279,7 @@
 
 			len_remove_callbacks = remove_callbacks.length;
 			for (i = 0; i < len_remove_callbacks; i += 1) {
-				callbacks.splice(i, 1);
+				callbacks.splice(remove_callbacks[i], 1);
 			}
 		}
 	});
@@ -1221,8 +1290,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	mySprite = Object.create(myBaseSprite);
-	fg.PSprite = mySprite;
+	fg.PSprite = Object.create(fg.PBaseSprite);
 	$.extend(fg.PSprite, {
 		init: function (name, options, parent) {
 			var
@@ -1253,7 +1321,7 @@
 				paused: false
 			});
 
-			myBaseSprite.init.apply(this, arguments);
+			fg.PBaseSprite.init.apply(this, arguments);
 
 			// If the animation has not been defined, force
 			// the animation to null in order to resize and move
@@ -1298,7 +1366,7 @@
 				this.animation_options = animation_options;
 
 				// Call the resize method with all the options in order to update the position
-				myBaseSprite.resize.call(this, new_options);
+				fg.PBaseSprite.resize.call(this, new_options);
 
 				// If the animation gets redefined, set default index of 0
 				if ((my_options.animationIndex !== 0) && (!index_redefined)) {
@@ -1326,7 +1394,7 @@
 			}
 
 			if (new_options.rate !== undefined) {
-				animation_options.rate = Math.round(new_options.rate / fg.refreshRate) || 1;
+				animation_options.rate = Math.round(new_options.rate / fg.REFRESH_RATE) || 1;
 				animation_redefined = true;
 			}
 
@@ -1381,7 +1449,7 @@
 				currentFrame = options.currentFrame
 			;
 
-			myBaseSprite.update.call(this);
+			fg.PBaseSprite.update.call(this);
 
 			if (!(this.endAnimation || options.paused)) {
 				if (animation) {
@@ -1524,14 +1592,15 @@
 		}
 	});
 
+	fg.Sprite = fg.Maker(fg.PSprite);
+
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	mySpriteGroup = Object.create(myBaseSprite);
-	fg.PSpriteGroup = mySpriteGroup;
+	fg.PSpriteGroup = Object.create(fg.PBaseSprite);
 	$.extend(fg.PSpriteGroup, {
 		init: function (name, options, parent) {
 			var
@@ -1563,7 +1632,7 @@
 
 			this.layers = [];
 
-			myBaseSprite.init.apply(this, arguments);
+			fg.PBaseSprite.init.apply(this, arguments);
 
 			// If the background has not been defined, force
 			// the background to null in order to be
@@ -1580,7 +1649,7 @@
 		remove: function () {
 			this.clear();
 
-			myBaseSprite.remove.apply(this, arguments);
+			fg.PBaseSprite.remove.apply(this, arguments);
 		},
 
 		resize: function (options) {
@@ -1591,7 +1660,7 @@
 			;
 
 			// Set the new options
-			myBaseSprite.resize.call(this, options);
+			fg.PBaseSprite.resize.call(this, options);
 
 			if (this.parent) {
 				parent = fg.s[this.parent];
@@ -1609,9 +1678,17 @@
 				}
 
 				if (set_new_options) {
-					myBaseSprite.resize.call(this, new_options);
+					fg.PBaseSprite.resize.call(this, new_options);
 				}
 			}
+
+			return this;
+		},
+
+		move: function (options) {
+			fg.PBaseSprite.move.call(this, options);
+
+			this.moveChildrenAbsRect();
 
 			return this;
 		},
@@ -1746,7 +1823,7 @@
 				i
 			;
 
-			myBaseSprite.update.call(this);
+			fg.PBaseSprite.update.call(this);
 
 			for (i = 0; i < len_layers; i += 1) {
 				if (layers[i]) {
@@ -1765,8 +1842,41 @@
 			for (i = 0; i < len_layers; i += 1) {
 				layers[i].obj.draw();
 			}
+		},
+
+		moveChildrenAbsRect: function () {
+			var
+				absRect = this.absRect,
+				myAbsLeft = absRect.left,
+				myAbsTop = absRect.top,
+				playground = fg.s.playground,
+				layers = this.layers,
+				len_layers = layers.length,
+				layer_obj,
+				layerAbsRect,
+				i
+			;
+
+			for (i = 0; i < len_layers; i += 1) {
+				// Update the child node absRect
+				layer_obj = layers[i].obj;
+				layerAbsRect = layer_obj.absRect;
+				layerAbsRect.move({
+					left: myAbsLeft + layer_obj.left,
+					top: myAbsTop + layer_obj.top
+				});
+
+				layer_obj.insidePlayground = layerAbsRect.collideRect(playground);
+
+				// If this node has children, they must be updated too
+				if (layer_obj.moveChildrenAbsRect) {
+					layer_obj.moveChildrenAbsRect();
+				}
+			}
 		}
 	});
+
+	fg.SpriteGroup = fg.Maker(fg.PSpriteGroup);
 
 	// ******************************************************************** //
 	// ******************************************************************** //
@@ -1779,7 +1889,10 @@
 
 		playground: function (parentDOM) {
 			var
+				i,
 				playground = fg.s.playground,
+				playground_callbacks = fg.playgroundCallbacks,
+				len_playground_callbacks = playground_callbacks.length,
 				dom
 			;
 
@@ -1798,13 +1911,22 @@
 				playground.crop = null;
 
 				// Call the playgroundCallbacks only after the playground has been completely created
-				setTimeout(fg.firePlaygroundCallbacks, 0);
+				for (i = 0; i < len_playground_callbacks; i += 1) {
+					playground_callbacks[i].call(playground, dom);
+				}
+				playground_callbacks.splice(0, len_playground_callbacks);
+
+				if (fg.idUpdate === null) {
+					fg.nextUpdate = performance.now() + fg.REFRESH_RATE;
+					fg.idUpdate = setTimeout(fg.update, 4);
+					requestAnimFrame(fg.draw);
+				}
 			}
 
 			return playground;
 		},
 
-		startGame: function (callback, rate) {
+		startGame: function (callback) {
 			var
 				resourceManager = fg.resourceManager
 			;
@@ -1813,9 +1935,12 @@
 				resourceManager.completeCallback = callback;
 			}
 
-			if (rate) {
-				fg.refreshRate = rate;
-			}
+			// Call preload() now, in order to have the resources initialize
+			// inside the function that called startGame. This is useful for
+			// preloading sounds in mobile environments, for example, where
+			// the sounds will not load if audio.load() is not called in an user
+			// event handler such as mousedown.
+			resourceManager.preload();
 
 			if (resourceManager.idPreload === null) {
 				resourceManager.idPreload = setInterval(resourceManager.preload, 100);
@@ -1826,7 +1951,7 @@
 
 		stopGame: function () {
 			if (fg.idUpdate !== null) {
-				clearInterval(fg.idUpdate);
+				clearTimeout(fg.idUpdate);
 				fg.idUpdate = null;
 			}
 
@@ -1853,39 +1978,43 @@
 
 		// Implementation details
 
-		firePlaygroundCallbacks: function () {
+		update: function () {
 			var
-				i,
 				playground = fg.s.playground,
-				dom = playground.parentDOM,
-				playground_callbacks = fg.playgroundCallbacks,
-				len_playground_callbacks = playground_callbacks.length
+				now = performance.now(),
+				next_update = fg.nextUpdate,
+				refresh_rate = fg.REFRESH_RATE
 			;
 
-			for (i = 0; i < len_playground_callbacks; i += 1) {
-				playground_callbacks[i].call(playground, dom);
+			if ((now - next_update) >= refresh_rate) {
+				while ((now - next_update) >= refresh_rate) {
+					playground.update();
+					next_update += refresh_rate;
+				}
+
+				fg.nextUpdate = next_update;
+
+				fg.needsRedraw = true;
 			}
-			playground_callbacks.splice(0, len_playground_callbacks);
+
+			// Avoid the spiral of death by always leaving at least 4 ms between updates
+			fg.idUpdate = setTimeout(fg.update, 4);
 		},
 
-		update: function () {
+		draw: function () {
 			var
 				playground = fg.s.playground
 			;
 
-			if (playground) {
-				playground.update();
-
-				if (fg.drawDone) {
-					fg.drawDone = false;
-					window.requestAnimFrame(fg.draw);
-				}
+			if (fg.idUpdate !== null) {
+				requestAnimFrame(fg.draw);
 			}
-		},
 
-		draw: function () {
-			fg.s.playground.draw();
-			fg.drawDone = true;
+			if (fg.needsRedraw) {
+				playground.draw();
+
+				fg.needsRedraw = false;
+			}
 		}
 	});
 }(jQuery));

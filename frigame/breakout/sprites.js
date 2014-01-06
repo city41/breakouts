@@ -1,7 +1,9 @@
 /*global jQuery, friGame, G */
-/*jslint sloppy: true, white: true, browser: true */
+/*jslint white: true, browser: true */
 
 (function ($, fg) {
+	'use strict';
+
 	var
 		animationFromBlock,
 		powerUpCounter = 0
@@ -72,7 +74,7 @@
 			.end()
 		;
 
-		fg.s.blocks.scale(0.01);
+		fg.s.blocks.scale(0);
 
 		for (row = 0; row < data.bricks.length; row += 1) {
 			row_data = data.bricks[row];
@@ -100,19 +102,10 @@
 			}
 		}
 
-		// Manual animation -- It would be nice to implement a tweening plugin for friGame (or just extend the built-in fx plugin...)
-		fg.s.blocks.userData = {
-			current_step: 0,
-			num_step: Math.round(1500 / G.REFRESH_RATE) || 1
-		};
-		fg.s.blocks.registerCallback(function () {
-			this.scale(Math.max(this.userData.current_step / this.userData.num_step, 0.01));
-			this.userData.current_step += 1;
-			if (this.userData.current_step >= this.userData.num_step) {
-				this.scale(1);
-				return true;
-			}
-		}, G.REFRESH_RATE);
+		fg.s.blocks.tween({scale: 1}, {
+			duration: 1500,
+			easing: 'easeOutElastic'
+		});
 	};
 
 	G.onBlockDeath = function (block) {
@@ -135,18 +128,12 @@
 			G.addPowerdown(block.centerx, block.centery);
 		}
 
-		// Manual animation -- It would be nice to implement a tweening plugin for friGame (or just extend the built-in fx plugin...)
-		$.extend(block.userData, {
-			current_step: 0,
-			num_step: Math.round(300 / G.REFRESH_RATE) || 1
-		});
-		block.registerCallback(function () {
-			this.scale(Math.max(1 - (this.userData.current_step / this.userData.num_step), 0.1));
-			this.userData.current_step += 1;
-			if (this.userData.current_step >= this.userData.num_step) {
+		block.tween({scale: 0}, {
+			duration: 300,
+			callback: function() {
 				this.remove();
 			}
-		}, G.REFRESH_RATE);
+		});
 	};
 
 	G.addPaddle = function () {
@@ -169,7 +156,7 @@
 				this.setAnimation({animation: 'paddlelg'});
 				fg.r.recover.play();
 			}
-		}, G.REFRESH_RATE);
+		});
 	};
 
 	G.addPowerdown = function (x, y) {
@@ -191,7 +178,7 @@
 		;
 
 		fg.s[name].registerCallback(function () {
-			this.move({centery: this.centery + (80 / G.REFRESH_RATE)});
+			this.move({centery: this.centery + (80 / (fg.REFRESH_RATE * 2))});
 
 			if (this.collideRect(fg.s.paddle)) {
 				fg.r.sndPowerdown.play();
@@ -204,7 +191,7 @@
 			} else if (this.top >= fg.s.playground.height) {
 				this.remove();
 			}
-		}, G.REFRESH_RATE);
+		});
 	};
 
 	G.addPowerup = function (x, y) {
@@ -226,7 +213,7 @@
 		;
 
 		fg.s[name].registerCallback(function () {
-			this.move({centery: this.centery + (80 / G.REFRESH_RATE)});
+			this.move({centery: this.centery + (80 / (fg.REFRESH_RATE * 2))});
 
 			if (this.collideRect(fg.s.paddle)) {
 				fg.r.sndPowerup.play();
@@ -235,7 +222,7 @@
 			} else if (this.top >= fg.s.playground.height) {
 				this.remove();
 			}
-		}, G.REFRESH_RATE);
+		});
 	};
 
 	function countdownCallback() {
@@ -249,7 +236,7 @@
 		}
 
 		this.setAnimation({animationIndex: this.userData.index});
-		fg.r.countdownBlip.play();
+		fg.r.countdownBlip.play({muted: false});
 	}
 
 	G.addCountdown = function () {
@@ -262,7 +249,7 @@
 			})
 		;
 
-		fg.r.countdownBlip.play();
+		fg.r.countdownBlip.play({muted: false});
 
 		fg.s.countdown.userData = {
 			index: 0
