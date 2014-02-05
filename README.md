@@ -6,7 +6,7 @@ last updated: Dec-1-2013
 
 ## Helping You Select a JavaScript Game Engine
 
-**tl;dr** Breakouts is to JavaScript game engines what [TodoMVC](http://addyosmani.github.com/todomvc/) is to JavaScript MV\* frameworks.
+**tl;dr** Breakouts is to JavaScript game engines what [TodoMVC](http://todomvc.com) is to JavaScript MV\* frameworks.
 
 There are a lot of JavaScript game engines out there, the JavaScript wiki lists [over 80 of them](https://github.com/bebraw/jswiki/wiki/Game-Engines). This project is an attempt to get some insight into the engines out there. This was done by implementing a simple version of the game Breakout in various engines. With the implementations in hand, you can compare and contrast and play with the engines to help get a feel for whether you like them or not.  
   
@@ -47,7 +47,7 @@ and feature:
 
 ## Play the Breakouts
 
-All of the Breakouts are up and playable at this project's [website](http://city41.github.com/breakouts)
+All of the Breakouts are up and playable at this project's [website](http://jsbreakouts.org)
 
 ### Turning on or off prerendering the background
 
