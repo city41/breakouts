@@ -16,6 +16,8 @@ EntityCountdown = me.ObjectEntity.extend({
 		this.renderable.setCurrentAnimation('idle', (function(){
 			me.game.world.removeChildNow(this);
 		}).bind(this));
+
+		this.lastFrame = this.renderable.getCurrentAnimationFrame();
 		
 		// center it
 		this.pos.x = me.game.viewport.width / 2 - this.width / 2;
