@@ -1,0 +1,15 @@
+/*
+ * 
+ */
+{
+	"id": "title-screen",
+	"components":[
+        {
+            "type": "dom-element",
+            "className": "title-screen"
+        },{
+            "type": "dom-element",
+            "className": "logo"
+        }
+	]
+}

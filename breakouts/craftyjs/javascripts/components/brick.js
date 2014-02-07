@@ -30,28 +30,32 @@
 	}
 
 	function onBrickDeath() {
+
 		Crafty.audio.play('brickDeath');
-		this.stop();
-		this.bind('AnimationEnd', function() {
+		this.bind('TweenEnd', function() {
 			this.destroy();
 			Crafty.trigger('BrickDeath', this);
 		});
-		this.animate('die', 10, 0);
+		this.tween({ w: 0, h: 0, x: this.x + breakout.brick.WIDTH / 2, y: this.y + breakout.brick.HEIGHT / 2 }, 40);
 	}
 
 	Crafty.c('Brick', {
 		init: function() {
 			createSprites();
-			this.requires('SpriteAnimation, Edges');
+			this.requires('Edges, Tween');
 		},
 		brick: function(color) {
+			var finalX = this.x;
+			var finalY = this.y;
+
 			var colorOffset = colorOffsets[color];
 			return this.attr({
 				onDeath: onBrickDeath
 			})
-			.animate('die', [[2,colorOffset], [4,colorOffset], [6,colorOffset], [8,colorOffset]])
-			.animate('birth', [[8,colorOffset], [6,colorOffset], [4,colorOffset], [2,colorOffset], [0,colorOffset]])
-			.animate('birth', 20, 0);
+			// tweening the position as well as size so that the scaling appears to take place from the center
+			// instead of the edge of the brick
+			.attr({ w: 0, h: 0, x: finalX + breakout.brick.WIDTH / 2, y: finalY + breakout.brick.HEIGHT })
+			.tween({ w: breakout.brick.WIDTH, h: breakout.brick.HEIGHT, x: finalX, y: finalY }, 40);
 		}
 	});
 

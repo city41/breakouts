@@ -1,0 +1,7 @@
+/**
+ *  This configuration file determines where the build tools find the source files ("source-folder") and where the builds should be created ("destination-folder").
+ */
+{
+  "source-folder": "../game/",
+  "destination-folder": "../builds/"
+}

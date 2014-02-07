@@ -1,0 +1,15 @@
+{
+	"id": "end-game",
+	"components":[
+		{
+		    "type": "dom-element",
+            "innerHTML": "Game Over",
+		    "className": "menu-button",
+		    "onmouseup": "new-scene",
+		    "ontouchend": "new-scene"
+		},{
+		    "type": "change-scene",
+		    "scene": "menu"
+        }
+	]
+}

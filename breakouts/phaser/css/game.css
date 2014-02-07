@@ -1,0 +1,26 @@
+﻿body
+{
+    font-family: 'Segoe UI', sans-serif;
+    background: #ffffff;
+}
+
+#gameContainer
+{
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    background: none repeat scroll 0 0 #ffffff;
+    height: 416px;
+    overflow: hidden;
+    position: relative;
+    width: 320px;
+    cursor: none;
+}
+
+
+span {
+    font-style: italic
+}

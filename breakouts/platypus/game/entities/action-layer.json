@@ -1,0 +1,28 @@
+{
+    "id": "action-layer",
+    "components": [
+        {"type": "handler-controller"},
+        {"type": "handler-ai"},
+        {"type": "handler-logic"},
+        {"type": "handler-collision"},
+        {
+           "type": "camera",
+           "width": 320
+        },{
+            "type": "handler-render-createjs",
+            "acceptInput": {
+                "touch": true,
+                "click": true,
+                "camera": true
+            }
+        },{
+            "type": "entity-container",
+            "childEvents": ["mousemove", "link-entity", "scene-live"]
+        },{
+            "type": "tiled-loader",
+            "images": ["tiles"], //optional: will use source images from Tiled JSON if not specified here.
+            "entityPositionX": "left",
+            "entityPositionY": "center"
+        }
+    ]
+}

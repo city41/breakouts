@@ -1,0 +1,11 @@
+{
+    "id": "desktop-interface-layer",
+    "components": [
+        {"type": "entity-container", 
+            "entities": [
+                {"type": "score-keeper"}
+            ],
+            "childEvents": ["link-entity"]
+        }
+    ]
+}

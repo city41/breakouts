@@ -1,0 +1,126 @@
+/* This is the primary game-play region of the page */
+#root {
+    background:  #000;
+    width:       320px;
+    height:      416px;
+    left:        50%;
+    top:         50%;
+    margin-left: -160px;
+    margin-top:  -208px;    
+    position:    absolute;
+}
+
+#inner-root {
+    left:        50%;
+    top:         50%;
+    position:    absolute;
+}
+
+/* This is the canvas used by the handler-render-createjs component */
+#inner-root canvas {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+/* This is the opening screen div used by the handler-render-dom component */
+.title-screen {
+	position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url(../images/bg_prerendered.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+.logo {
+    width: 43.8em;
+    height: 66.6em;
+    background: url(../images/logo.png) no-repeat;
+    background-size: 100% 100%;
+    left: 50%;
+    top: 50%;
+    margin: -50.7em 0 0 -21.9em;
+    position: absolute;
+}
+
+/* This is the "Loading..." text in the opening scene */
+.progress-bar {
+    position: absolute;
+    width: 79%;
+    height: 39%;
+    font-size: 7em;
+    font-family: arial, sans-serif;
+    text-align:  center;
+    padding: 79% 10% 0 10%;
+}
+
+.menu-button {
+	position: absolute;
+	width: 79%;
+	height: 39%;
+	font-size: 7em;
+	font-family: arial, sans-serif;
+	text-align:  center;
+	padding: 79% 10% 0 10%;
+	cursor: pointer;
+}
+
+#score-keeper {
+	width: 100%;
+	bottom: 0;
+	height:  2em;
+	font-size: 6em;
+	font-family:  arial,sans-serif;
+	line-height: 2em;
+	position: absolute;
+	pointer-events: none;
+}
+
+#score-keeper div {
+    position: absolute;
+    width: 6em;
+    top: 0;
+    text-align: center;
+}
+
+.level {
+	right: 0;
+}
+
+.score {
+    left:  50%;
+    margin: 0 0 0 -3em;
+}
+
+.lives {
+    left: 0;
+}
+
+.countdown {
+	background-image: url(../images/tiles.png);
+	background-size: 600%;
+	position: absolute;
+	width: 12em;
+	height: 18em;
+	margin: -9em 0 0 -6em;
+	left: 50%;
+	top: 50%;
+}
+
+.on-0 {
+	display: none;
+}
+
+.on-1 {
+    background-position: 40% 100%;
+}
+
+.on-2 {
+    background-position: 20% 100%;
+}
+
+.on-3 {
+    background-position: 0 100%;
+}

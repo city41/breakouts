@@ -1,0 +1,31 @@
+{
+	"id": "pill-plus",
+	"components":[
+		{
+			"type": "collision-basic", 
+			"collisionType": "power-up",
+			"softCollisions": {
+			    "paddle": "destroy-me",
+			    "davey-jones-locker": "destroy-me"
+            }
+        },{
+            "type": "render-image", 
+            "image": "tiles",
+            "source": {
+                    "width":  16,
+                    "height": 16,
+                    "y": 96,
+                    "x": 96
+            },
+            "regX":   8,
+            "regY":   8
+        },{
+            "type": "logic-destroy-me"
+        }
+	],
+	"properties":{
+		"width": 16,
+		"height": 16,
+        "z": 1
+	}
+}

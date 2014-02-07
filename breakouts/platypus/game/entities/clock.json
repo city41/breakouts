@@ -1,0 +1,23 @@
+/*
+ * 
+ */
+{
+	"id": "clock",
+	"components":[
+		{
+			"type": "logic-timer"
+		},{
+            "type": "dom-element",
+            "element": "div",
+            "className": "time-counter"
+        }
+	],
+	"properties":{
+		"alarmMessage": "half-minute-timer",
+		"updateMessage": "refresh-clock",
+	    "alarmTime": 30000,
+	    "isIncrementing": true,
+	    "isInterval": true,
+	    "time": 1000
+	}
+}

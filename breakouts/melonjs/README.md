@@ -9,10 +9,12 @@ to focus on the game features.
 melonJS is an open-source HTML5 game engine, released under the 
 MIT license, and built in the spirit of a community based project.
 
-Web: www.melonjs.org
-Documentation : www.melonjs.org/docs/index.html
-Tutorial: www.melonjs.org/tutorial/index.html
-Source : https://github.com/obiot/melonJS
+Useful links:
+
+- Official Website: www.melonjs.org
+- Documentation : www.melonjs.org/docs/index.html
+- Tutorial: www.melonjs.org/tutorial/index.html
+- Source : https://github.com/melonjs/melonjs
 
 ##Breakout Status
 first version with all features implemented (including power-up/power-down)
@@ -29,7 +31,7 @@ globally working, though it might requires some tweaks.
 
 ##Running the game locally (as opposed to from a website)
 Due to the "cross-origin request" security mechanism implemented, 
-most broswer will complain when trying to load the game locally. 
+most browsers will complain when trying to load the game locally. 
 On Chrome, the "--disable-web-security" parameter or better 
 "--allow-file-access-from-files" can be used when launching the 
-browser in order deactivate the security policy check.
+browser in order to deactivate the security policy check.
