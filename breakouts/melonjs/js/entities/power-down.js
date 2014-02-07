@@ -2,8 +2,11 @@ EntityPowerDown = me.ObjectEntity.extend({
 	init: function(x, y) {
 		var settings = {};
 		settings.image = "tiles16";
+		settings.width = 16;
+		settings.height = 16;
 		settings.spritewidth = 16;
 		settings.spriteheight = 16;
+		settings.name = 'power-down';
 		this.parent(x, y, settings);
 		
 		this.renderable.addAnimation('idle', [79]);
@@ -14,10 +17,10 @@ EntityPowerDown = me.ObjectEntity.extend({
 		this.vel.y = 80 / me.sys.fps;
 	},
 
-	update: function() {
+	update: function(dt) {
 		this.pos.y += this.vel.y;
 		if(this.pos.y > me.game.viewport.height) {
-			me.game.remove(this);
+			me.game.world.removeChild(this);
 			return false;
 		}
 		
@@ -28,7 +31,7 @@ EntityPowerDown = me.ObjectEntity.extend({
 			this.collidable = false;
 			me.audio.play('powerdown');
 			res.obj.onPowerDown();
-			me.game.remove(this);
+			me.game.world.removeChild(this);
 		}
 		return true;
 	}

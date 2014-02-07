@@ -5,6 +5,8 @@ EntityBrick = me.ObjectEntity.extend({
 	init: function(x, y, settings) {
 		// define this here instead of tiled
 		settings.image = "tiles16";
+		settings.width = 32;
+		settings.height = 16;
 		settings.spritewidth = 32;
 		settings.spriteheight = 16;
 		this.parent(x, y, settings);
@@ -42,7 +44,7 @@ EntityBrick = me.ObjectEntity.extend({
 			me.audio.play("brickdeath");
 			var anim = new me.Tween(this.renderable.scale);
 			anim.to({ x : 0.0, y : 0.0 }, 300).onComplete((function () {
-				me.game.remove(this);
+				me.game.world.removeChild(this);
 			}).bind(this)).start();
 
 			// add score and decrease brick count
@@ -50,11 +52,9 @@ EntityBrick = me.ObjectEntity.extend({
 			me.state.current().countBrick();
 			// check for power-up/power-down
 			if (this.hasPowerUp) {
-				me.game.add(new EntityPowerUp(this.pos.x, this.pos.y), this.z);
-				me.game.sort();
+				me.game.world.addChild(new EntityPowerUp(this.pos.x, this.pos.y), this.z);
 			} else if(this.hasPowerDown) {
-				me.game.add(new EntityPowerDown(this.pos.x,this.pos.y), this.z);
-				me.game.sort();
+				me.game.world.addChild(new EntityPowerDown(this.pos.x,this.pos.y), this.z);
 			}
 		}
 	}
