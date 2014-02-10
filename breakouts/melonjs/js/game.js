@@ -78,11 +78,11 @@ var game = {
 		// add some fadeIn/fadeOut effect for transition 
 		me.state.transition("fade","#000000", 100);
 		
-		// add our user-defined entities in the entity pool
-		me.entityPool.add("paddle", EntityPaddle);
-		me.entityPool.add("brick", EntityBrick);
-		me.entityPool.add("ball", EntityBall);
-		me.entityPool.add("countdown", EntityCountdown);
+		// register our user-defined entities in the object pool
+		me.pool.register("paddle", EntityPaddle);
+		me.pool.register("brick", EntityBrick);
+		me.pool.register("ball", EntityBall);
+		me.pool.register("countdown", EntityCountdown);
 		
 		// add a fn callback that displays pause on pause :)
 		me.state.onPause = function () {
