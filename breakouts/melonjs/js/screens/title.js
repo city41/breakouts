@@ -18,8 +18,8 @@ var TitleScreen = me.ScreenObject.extend( {
 		this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
 			if (action === "enter") {
 				me.state.change(me.state.PLAY);
-				// unlock audio on iOS devices
-				me.audio.play('countdownblip', false, null, 0.3);
+				// silently play an audio clip to unlock audio on iOS devices
+				me.audio.play('countdownblip', false, null, 0.0);
 			}
 		});
 
