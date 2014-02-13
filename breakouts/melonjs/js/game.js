@@ -7,27 +7,35 @@ var game = {
 	assets : [	
 		{name: "logo",			type:"image",	src: "data/img/logo.png"},
 		{name: "tiles16",		type:"image",	src: "data/img/tiles16.png"},
-		//{name: "bounce",		type: "audio",	src: "data/sfx/",	channel : 2},
-		{name: "brickdeath",	type: "audio",	src: "data/sfx/",	channel : 2},
-		{name: "countdownblip",	type: "audio",	src: "data/sfx/",	channel : 1},
-		{name: "powerdown",		type: "audio",	src: "data/sfx/",	channel : 1},
-		{name: "powerup",		type: "audio",	src: "data/sfx/",	channel : 1},
-		{name: "recover",		type: "audio",	src: "data/sfx/",	channel : 1},
-		{name: "title",			type: "tmx",	src: "data/map/title.tmx"},
-		{name: "level0",		type: "tmx",	src: "data/map/level0.tmx"},
-		{name: "level1",		type: "tmx",	src: "data/map/level1.tmx"},
-		{name: "level2",		type: "tmx",	src: "data/map/level2.tmx"},
-		{name: "level3",		type: "tmx",	src: "data/map/level3.tmx"}
+		//{name: "bounce",		type: "audio",	src: "data/sfx/"},
+		{name: "brickdeath",	type: "audio",	src: "data/sfx/"},
+		{name: "countdownblip",	type: "audio",	src: "data/sfx/"},
+		{name: "powerdown",		type: "audio",	src: "data/sfx/"},
+		{name: "powerup",		type: "audio",	src: "data/sfx/"},
+		{name: "recover",		type: "audio",	src: "data/sfx/"},
+		{name: "title",			type: "tmx",	src: "data/map/title.json"},
+		{name: "level0",		type: "tmx",	src: "data/map/level0.json"},
+		{name: "level1",		type: "tmx",	src: "data/map/level1.json"},
+		{name: "level2",		type: "tmx",	src: "data/map/level2.json"},
+		{name: "level3",		type: "tmx",	src: "data/map/level3.json"}
 	],
+
+	// game data (score and other things)
+	data : {
+		lives: 3,
+		score: 0,
+		level: -1,
+		// # bricks in the level
+		bricks: 0
+	},
 	
 	/**
 	 * Initialize the application
 	 */
 	onload: function() {
-		me.sys.useNativeAnimFrame = true;
 
 		// init the video (with auto-scaling on)
-		if (!me.video.init('canvas', 320, 416)) {
+		if (!me.video.init('screen', 320, 416, me.device.isMobile ? true : false, me.device.isMobile ? "auto" : undefined)) {
 			alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
 			return;
 		}
@@ -40,31 +48,11 @@ var game = {
 		// on this kind of simple game (limit draw operations)
 		me.sys.preRender = true;
 		
-		// enable dirty region draw mechanism
-		me.sys.dirtyRegion = true;
-		
 		// disable gravity globally
 		me.sys.gravity = 0;
 		
 		// initialize the "sound engine"
-		me.audio.init("mp3,ogg");
-		
-		// some additional fine-tuning to make it "nice" on mobile devices
-		if (me.sys.touch) {
-			/* This code prevents the webview from moving on a swipe */
-			preventDefaultScroll = function(e) {
-				e.preventDefault();
-				window.scroll(0,0);
-				return false;
-			};
-			window.document.addEventListener('touchmove', preventDefaultScroll, false);
-
-			window.addEventListener("load", function() {
-				setTimeout(function() {
-					window.scrollTo(0, 1);
-				}, 0);
-			});
-		}
+		me.audio.init("mp3,ogg,wav");
 		
 		// set the loader callback
 		me.loader.onload = this.loaded.bind(this);
@@ -90,11 +78,11 @@ var game = {
 		// add some fadeIn/fadeOut effect for transition 
 		me.state.transition("fade","#000000", 100);
 		
-		// add our user-defined entities in the entity pool
-		me.entityPool.add("paddle", EntityPaddle);
-		me.entityPool.add("brick", EntityBrick);
-		me.entityPool.add("ball", EntityBall);
-		me.entityPool.add("countdown", EntityCountdown);
+		// register our user-defined entities in the object pool
+		me.pool.register("paddle", EntityPaddle);
+		me.pool.register("brick", EntityBrick);
+		me.pool.register("ball", EntityBall);
+		me.pool.register("countdown", EntityCountdown);
 		
 		// add a fn callback that displays pause on pause :)
 		me.state.onPause = function () {
@@ -108,8 +96,3 @@ var game = {
 		me.state.change(me.state.MENU);
 	}
 };
-
-/* Bootstrap */
-window.onReady(function onReady() {
-	game.onload();
-});

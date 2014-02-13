@@ -5,6 +5,8 @@ EntityBall = me.ObjectEntity.extend({
 	init: function(x, y, settings) {
 		// define this here instead of tiled
 		settings.image = "tiles16";
+		settings.width = 16;
+		settings.height = 16;
 		settings.spritewidth = 16;
 		settings.spriteheight = 16;
 		this.parent(x, y, settings);
@@ -29,17 +31,20 @@ EntityBall = me.ObjectEntity.extend({
 		// some "optimization" to avoid traversing 
 		// the whole object on each update
 		this.viewportHeight = me.game.viewport.height - this.height;
+
+		// a cache rectangle for the paddle bounds
+		this.cacheBounds = new me.Rect(new me.Vector2d(), 0 ,0);
 	
 	},
 
-	update: function() {
+	update: function(dt) {
 		
 		if (!this.active) {
 			return false;
 		}
 		
 		// update the ball animation
-		this.parent();
+		this.parent(dt);
 				
 		// this is workaround for 
 		// the engine not implementing
@@ -66,7 +71,7 @@ EntityBall = me.ObjectEntity.extend({
 		// check if we miss the paddle and went out
 		if (this.pos.y > this.viewportHeight) {
 			// force immediate object destruction (true parameter)
-			me.game.remove(this, true);
+			me.game.world.removeChildNow(this);
 			me.state.current().onBallDeath();
 			return true;
 		}
@@ -111,11 +116,14 @@ EntityBall = me.ObjectEntity.extend({
 
 	_determineBounceVelocity: function(paddle) {
 		// check for distance to the paddle
-		var distance = this.distanceTo(paddle) - this.hHeight - paddle.hHeight;
+
+		this.cacheBounds = paddle.getBounds(this.cacheBounds).translateV(paddle.pos)
+
+		var distance = this.distanceTo(paddle) - this.hHeight - this.cacheBounds.hHeight;
 		
-		var ratio = distance / paddle.collisionBox.hWidth * 2.5;
+		var ratio = distance / this.cacheBounds.hWidth * 2.5;
 		
-		if((this.pos.x + this.hWidth) < (paddle.pos.x + paddle.collisionBox.hWidth)) {
+		if((this.pos.x + this.hWidth) < (this.cacheBounds.pos.x + this.cacheBounds.hWidth)) {
 			// send the ball to the left if hit on the left side of the paddle, and vice versa
 			ratio = -ratio;
 		}

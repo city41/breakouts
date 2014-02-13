@@ -4,7 +4,7 @@
   <property name="name" value="tie fighta!"/>
  </properties>
  <tileset firstgid="1" name="tiles16" tilewidth="16" tileheight="16">
-  <image source="../../media/tiles16.png" width="192" height="144"/>
+  <image source="../img/tiles16.png" width="192" height="144"/>
   <tile id="79">
    <properties>
     <property name="type" value="solid"/>

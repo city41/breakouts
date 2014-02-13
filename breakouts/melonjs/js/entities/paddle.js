@@ -7,6 +7,8 @@ EntityPaddle = me.ObjectEntity.extend({
 	init: function(x, y, settings) {
 		// define this here instead of tiled
 		settings.image = "tiles16";
+		settings.width = 48;
+		settings.height = 16;
 		settings.spritewidth = 48;
 		settings.spriteheight = 16;
 		this.parent(x, y, settings);
@@ -19,8 +21,8 @@ EntityPaddle = me.ObjectEntity.extend({
 		};
 		
 		this.miniSize = {
-			x: 0,
-			w: 32,
+			x: 8,
+			w: 40,
 			y: 0,
 			h: 16
 		};
@@ -44,13 +46,16 @@ EntityPaddle = me.ObjectEntity.extend({
 		this.viewportWidth = me.game.viewport.width;
 	},
 
-	update: function() {
-		this.pos.x = (this.mousePos.x - this.collisionBox.hWidth).clamp(0, this.viewportWidth - this.collisionBox.width);
+	update: function(dt) {
+		this.pos.x = (this.mousePos.x - this.getShape().hWidth).clamp(0, this.viewportWidth - this.getShape().width);
 		
 		// check if we have a timer active
-		if (this.timer!==-1 && (me.timer.getTime() - this.timer) >= (this.powerDownLength * 1000)) {
-			// restore the normal paddle
-			this.onPowerDownEnd();
+		if (this.timer > 0) {
+			this.timer -= dt;
+			if (this.timer < 0) {
+				// restore the normal paddle
+				this.onPowerDownEnd();
+			}
 		}
 		
 		// return true if we moved
@@ -61,17 +66,17 @@ EntityPaddle = me.ObjectEntity.extend({
 		// add a new ball
 		var ball = new EntityBall(50, me.game.viewport.height/2, {});
 		ball.active = true;
-		me.game.add(ball, this.z);
-		me.game.sort();
+		me.game.world.addChild(ball, this.z);
+
 	},
-	
 	
 	onPowerDown: function() {
 		if (this.renderable.isCurrentAnimation('idle')) {
 			this.renderable.setCurrentAnimation("mini");
 			// adjust the bounding box
-			this.updateColRect(this.miniSize.x,this.miniSize.w,this.miniSize.y,this.miniSize.h);
-			this.timer = me.timer.getTime()
+			this.getShape().pos.set(this.miniSize.x, this.miniSize.y);
+			this.getShape().resize(this.miniSize.w,this.miniSize.h);
+			this.timer = this.powerDownLength * 1000;
 		}
 	},
 	
@@ -80,7 +85,8 @@ EntityPaddle = me.ObjectEntity.extend({
 			this.timer = -1;
 			this.renderable.setCurrentAnimation("idle");
 			// adjust the bounding box
-			this.updateColRect(this.fullSize.x,this.fullSize.w,this.fullSize.y,this.fullSize.h);
+			this.getShape().pos.set(this.fullSize.x, this.fullSize.y);
+			this.getShape().resize(this.fullSize.w,this.fullSize.h);
 			me.audio.play('recover');
 		}
 	}
