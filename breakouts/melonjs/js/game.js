@@ -35,7 +35,8 @@ var game = {
 	onload: function() {
 
 		// init the video (with auto-scaling on)
-		if (!me.video.init('screen', 320, 416, me.device.isMobile ? true : false, me.device.isMobile ? "auto" : undefined)) {
+    var scale = window.devicePixelRatio || 1;
+		if (!me.video.init('screen', 320, 416, me.device.isMobile ? true : false, me.device.isMobile ? "auto" : scale)) {
 			alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
 			return;
 		}
