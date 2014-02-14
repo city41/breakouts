@@ -1,0 +1,44 @@
+body {
+    background-color: #000;
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    max-width: 641;
+    max-height: 833;
+
+    /* Allow mouse dragging. */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+	
+	/* disable touch panning/zooming */
+	-ms-touch-action: none;
+	touch-action: none;
+}
+
+#screen canvas {
+    margin: auto;
+
+                left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+
+    position: absolute;
+
+    /* Hide the gap for font descenders. */
+    display: block;
+
+    cursor: none;
+	
+	/* disable scaling interpolation */
+	image-rendering: optimizeSpeed;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -o-crisp-edges;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: optimize-contrast;
+	-ms-interpolation-mode: nearest-neighbor;
+}
