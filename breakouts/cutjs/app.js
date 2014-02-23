@@ -7,7 +7,7 @@ Cut.Loader.load(function(root, container) {
     this.pin({
       offsetX : (width / 2) | 0,
       offsetY : (height / 2) | 0,
-      scale : window.devicePixelRatio
+      scale : window.devicePixelRatio || 1
     });
   });
 
