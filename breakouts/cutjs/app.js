@@ -1,7 +1,5 @@
 var P2_DEBUG = false;
 
-var p2s = 0.1;
-
 Cut.Loader.load(function(root, container) {
   Cut.Mouse.subscribe(root, container, true);
 
@@ -9,6 +7,7 @@ Cut.Loader.load(function(root, container) {
     this.pin({
       offsetX : (width / 2) | 0,
       offsetY : (height / 2) | 0,
+      scale : window.devicePixelRatio
     });
   });
 
@@ -36,13 +35,13 @@ Cut.Loader.load(function(root, container) {
 
   var shape = {};
 
-  shape.v = new p2.Line(25 * p2s, 1 * p2s);
+  shape.v = new p2.Line(2.5);
   shape.v.material = mat.wall;
 
-  shape.h = new p2.Line(18 * p2s, 1 * p2s);
+  shape.h = new p2.Line(1.8);
   shape.h.material = mat.wall;
 
-  shape.ball = new p2.Circle(0.5 * p2s);
+  shape.ball = new p2.Circle(0.05);
   shape.ball.material = mat.ball;
 
   shape.paddleFull = new p2.Convex([ [ 0.18, -0.01 ], [ 0.18, 0.01 ],
@@ -55,10 +54,10 @@ Cut.Loader.load(function(root, container) {
       [ -0.12, 0.01 ], [ -0.12, -0.01 ] ]);
   shape.paddleMini.material = mat.paddle;
 
-  shape.brick = new p2.Capsule(1 * p2s, 0.5 * p2s);
+  shape.brick = new p2.Capsule(0.1, 0.05);
   shape.brick.material = mat.brick;
 
-  shape.drop = new p2.Circle(0.5 * p2s);
+  shape.drop = new p2.Circle(0.05);
 
   var BALL = 1, WALL = 2, BRICK = 4, DROP = 8;
 
@@ -79,7 +78,7 @@ Cut.Loader.load(function(root, container) {
   shape.drop.collisionMask = WALL;
 
   var leftWall = new p2.Body({
-    position : [ -9 * p2s, -0.5 * p2s ],
+    position : [ -0.9, -0.05 ],
     angle : -Math.PI / 2,
     mass : 0,
   });
@@ -88,7 +87,7 @@ Cut.Loader.load(function(root, container) {
   world.addBody(leftWall);
 
   var rightWall = new p2.Body({
-    position : [ +9 * p2s, -0.5 * p2s ],
+    position : [ +0.9, -0.05 ],
     angle : Math.PI / 2,
     mass : 0
   });
@@ -97,7 +96,7 @@ Cut.Loader.load(function(root, container) {
   world.addBody(rightWall);
 
   var topWall = new p2.Body({
-    position : [ 0, +12 * p2s ],
+    position : [ 0, +1.2 ],
     mass : 0,
     angle : Math.PI
   });
@@ -106,7 +105,7 @@ Cut.Loader.load(function(root, container) {
   world.addBody(topWall);
 
   var bottomWall = new p2.Body({
-    position : [ 0, -13 * p2s ],
+    position : [ 0, -1.3 ],
     mass : 0
   });
   bottomWall.addShape(shape.h);
@@ -115,7 +114,7 @@ Cut.Loader.load(function(root, container) {
   world.addBody(bottomWall);
 
   var paddleFull = new p2.Body({
-    position : [ 0, -10.5 * p2s ],
+    position : [ 0, -1.05 ],
     mass : 0
   });
   paddleFull.addShape(shape.paddleFull);
@@ -125,7 +124,7 @@ Cut.Loader.load(function(root, container) {
   world.addBody(paddle = paddleFull);
 
   var paddleMini = new p2.Body({
-    position : [ 0, -10.5 * p2s ],
+    position : [ 0, -1.05 ],
     mass : 0
   });
   paddleMini.addShape(shape.paddleMini);
@@ -317,7 +316,7 @@ Cut.Loader.load(function(root, container) {
 
   function start() {
 
-    speed = 16 * p2s;
+    speed = 1.6;
 
     updateStatus();
 
@@ -342,8 +341,8 @@ Cut.Loader.load(function(root, container) {
             continue;
           }
           var brickBody = newBrick(color);
-          brickBody.position = [ (i - 3) * 2 * p2s,
-              (j + 7 - bricks.length / 2) * p2s ];
+          brickBody.position[0] = (i - 3) * 0.2;
+          brickBody.position[1] = (-j + 7 + bricks.length / 3) * 0.1;
           world.addBody(brickBody);
         }
       }
@@ -353,7 +352,7 @@ Cut.Loader.load(function(root, container) {
       var ballBody = newBall();
       var a = Math.PI * M.random(-0.2, 0.2);
       ballBody.velocity = [ speed * Math.sin(a), speed * Math.cos(a) ];
-      ballBody.position = [ 0, -5 * p2s ];
+      ballBody.position = [ 0, -0.5 ];
       world.addBody(ballBody);
       sound.recover.play();
     }, P2_DEBUG ? 0 : 3000);
@@ -365,8 +364,8 @@ Cut.Loader.load(function(root, container) {
     ratio : 256,
     debug : P2_DEBUG
   }).appendTo(root).on(Cut.Mouse.MOVE, function(ev, point) {
-    paddle.position[0] = Math.max(-8.5 * p2s, Math.min(8.5 * p2s, point.x));
-  }).spy(true).pin("scale", 16 / p2s);
+    paddle.position[0] = Math.max(-0.85, Math.min(0.85, point.x));
+  }).spy(true).pin("scale", 160);
 
   ui.tri = Cut.image("tiles:tri").prependTo(ui.p2).pin("align", 0.5).pin(
       "alpha", 0).visible(!P2_DEBUG);
@@ -381,12 +380,12 @@ Cut.Loader.load(function(root, container) {
   ui.status = Cut.string("font:_").appendTo(ui.bg).pin({
     alignX : 0.5,
     alignY : 1,
-    offsetY : -0.5 * p2s,
+    offsetY : -0.05,
   });
   ui.message = Cut.string("font:_").appendTo(ui.bg).pin({
     alignX : 0.5,
     alignY : 1,
-    offsetY : -4 * p2s,
+    offsetY : -0.4,
   });
 
   sound.brick = new Howl({
