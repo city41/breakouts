@@ -20,6 +20,7 @@ So far we have Breakout implementations for
 
 * [Crafty](http://www.craftyjs.com)
 * [CreateJS](http://www.createjs.com)
+* [CutJS](http://cutjs.org)
 * [FriGame](http://frigame.org/)
 * [Frozen](http://frozenjs.com/)
 * [ImpactJS](http://www.impactjs.com)
@@ -70,7 +71,7 @@ All of the various engines have their own licenses, but the Breakout code itself
 
 ## Thanks!
 
-Thanks to Addy Osmani, Sindre Sorhus and everyone else involved with TodoMVC for the idea and inspiration. Also thanks to everyone who is contributing new implementations and suggestions.
+Thanks to Addy Osmani, Sindre Sorhus and everyone else involved with TodoMVC for the idea and inspiration. Also thanks to [everyone who is contributing new implementations and suggestions](https://github.com/city41/breakouts/graphs/contributors)
 
 
 
