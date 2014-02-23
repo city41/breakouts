@@ -1,8 +1,10 @@
+var PPU = 160; // pixel per (physics engine) unit
+
 Cut.addTexture({
   name : "logo",
   imagePath : "logo.png",
-  imageRatio : 16 / p2s,
-  ratio : 1 / (16 / p2s),
+  imageRatio : PPU,
+  ratio : 1 / PPU,
   cutouts : [
     { name : "logo", x : 0, y : 0, width : 130, height : 200 }
   ]
@@ -11,8 +13,8 @@ Cut.addTexture({
 Cut.addTexture({
   name : "bg",
   imagePath : "bg_prerendered.png",
-  imageRatio : 16 / p2s,
-  ratio : 1 / (16 / p2s),
+  imageRatio : PPU,
+  ratio : 1 / PPU,
   cutouts : [
     { name : "prerendered", x : 0, y : 0,  width : 320, height : 416 }
   ]
@@ -21,8 +23,8 @@ Cut.addTexture({
 Cut.addTexture({
   name : "tiles",
   imagePath : "tiles.png",
-  imageRatio : 16 / p2s,
-  ratio : 1 / (16 / p2s),
+  imageRatio : PPU,
+  ratio : 1 / PPU,
   cutouts : [
     { name : "bb_0",      x : 0,   y : 0,   width : 32,  height : 16 },
     { name : "bb_1",      x : 32,  y : 0,   width : 32,  height : 16 },
@@ -68,11 +70,11 @@ Cut.addTexture({
     var prefix = "_";
     if (name.substring(0, prefix.length) === prefix) {
       var d = name.substr(prefix.length, 1);
-      return Cut.Out.drawing(prefix + d, 2 * p2s, 1 * p2s, 300, function(ctx, ratio) {
-        ctx.scale(ratio * p2s / 12, ratio * p2s / 12);
-        ctx.font = "bold 12px sans-serif";
+      return Cut.Out.drawing(prefix + d, 32 / PPU, 16 / PPU, 300, function(ctx, ratio) {
+        ctx.scale(ratio / PPU, ratio / PPU);
+        ctx.font = "bold 16px sans-serif";
         ctx.fillStyle = "#000";
-        ctx.measureText && this.cropX((ctx.measureText(d).width + 0.01) * p2s / 12);
+        ctx.measureText && this.cropX((ctx.measureText(d).width + 0.01) / PPU);
         ctx.textBaseline = "top";
         ctx.fillText(d, 0, 0);
       });
