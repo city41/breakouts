@@ -765,121 +765,63 @@ BasicGame.Game.prototype = {
     determineBounceVelocityX: function (_paddle, _ball) {
 
         var bounceVelocityX = _ball.body.velocity.x;
-        var directionVariable = 1;
-        var distanceX = 0;
 
         var ballBodyCenterX = _ball.body.x + _ball.body.halfWidth;
         var paddleBodyCenterX = _paddle.body.x + _paddle.body.halfWidth;
+        var distanceX = Math.abs(ballBodyCenterX - paddleBodyCenterX);
 
-        var ballBodyCenterY = _ball.body.y + _ball.body.halfHeight;
-        var paddleBodyCenterY = _paddle.body.y + _paddle.body.halfHeight;
+        if (_ball.body.right < _paddle.body.x) {
+
+            //  Ball is on the left-hand vertical side of the paddle
+
+            var directionVariable = (bounceVelocityX > 0) ? -1 : 1;
+
+            return bounceVelocityX * directionVariable - (distanceX * 2);
+
+        }
+
+        if (ballBodyCenterX == paddleBodyCenterX) {
+
+            //  Ball is perfectly in the middle
+            //  Add a little random X to prevent it bouncing straight up!
+
+            return bounceVelocityX + 1 + Math.random() * 8;
+
+        }
+
+        var bounceCoefficient = 0;
+
+        function coefficient(bounceScale, halfWidth){
+
+            if (bounceScale > 0 && bounceScale < halfWidth / 3) {
+                return 0.7;
+            } else if (bounceScale > halfWidth / 3 && bounceScale < halfWidth / 3 * 2) {
+                return 0.9
+            } else {
+                //it's at the end make the ball bounce faster
+                return 1.1;
+            }
+
+        }
 
         if (ballBodyCenterX < paddleBodyCenterX) {
 
-            //  Ball is on the left-hand side of the paddle
-            if (_ball.body.right < this.paddle.body.x) {
-                //console.log("the hit is on the vertical left side");  //uncoment for debug
-                distanceX = paddleBodyCenterX - ballBodyCenterX;
-                if (_ball.body.y < paddle.body.y + _paddle.body.height / 2) {
-                    //console.log("ball hits LEFT side - TOP part");       //uncoment for debug
-                } else {
-                    //console.log("ball hits LEFT side - BOTTOM part");    //uncoment for debug
-                }
-                //FLIP THE x velocity
-                if (bounceVelocityX > 0) {
-                    directionVariable = -1;
-                }
-                bounceVelocityX = (bounceVelocityX) * directionVariable - (distanceX * 2);
+            // Ball hit the top of the paddle, left of center
 
-            } else {
-
-                //console.log("the hit is on the TOP - LEFT side"); //uncoment for debug
-                distanceX = paddleBodyCenterX - ballBodyCenterX;
-
-                var bounceScale = _paddle.body.halfWidth - (_paddle.body.halfWidth - distanceX);  //it's always from 0 to half width of the paddle
-                if (bounceScale < 0) {
-                    bounceScale = 0;
-                }
-                var BounceCoeficient = 1;
-                if (bounceScale > 0 && bounceScale < _paddle.body.halfWidth / 3) {
-                    BounceCoeficient = 0.7;
-                } else if (bounceScale > _paddle.body.halfWidth / 3 && bounceScale < _paddle.body.halfWidth / 3 * 2) {
-                    BounceCoeficient = 0.9
-                } else {
-                    //it's at the end make the ball bounce faster
-                    BounceCoeficient = 1.1;
-                }
-                var ratio = (distanceX) / _paddle.body.halfWidth * BounceCoeficient;
-
-                //the ball velocity till now is not included in the calculation
-                //making more predictable bounce of the paddle
-                bounceVelocityX = (this.ballSpeed * ratio * -1);
-
-            }
-
-
-        } else if (ballBodyCenterX > paddleBodyCenterX) {
-
-            //  Ball is on the right-hand side of the paddle
-            if (_ball.body.bottom > _paddle.body.x) {
-
-                //console.log("the hit is on the TOP - RIGHT side")  //uncoment for debug
-                distanceX = ballBodyCenterX - paddleBodyCenterX;
-
-                var bounceScale = _paddle.body.halfWidth - distanceX;  //it's always from 0 to half width of the paddle
-
-                var BounceCoeficient = 1;
-                if (bounceScale > 0 && bounceScale < _paddle.body.halfWidth / 3) {
-                    BounceCoeficient = 0.7;
-                } else if (bounceScale > _paddle.body.halfWidth / 3 && bounceScale < _paddle.body.halfWidth / 3 * 2) {
-                    BounceCoeficient = 0.9
-                } else {
-                    //it's at the end make the ball bounce faster
-                    BounceCoeficient = 1.1;
-                }
-                var ratio = (distanceX) / _paddle.body.halfWidth * BounceCoeficient;
-
-                //the ball velocity till now is not included in the calculation
-                //making more predictable bounce of the paddle
-                bounceVelocityX = (this.ballSpeed * ratio);
-
-
-            } else {
-
-                //console.log("the hit is on the vertical right side");   //uncoment for debug
-
-                distanceX = ballBodyCenterX - paddleBodyCenterX;
-
-                if (ballBodyCenterY < paddle.body.y + paddle.body.height / 2) {
-                    //console.log("ball hits RIGHT side - TOP PART");   //uncoment for debug
-                } else {
-                    //console.log("ball hits RIGHT side - BOTTOM PART");  //uncoment for debug
-                }
-
-                var bounceScale = _paddle.body.halfWidth - distanceX;  //it's always from 0 to half width of the paddle
-                //console.log("bounceScale = " + bounceScale);
-                var ratio = bounceScale * 5;
-                //console.log("ratioCool = " + ratio);
-
-                //console.log("ratio = " + ratio);
-
-                //JUST FLIP THE x velocity
-                if (bounceVelocityX < 0) {
-                    directionVariable = -1;
-                }
-                bounceVelocityX = (bounceVelocityX * directionVariable) * ratio;
-
-            }
+            bounceCoefficient = -1 * coefficient(distanceX, _paddle.body.halfWidth);
 
         } else {
-            //  Ball is perfectly in the middle
-            //  Add a little random X to stop it bouncing straight up!
-            bounceVelocityX += 1 + Math.random() * 8;
+
+            // Ball hit the paddle right of center, either on the top or on the side
+
+            bounceCoefficient = coefficient(_paddle.body.halfWidth - distanceX, _paddle.body.halfWidth);
+
         }
 
-        //console.log("ball reflect with bounceVelocityX = " + bounceVelocityX);  //uncoment for debug
+        var ratio = (distanceX) / _paddle.body.halfWidth * bounceCoefficient;
 
-        return bounceVelocityX;
+        return (this.ballSpeed * ratio);
+
     },
 
     determineBounceVelocityY: function (paddle, ball) {
