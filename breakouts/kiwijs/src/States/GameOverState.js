@@ -5,9 +5,11 @@ GameOverState.create = function () {
     this.bg = new Kiwi.GameObjects.Sprite(this, this.textures.bg);
     this.addChild(this.bg);
 
+    //logo
     this.logo = new Kiwi.GameObjects.Sprite(this, this.textures.logo, 100, 100);
     this.addChild(this.logo);
 
+    //end textfield
     this.endTF = new Kiwi.HUD.Widget.TextField(this.game, 'Game Over', 130, 390);
     this.endTF.style.color = "#000000";
     this.endTF.style.fontSize = "18px";
