@@ -2,6 +2,10 @@
 
 This directory contains the resources used in the breakout implementations. If you are adding a new implementation (thank you!) then please use these resources as closely as possible.
 
+## License
+
+All of these resources were created by me (Matt Greer) and are licensed under MIT, just like all Breakouts code. Use these as you please.
+
 ## What's Here
 
 These are the images, sound and other misc resource files used in the breakouts. If you are adding a new engine, just copy these files locally into that engine's directory.
@@ -31,9 +35,9 @@ These audio files are in the `sfx` directory and provided in mp3, ogg and wav fo
 ## The Background
 
 There are two choices here for the background, either prerendered or using a Tiled tmx file. The prerendered version is the entire background in one image, where as the tile approach builds the background from `tiles.png` and `bg.tmx` or `bg.json`.  
-  
+
 Most implementations are going the prerendered route for performance reasons. If your engine supports tiling via tmx or some other method, it'd be cool to offer that as an alternative. If you do, the way I've been doing that is with 'usetiles' as a query parameter in the URL. For example on the Lime version:  
-  
+
 * http://city41.github.com/breakouts/limejs/index.html <---- will use the prerendered background
 * http://city41.github.com/breakouts/limejs/index.html?usetiles <---- will use the tmx tiled background
 
@@ -46,4 +50,3 @@ This is the background in Tiled format.
 ### Tiled json file
 
 * `bg.json` -- the tile layout for the walls and background in JSON format, as exported from Tiled
-

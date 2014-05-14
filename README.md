@@ -9,7 +9,7 @@ last updated: Dec-1-2013
 **tl;dr** Breakouts is to JavaScript game engines what [TodoMVC](http://todomvc.com) is to JavaScript MV\* frameworks.
 
 There are a lot of JavaScript game engines out there, the JavaScript wiki lists [over 80 of them](https://github.com/bebraw/jswiki/wiki/Game-Engines). This project is an attempt to get some insight into the engines out there. This was done by implementing a simple version of the game Breakout in various engines. With the implementations in hand, you can compare and contrast and play with the engines to help get a feel for whether you like them or not.  
-  
+
 ### Companion Article
 There is also a companion article to this project on [BuildNewGames](http://buildnewgames.com/game-engine-comparison/), which goes into detail on the first
 three engines that were a part of Breakouts (Impact, Lime and Crafty).
@@ -67,13 +67,10 @@ If you have a bug fix, suggestion or anything for any existing implementations o
 
 ## License
 
-All of the various engines have their own licenses, but the Breakout code itself (and the resources) is MIT licensed. Generally speaking, feel free to do whatever you want with it.
+All of the various engines have their own licenses, but the Breakout code itself is MIT licensed. Generally speaking, feel free to do whatever you want with it.
+
+This includes the [resources](https://github.com/city41/breakouts/tree/master/resources) (images, sounds, etc)
 
 ## Thanks!
 
 Thanks to Addy Osmani, Sindre Sorhus and everyone else involved with TodoMVC for the idea and inspiration. Also thanks to [everyone who is contributing new implementations and suggestions](https://github.com/city41/breakouts/graphs/contributors)
-
-
-
-
-
