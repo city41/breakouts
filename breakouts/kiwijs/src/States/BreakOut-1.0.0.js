@@ -1,10 +1,10 @@
 var BreakOutState = new Kiwi.State('BreakOutState');
 
 /**
-* The BreakOutState in the core state that is used in the game. 
+* The BreakOutState in the core state that is used in the game.
 *
 * It is the state where the majority of the functionality occurs 'in-game'.
-* 
+*
 *
 * @class BreakOutState
 * @extends State
@@ -73,7 +73,7 @@ BreakOutState.create = function () {
     this.lives = 3;
 
     this.setHUD();
-    
+
 }
 
 /**
@@ -116,11 +116,11 @@ BreakOutState.setLevelData = function () {
 
     this.levels = [
         {
-            name: "Block",
+            name: "letsa begin",
             bricks: [
-                [g, r, b, o, g, r, b],
-                [r, b, o, g, r, b, o],
-                [b, o, g, r, b, o, g]
+                [X,X,g,o,g,X,X],
+                [o,b,g,g,g,b,o],
+                [X,b,b,b,b,b,X]
             ]
         },
         {
@@ -166,7 +166,7 @@ BreakOutState.setLevelData = function () {
 * @method initStage
 * @public
 */
-BreakOutState.initStage = function (num) {
+BreakOutState.initStage = function (num, options) {
     //game complete, show a victorious victor page. So rewarding.
     if (num >= this.levels.length - 1) {
         this.game.huds.defaultHUD.removeWidget(this.scoreTF);
@@ -180,7 +180,10 @@ BreakOutState.initStage = function (num) {
     this.playing = false;
 
     //tiles
-    this.buildTiles();
+
+    if (!options || options.resetTiles !== false) {
+        this.buildTiles();
+    }
 
     //add initial ball
     this.addBall();
@@ -233,7 +236,7 @@ BreakOutState.buildTiles = function () {
             }
         }
     }
-    
+
 }
 
 /**
@@ -497,7 +500,7 @@ BreakOutState.failStage = function () {
         game.states.switchState('GameOverState');
     } else {
         //restart
-        this.initStage(this.level);
+        this.initStage(this.level, { resetTiles: false });
     }
 }
 
