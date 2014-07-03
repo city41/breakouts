@@ -12,7 +12,7 @@ var TitleScreen = me.ScreenObject.extend( {
 		me.input.bindKey(me.input.KEY.ENTER, "enter", true);
 		
 		// map the left button click on the ENTER key
-		me.input.bindMouse(me.input.mouse.LEFT, me.input.KEY.ENTER);
+		me.input.bindPointer(me.input.mouse.LEFT, me.input.KEY.ENTER);
 
 		// use minpubsub to detect user action
 		this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
@@ -50,7 +50,7 @@ var TitleScreen = me.ScreenObject.extend( {
 		// unregister the event
 		me.event.unsubscribe(this.handler);
 		me.input.unbindKey(me.input.KEY.ENTER);
-		me.input.unbindMouse(me.input.mouse.LEFT);
+		me.input.unbindPointer(me.input.mouse.LEFT);
 
 	}
 });
