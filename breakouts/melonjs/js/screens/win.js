@@ -10,7 +10,7 @@ var GameEndScreen = me.ScreenObject.extend( {
 		// enable keyboard/mouse/touch event
 		me.input.bindKey(me.input.KEY.ENTER, "enter", true);
 		// map the left button click on the ENTER key
-		me.input.bindMouse(me.input.mouse.LEFT, me.input.KEY.ENTER);
+		me.input.bindPointer(me.input.mouse.LEFT, me.input.KEY.ENTER);
 
 		var _this = this;
 		// use minpubsub to detect user action
@@ -45,7 +45,7 @@ var GameEndScreen = me.ScreenObject.extend( {
 		// unregister the event
 		me.event.unsubscribe(this.handler);
 		me.input.unbindKey(me.input.KEY.ENTER);
-		me.input.unbindMouse(me.input.mouse.LEFT);
+		me.input.unbindPointer(me.input.mouse.LEFT);
 	}
 });
 

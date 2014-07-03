@@ -131,7 +131,7 @@ var PlayScreen = me.ScreenObject.extend( {
 		me.input.unbindKey(me.input.KEY.LEFT);
 		me.input.unbindKey(me.input.KEY.RIGHT);
 		me.input.unbindKey(me.input.KEY.ENTER);
-		me.input.unbindMouse(me.input.mouse.LEFT);
+		me.input.unbindPointer(me.input.mouse.LEFT);
 	}
 
 });
