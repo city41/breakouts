@@ -1,18 +1,11 @@
    var Paddle = function(x, y, world) {
-		this.initialize(x, y, world);
-    };
-	
-	Paddle.prototype = new createjs.Sprite();
-	Paddle.prototype.Sprite_initialize = Paddle.prototype.initialize;
-
-    Paddle.prototype.initialize = function(x, y, world) {
+		this.game = world;
+		this.Sprite_constructor(this.game.spriteSheets.paddle);
         this.x = x;
         this.y = y;
-		this.game = world;
         this.normalWidth = 48;
         this.smallWidth = 32;
         this.width = this.normalWidth;
-		this.Sprite_initialize(this.game.spriteSheets.paddle);
 		this.height = this.game.spriteSheets.paddle.getFrameBounds(0).height;
 		//registration point in the middle
         this.regX = -(this.width/2)
@@ -25,6 +18,9 @@
         this.vX = x;
         this.gotoAndStop('normal');
     };
+
+	// setup inheritance
+	createjs.extend(Paddle, createjs.Sprite);
 
 	Paddle.prototype.goShort = function(){
 		this.gotoAndStop('small');
@@ -43,3 +39,7 @@
     Paddle.prototype.calculateMoveFrom = function(mouseX) {
         this.x = mouseX;
     };
+
+	// resolve superclass overwritten methods
+	// (e.g. Sprite.constructor -> Paddle.Sprite_constructor)
+	createjs.promote(Paddle, 'Sprite');

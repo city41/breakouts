@@ -4,18 +4,8 @@
  * @param {Number} y initial y position
  */
 var Ball = function(x, y, world) {
-	this.initialize(x, y, world);
-};
-
-// setup inheritance
-Ball.prototype = new createjs.Sprite();
-
-Ball.prototype.Sprite_initialize = Ball.prototype.initialize;
-
-//Initialize the class
-Ball.prototype.initialize = function(x, y, world) {
 	this.game = world
-	this.Sprite_initialize(this.game.spriteSheets.ball, 'ball')
+	this.Sprite_constructor(this.game.spriteSheets.ball, 'ball')
 	this.x = x;
 	this.y = y;
 	this.vely = -3;
@@ -36,6 +26,9 @@ Ball.prototype.initialize = function(x, y, world) {
 	this.brickWidth = bounds.width;
 	this.brickHeight = bounds.height;
 };
+
+// setup inheritance
+createjs.extend(Ball, createjs.Sprite);
 
 //ball animation
 Ball.prototype.tick = function(){
@@ -133,3 +126,7 @@ Ball.prototype.determineBounceVelocity = function(paddle){
 	var ratio = (paddle.width/10)/2
 	return ((this.x-paddle.x)/10)-ratio;
 }
+
+// resolve superclass overwritten methods
+// (e.g. Sprite.constructor -> Ball.Sprite_constructor)
+createjs.promote(Ball, 'Sprite');
