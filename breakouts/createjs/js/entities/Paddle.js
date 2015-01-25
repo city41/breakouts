@@ -5,11 +5,10 @@
         this.y = y;
         this.normalWidth = 48;
         this.smallWidth = 32;
-        this.width = this.normalWidth;
 		this.height = this.game.spriteSheets.paddle.getFrameBounds(0).height;
 		//registration point in the middle
-        this.regX = -(this.width/2)
-		this.regY = -(this.height/2)
+		this.regY = -(this.height/2);
+        this.setWidth(this.normalWidth);
 
 		/**
          * Next horizontal position, initialized at initial position
@@ -22,14 +21,21 @@
 	// setup inheritance
 	createjs.extend(Paddle, createjs.Sprite);
 
+	Paddle.prototype.setWidth = function(width) {
+		this.width = width;
+		this.regX = -(this.width/2);
+	}
+
 	Paddle.prototype.goShort = function(){
 		this.gotoAndStop('small');
+		this.setWidth(this.smallWidth);
 		var t = setTimeout(createjs.proxy(this.goNormal, this), 10000);
 	}
 	
 	Paddle.prototype.goNormal = function(){
 		this.game.playSound('recover');
 		this.gotoAndStop('normal');
+		this.setWidth(this.normalWidth);
 	}
 	
     /**
