@@ -37,7 +37,7 @@
      * @param  {Number} mouseX mouse X position
      */
     Paddle.prototype.calculateMoveFrom = function(mouseX) {
-        this.x = mouseX;
+        this.x = Math.min(mouseX, this.game.stage.canvas.width - this.width);
     };
 
 	// resolve superclass overwritten methods
