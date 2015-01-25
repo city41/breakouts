@@ -36,7 +36,7 @@
 			this.destroy();
 			Crafty.trigger('BrickDeath', this);
 		});
-		this.tween({ w: 0, h: 0, x: this.x + breakout.brick.WIDTH / 2, y: this.y + breakout.brick.HEIGHT / 2 }, 40);
+		this.tween({ w: 0, h: 0, x: this.x + breakout.brick.WIDTH / 2, y: this.y + breakout.brick.HEIGHT / 2 }, 600);
 	}
 
 	Crafty.c('Brick', {
@@ -55,9 +55,8 @@
 			// tweening the position as well as size so that the scaling appears to take place from the center
 			// instead of the edge of the brick
 			.attr({ w: 0, h: 0, x: finalX + breakout.brick.WIDTH / 2, y: finalY + breakout.brick.HEIGHT })
-			.tween({ w: breakout.brick.WIDTH, h: breakout.brick.HEIGHT, x: finalX, y: finalY }, 40);
+			.tween({ w: breakout.brick.WIDTH, h: breakout.brick.HEIGHT, x: finalX, y: finalY }, 600);
 		}
 	});
 
 })();
-

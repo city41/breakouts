@@ -11,6 +11,7 @@ Crafty.scene('win', function() {
 			h: 30
 		})
 		.text('you are the master!')
+		.textFont({size: '20px'})
 		.textColor('#000000')
 		.css('text-align', 'center');
 
@@ -30,6 +31,3 @@ Crafty.scene('win', function() {
 		Crafty.scene('menu');
 	}, 4000);
 });
-
-
-

@@ -1,42 +1,37 @@
 (function() {
-	var audioFiles = [
-		'bounce',
-		'brickDeath',
-		'countdownBlip',
-		'powerdown',
-		'powerup',
-		'recover'
-	];
+	function getAudioAssets(audioFiles) {
+		var assets = {};
+		audioFiles.forEach(function(audioFile) {
+			assets[audioFile] = [
+			  'media/sfx/' + audioFile + '.mp3',
+				'media/sfx/' + audioFile + '.ogg',
+				'media/sfx/' + audioFile + '.wav'
+			];
+		});
 
-	function getAudioPaths(files) {
-		var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-		var paths = [];
-		files = files || audioFiles;
-
-		for(var i = 0; i < files.length; ++i) {
-			var file = files[i];
-			paths.push('media/sfx/' + file + '.mp3');
-			paths.push('media/sfx/' + file + '.ogg');
-			if(!isFirefox) {
-				paths.push('media/sfx/' + file + '.wav');
-			}
-		}
-
-		return paths;
+		return assets;
 	}
 
-	function installAudio() {
-		for(var i = 0; i < audioFiles.length; ++i) {
-			var file = audioFiles[i];
-			Crafty.audio.add(file, getAudioPaths([file]));
-		}
-	}
-	
 	Crafty.scene('loading', function() {
-		Crafty.load(['media/tiles.png', 'media/logo.png'].concat(getAudioPaths())
-		, function() {
-			installAudio();
-			Crafty.scene('menu'); 
+		var audioFiles = [
+			'bounce',
+			'brickDeath',
+			'countdownBlip',
+			'powerdown',
+			'powerup',
+			'recover'
+		];
+
+		var assets = {
+			images: {
+				tiles: 'media/tiles.png',
+				logo: 'media/logo.png'
+			},
+			audio: getAudioAssets(audioFiles)
+		};
+
+		Crafty.load(assets, function() {
+			Crafty.scene('menu');
 		});
 
 		Crafty.background('#000');
@@ -47,8 +42,7 @@
 			y: 120
 		}).text('Loading').css({
 			'text-align': 'center'
-		});
+		})
+		.textFont({size: '30px', weight: 'bold'});
 	});
 })();
-
-
