@@ -20,8 +20,7 @@
 			})
 			.textColor('#000000')
 			.text('Breakout')
-			.css('font-weight', 'bold')
-			.css('font-size', '30px')
+			.textFont({size: '30px', weight: 'bold'})
 			.css('text-align', 'center');
 	};
 
@@ -94,7 +93,7 @@
 		var b = 'b';
 		var t = 't';
 		var g = 'g';
-		
+
 		var bg = [
 			[l,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,r],
 			[v,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,v],
@@ -136,4 +135,3 @@
 	};
 
 })();
-

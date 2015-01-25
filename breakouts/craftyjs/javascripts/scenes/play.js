@@ -10,7 +10,7 @@ Crafty.scene('play', function() {
 
 		Crafty('Ball').destroy();
 		Crafty('Countdown').destroy();
-		
+
 		if(_level === 0) {
 			Crafty.scene('menu');
 			return;
@@ -30,7 +30,7 @@ Crafty.scene('play', function() {
 	function _addCountdown() {
 		Crafty('Countdown').destroy();
 		Crafty.e('2D, Canvas, Countdown, Center')
-			.countdown(100, function() {
+			.countdown(2500, function() {
 				Crafty('Ball').attr({active: true});
 			});
 	}
@@ -167,6 +167,7 @@ Crafty.scene('play', function() {
 		})
 		.textColor('#000000')
 		.text('lives: ' + _lives + ' score: ' + _score + ' level: ' + _level)
+		.textFont({size: '20px'})
 		.css('text-align', 'center');
 
 	Crafty.e('2D, DOM, Mouse, Keyboard, Text')
@@ -199,4 +200,3 @@ Crafty.scene('play', function() {
 
 	_reset(1);
 });
-
