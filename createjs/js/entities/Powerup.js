@@ -5,24 +5,19 @@
      * @param {Object} world, reference to main Game object
      */
     var Powerup = function(x, y, world) {
-		this.initialize(x, y, world);
-    };
-	
-	Powerup.prototype = new createjs.Sprite();
-	
-	Powerup.prototype.Sprite_initialize = Powerup.prototype.initialize;
-	
-    Powerup.prototype.initialize = function(x, y, world) {
 		this.game = world
+		this.Sprite_constructor(this.game.spriteSheets.power, "powerup");
         this.x = x;
         this.y = y;
 		this.speed = 0;
 		this.alpha = 0;
 		this.height = this.game.spriteSheets.power.getFrameBounds(0).height;
 		this.width = this.game.spriteSheets.power.getFrameBounds(0).width;
-		this.Sprite_initialize(this.game.spriteSheets.power, "powerup");
     };
 	
+	// setup inheritance
+	createjs.extend(Powerup, createjs.Sprite);
+
 	Powerup.prototype.fire = function(){
 		this.alpha = 1;
 		this.speed = 1;
@@ -44,3 +39,7 @@
 			}
 		}
 	}
+	
+	// resolve superclass overwritten methods
+	// (e.g. Sprite.constructor -> Powerup.Sprite_constructor)
+	createjs.promote(Powerup, 'Sprite');

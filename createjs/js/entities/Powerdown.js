@@ -5,23 +5,18 @@
      * @param {Object} world, reference to main Game object
      */
     var Powerdown = function(x, y, world) {
-		this.initialize(x, y, world);
-    };
-	
-	Powerdown.prototype = new createjs.Sprite();
-	
-	Powerdown.prototype.Sprite_initialize = Powerdown.prototype.initialize;
-	
-    Powerdown.prototype.initialize = function(x, y, world) {
 		this.game = world;
+		this.Sprite_constructor(this.game.spriteSheets.power, "powerdown");
         this.x = x;
         this.y = y;
 		this.speed = 0;
 		this.alpha = 0;
 		this.height = this.game.spriteSheets.power.getFrameBounds(0).height;
 		this.width = this.game.spriteSheets.power.getFrameBounds(0).width;
-		this.Sprite_initialize(this.game.spriteSheets.power, "powerdown");
     };
+	
+	// setup inheritance
+	createjs.extend(Powerdown, createjs.Sprite)
 	
 	Powerdown.prototype.fire = function(){
 		this.alpha = 1;
@@ -44,3 +39,6 @@
 			}
 		}	
 	}
+	// resolve superclass overwritten methods
+	// (e.g. Sprite.constructor -> Powerdown.Sprite_constructor)
+	createjs.promote(Powerdown, 'Sprite');

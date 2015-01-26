@@ -14,6 +14,8 @@
 	 var font = (isLast)?"24px Arial":"16px Arial";
 	 this.instructions = new createjs.Text(msg, font, '#000');
 	 this.clickText = new createjs.Text("Click here to start", "18px Arial", '#000'); 
+	 this.clickText.hitArea = new createjs.Shape();
+	 this.clickText.hitArea.graphics.beginFill('#000').drawRect(0, 0, this.clickText.getMeasuredWidth(), this.clickText.getMeasuredHeight());
 	 this.createScreen();
   }
   

@@ -188,7 +188,7 @@
 		var powerups = this.currentLevel.powerUps
 		var randomBrick1, randomBrick2;
 		for(var i=0; i<powerups; i++){
-			randomBrick1 = this.bricks[Math.round(Math.random()*this.bricks.length-1)];
+			randomBrick1 = this.bricks[Math.round(Math.random()*(this.bricks.length-1))];
 			var powerup = new Powerup(randomBrick1.x, randomBrick1.y, this.game)
 			this.game.stage.addChild(powerup);
 			randomBrick1.setPower(powerup); //create a reference in the brick
@@ -197,7 +197,7 @@
 		//adding powerDown
 		var powerdowns = this.currentLevel.powerDowns
 		for(var i=0; i<powerdowns; i++){
-			randomBrick2 = this.bricks[Math.round(Math.random()*this.bricks.length-1)];
+			randomBrick2 = this.bricks[Math.round(Math.random()*(this.bricks.length-1))];
 			if(randomBrick2==randomBrick1){//avoid repetition
 				i--;
 				continue;
