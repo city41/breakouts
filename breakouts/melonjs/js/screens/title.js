@@ -1,16 +1,16 @@
 
-/** 
+/**
  * Title Screen
  */
 var TitleScreen = me.ScreenObject.extend( {
-	
-	onResetEvent: function() {	
+
+	onResetEvent: function() {
 		// load the title level
 		me.levelDirector.loadLevel("title");
-		
+
 		// enable keyboard/mouse/touch event
 		me.input.bindKey(me.input.KEY.ENTER, "enter", true);
-		
+
 		// map the left button click on the ENTER key
 		me.input.bindPointer(me.input.mouse.LEFT, me.input.KEY.ENTER);
 
@@ -28,7 +28,7 @@ var TitleScreen = me.ScreenObject.extend( {
 	        // constructor
 	        init : function() {
 	        	// size does not matter, it's just to avoid having a zero size renderable
-	            this.parent(new me.Vector2d(), 100, 100);
+	            this._super(me.Renderable, "init", [0, 0, 100, 100]);
 				// init a font object
 				this.font = new me.Font('Arial', 20, 'black', 'center');
 				// add multiline support would be nice...
@@ -37,21 +37,21 @@ var TitleScreen = me.ScreenObject.extend( {
 				this.instructions3 = 'keys to skip levels';
 
 	        },
-	        draw : function (context) {
+	        draw : function (renderer) {
+                var context = renderer.getContext();
 	        	this.font.draw(context, this.instructions,  me.game.viewport.width/2, me.game.viewport.height/2 + 80);
 				this.font.draw(context, this.instructions2, me.game.viewport.width/2, me.game.viewport.height/2 + 140);
 				this.font.draw(context, this.instructions3, me.game.viewport.width/2, me.game.viewport.height/2 + 160);
-	        }      
+	        }
 	    })), 3);
 
 	},
-	
+
 	onDestroyEvent : function() {
 		// unregister the event
 		me.event.unsubscribe(this.handler);
 		me.input.unbindKey(me.input.KEY.ENTER);
 		me.input.unbindPointer(me.input.mouse.LEFT);
-
 	}
 });
 

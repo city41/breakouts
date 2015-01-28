@@ -24,16 +24,19 @@
         }, 
         {
          "color":"#ff00ff",
+         "draworder":"topdown",
          "height":26,
          "name":"Objects",
          "objects":[
                 {
                  "height":16,
+                 "id":1,
                  "name":"paddle",
                  "properties":
                     {
 
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":48,
@@ -49,16 +52,19 @@
         }, 
         {
          "color":"#0055ff",
+         "draworder":"topdown",
          "height":26,
          "name":"BlueBricks",
          "objects":[
                 {
                  "height":16,
+                 "id":2,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -67,11 +73,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":3,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -80,12 +88,14 @@
                 }, 
                 {
                  "height":16,
+                 "id":4,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue",
                      "hasPowerUp":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -94,11 +104,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":5,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -107,12 +119,14 @@
                 }, 
                 {
                  "height":16,
+                 "id":6,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue",
                      "hasPowerDown":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -121,11 +135,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":7,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -134,11 +150,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":8,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -154,16 +172,19 @@
         }, 
         {
          "color":"#ffaa00",
+         "draworder":"topdown",
          "height":26,
          "name":"OrangeBricks",
          "objects":[
                 {
                  "height":16,
+                 "id":9,
                  "name":"brick",
                  "properties":
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -172,11 +193,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":10,
                  "name":"brick",
                  "properties":
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -185,11 +208,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":11,
                  "name":"brick",
                  "properties":
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -205,16 +230,19 @@
         }, 
         {
          "color":"#55ff00",
+         "draworder":"topdown",
          "height":26,
          "name":"GreenBricks",
          "objects":[
                 {
                  "height":16,
+                 "id":12,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -223,11 +251,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":13,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -236,11 +266,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":14,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -249,11 +281,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":15,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -262,11 +296,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":16,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -280,11 +316,13 @@
          "x":0,
          "y":0
         }],
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "properties":
     {
      "name":"lets begin"
     },
+ "renderorder":"right-down",
  "tileheight":16,
  "tilesets":[
         {
