@@ -1,5 +1,5 @@
-/*global jQuery, friGame, requestAnimFrame, performance */
-/*jslint white: true, browser: true */
+/*global friGame, requestAnimFrame, performance */
+/*jslint white: true, browser: true, forin: true */
 
 // Copyright (c) 2011-2014 Franco Bugnano
 
@@ -24,7 +24,7 @@
 // Uses ideas and APIs inspired by:
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
 
-(function ($) {
+(function () {
 	'use strict';
 
 	var
@@ -38,7 +38,7 @@
 				window.oRequestAnimationFrame ||
 				window.msRequestAnimationFrame ||
 				function (callback) {
-					window.setTimeout(callback, 1000 / 60);
+					return window.setTimeout(callback, 1000 / 60);
 				};
 		}())
 	;
@@ -77,7 +77,28 @@
 		}());
 	}
 
-	$.extend(fg, {
+	// Extend a given object with all the properties of the source object
+	fg.extend = function (obj, source) {
+		var
+			prop,
+			copy
+		;
+
+		if (source) {
+			for (prop in source) {
+				copy = source[prop];
+
+				// Prevent never-ending loop and don't bring in undefined values
+				if ((obj !== copy) && (copy !== undefined)) {
+					obj[prop] = copy;
+				}
+			}
+		}
+
+		return obj;
+	};
+
+	fg.extend(fg, {
 		// Public constants
 
 		GRADIENT_VERTICAL: 0,
@@ -94,7 +115,7 @@
 		// Implementation details
 	});
 
-	$.extend(fg, {
+	fg.extend(fg, {
 		// Public options
 
 		cssClass: 'friGame',
@@ -107,8 +128,11 @@
 
 		playgroundCallbacks: [],
 		idUpdate: null,
+		idDraw: null,
 		nextUpdate: 0,
-		needsRedraw: false
+		needsRedraw: false,
+		absLeft: 0,
+		absTop: 0
 	});
 
 	// r is mapped to resources and s is mapped to sprites in order to have a more convenient
@@ -122,7 +146,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	$.extend(fg, {
+	fg.extend(fg, {
 		Maker: function (proto) {
 			return function () {
 				var
@@ -133,6 +157,49 @@
 
 				return obj;
 			};
+		},
+
+		noop: function () {
+		},
+
+		isEmptyObject: function (obj) {
+			var
+				name
+			;
+
+			for (name in obj) {
+				return false;
+			}
+
+			return true;
+		},
+
+		each: function(obj, callback) {
+			var
+				value,
+				i,
+				length = obj.length
+			;
+
+			if (length >= 0) {
+				for (i = 0; i < length; i += 1) {
+					value = obj[i];
+
+					if (callback.call(value, i, value) === false) {
+						break;
+					}
+				}
+			} else {
+				for (i in obj) {
+					value = obj[i];
+
+					if (callback.call(value, i, value) === false) {
+						break;
+					}
+				}
+			}
+
+			return obj;
 		},
 
 		// Return a new object with only the keys defined in the keys array parameter
@@ -152,6 +219,31 @@
 			}
 
 			return result;
+		},
+
+		inArray: function (elem, arr, i) {
+			var
+				len
+			;
+
+			if (arr) {
+				len = arr.length;
+
+				i = i || 0;
+				if (i < 0) {
+					i = Math.max(0, len + i);
+				}
+
+				while (i < len) {
+					if (arr[i] === elem) {
+						return i;
+					}
+
+					i += 1;
+				}
+			}
+
+			return -1;
 		},
 
 		truncate: function (n) {
@@ -284,8 +376,8 @@
 				// from the completeCallback
 				if ((fg.idUpdate === null) && (fg.s.playground)) {
 					fg.nextUpdate = performance.now() + fg.REFRESH_RATE;
-					fg.idUpdate = setTimeout(fg.update, 4);
-					requestAnimFrame(fg.draw);
+					fg.idUpdate = setInterval(fg.update, fg.REFRESH_RATE);
+					fg.idDraw = requestAnimFrame(fg.draw);
 				}
 
 				if (completeCallback) {
@@ -319,7 +411,7 @@
 			};
 
 			if (startColor) {
-				startColor = $.extend(this.startColor, fg.pick(startColor, ['r', 'g', 'b', 'a']));
+				startColor = fg.extend(this.startColor, fg.pick(startColor, ['r', 'g', 'b', 'a']));
 				startColor.r = clamp(round(startColor.r), 0, 255);
 				startColor.g = clamp(round(startColor.g), 0, 255);
 				startColor.b = clamp(round(startColor.b), 0, 255);
@@ -335,7 +427,7 @@
 					a: 1
 				};
 
-				endColor = $.extend(this.endColor, fg.pick(endColor, ['r', 'g', 'b', 'a']));
+				endColor = fg.extend(this.endColor, fg.pick(endColor, ['r', 'g', 'b', 'a']));
 				endColor.r = clamp(round(endColor.r), 0, 255);
 				endColor.g = clamp(round(endColor.g), 0, 255);
 				endColor.b = clamp(round(endColor.b), 0, 255);
@@ -364,7 +456,7 @@
 				gradient = this
 			;
 
-			$.each(fg.s, function () {
+			fg.each(fg.s, function () {
 				if (this.options.background === gradient) {
 					this.setBackground({background: null});
 				}
@@ -415,7 +507,7 @@
 			}
 
 			// Set default options
-			$.extend(my_options, {
+			fg.extend(my_options, {
 				// Public options
 				numberOfFrame: 1,
 				rate: fg.REFRESH_RATE,
@@ -439,7 +531,7 @@
 				multiy: 0
 			});
 
-			new_options = $.extend(my_options, fg.pick(new_options, [
+			new_options = fg.extend(my_options, fg.pick(new_options, [
 				'numberOfFrame',
 				'rate',
 				'type',
@@ -482,7 +574,7 @@
 			;
 
 			// Step 1: Remove myself from all the sprites
-			$.each(fg.s, function () {
+			fg.each(fg.s, function () {
 				if (this.options.animation === animation) {
 					this.setAnimation({animation: null});
 				}
@@ -576,7 +668,7 @@
 	fg.PRect = {
 		init: function (options) {
 			// Set default options
-			$.extend(this, {
+			fg.extend(this, {
 				// Public read-only properties
 				left: 0,
 				right: 0,
@@ -793,7 +885,7 @@
 	// ******************************************************************** //
 
 	fg.PBaseSprite = Object.create(fg.PRect);
-	$.extend(fg.PBaseSprite, {
+	fg.extend(fg.PBaseSprite, {
 		init: function (name, options, parent) {
 			var
 				my_options
@@ -807,7 +899,7 @@
 			}
 
 			// Set default options
-			$.extend(my_options, {
+			fg.extend(my_options, {
 				// Public options
 
 				// Implementation details
@@ -833,14 +925,12 @@
 			this.name = name;
 			this.parent = parent;
 
-			// A public read-only rect that is always relative to the playground
-			this.absRect = fg.Rect(options);
-
 			// A public userData property can be useful to the game
 			this.userData = null;
 
 			// Implementation details
 			this.callbacks = [];
+			this.needsUpdate = false;
 
 			// Call fg.PRect.init after setting this.parent
 			fg.PRect.init.call(this, options);
@@ -853,9 +943,17 @@
 				parent = this.parent,
 				parent_layers,
 				len_parent_layers,
+				parent_update_list,
+				len_parent_update_list,
 				name = this.name,
 				i
 			;
+
+			if (this.userData && this.userData.remove) {
+				this.userData.remove();
+			}
+
+			this.userData = null;
 
 			if (parent) {
 				parent_layers = fg.s[parent].layers;
@@ -866,51 +964,27 @@
 						break;
 					}
 				}
+
+				this.needsUpdate = false;
+				parent_update_list = fg.s[parent].updateList;
+				len_parent_update_list = parent_update_list.length;
+				for (i = 0; i < len_parent_update_list; i += 1) {
+					if (parent_update_list[i].name === name) {
+						parent_update_list.splice(i, 1);
+						break;
+					}
+				}
 			}
 
 			delete fg.s[name];
-		},
-
-		resize: function (options) {
-			this.absRect.resize(options);
-
-			fg.PRect.resize.call(this, options);
-
-			return this;
-		},
-
-		move: function (options) {
-			var
-				absRect = this.absRect,
-				parentAbsRect
-			;
-
-			fg.PRect.move.call(this, options);
-
-			if (this.parent) {
-				parentAbsRect = fg.s[this.parent].absRect;
-				absRect.move({
-					left: parentAbsRect.left + this.left,
-					top: parentAbsRect.top + this.top
-				});
-
-				this.insidePlayground = absRect.collideRect(fg.s.playground);
-			} else {
-				absRect.move({
-					left: this.left,
-					top: this.top
-				});
-
-				this.insidePlayground = true;
-			}
-
-			return this;
 		},
 
 		registerCallback: function (callback, rate) {
 			rate = Math.round(rate / fg.REFRESH_RATE) || 1;
 
 			this.callbacks.push({callback: callback, rate: rate, idleCounter: 0});
+
+			this.checkUpdate();
 
 			return this;
 		},
@@ -936,11 +1010,15 @@
 				callbacks.splice(remove_callbacks[i], 1);
 			}
 
+			this.checkUpdate();
+
 			return this;
 		},
 
 		clearCallbacks: function () {
 			this.callbacks.splice(0, this.callbacks.length);
+
+			this.checkUpdate();
 
 			return this;
 		},
@@ -1252,7 +1330,62 @@
 			return this;
 		},
 
+		getAbsRect: function () {
+			var
+				left = this.left,
+				top = this.top,
+				parent = fg.s[this.parent]
+			;
+
+			while (parent) {
+				left += parent.left;
+				top += parent.top;
+				parent = fg.s[parent.parent];
+			}
+
+			return fg.Rect({left: left, top: top, width: this.width, height: this.height});
+		},
+
 		// Implementation details
+
+		checkUpdate: function () {
+			var
+				oldNeedsUpdate = this.needsUpdate
+			;
+
+			if (this.callbacks.length === 0) {
+				this.needsUpdate = false;
+			} else {
+				this.needsUpdate = true;
+			}
+
+			this.updateNeedsUpdate(oldNeedsUpdate);
+		},
+
+		updateNeedsUpdate: function (oldNeedsUpdate) {
+			var
+				parent = this.parent,
+				name = this.name,
+				parent_update_list,
+				len_parent_update_list,
+				i
+			;
+
+			if (parent) {
+				if (this.needsUpdate && (!oldNeedsUpdate)) {
+					fg.s[parent].updateList.push({name: name, obj: this});
+				} else if ((!this.needsUpdate) && oldNeedsUpdate) {
+					parent_update_list = fg.s[parent].updateList;
+					len_parent_update_list = parent_update_list.length;
+					for (i = 0; i < len_parent_update_list; i += 1) {
+						if (parent_update_list[i].name === name) {
+							parent_update_list.splice(i, 1);
+							break;
+						}
+					}
+				}
+			}
+		},
 
 		update: function () {
 			var
@@ -1291,7 +1424,7 @@
 	// ******************************************************************** //
 
 	fg.PSprite = Object.create(fg.PBaseSprite);
-	$.extend(fg.PSprite, {
+	fg.extend(fg.PSprite, {
 		init: function (name, options, parent) {
 			var
 				my_options,
@@ -1306,7 +1439,7 @@
 			}
 
 			// Set default options
-			$.extend(my_options, {
+			fg.extend(my_options, {
 				// Public options
 				animation: null,
 				animationIndex: 0,
@@ -1349,6 +1482,8 @@
 			if (animation_redefined) {
 				animation = fg.r[new_options.animation];
 				my_options.animation = animation;
+				my_options.callback = null;
+				my_options.paused = false;
 
 				// Force new width and height based on the animation frame size
 				if (animation) {
@@ -1373,8 +1508,6 @@
 					new_options.animationIndex = 0;
 					index_redefined = true;
 				}
-
-				// If the animation gets redefined, the callback could be reset here
 			}
 
 			animation_options = this.animation_options;
@@ -1395,7 +1528,6 @@
 
 			if (new_options.rate !== undefined) {
 				animation_options.rate = Math.round(new_options.rate / fg.REFRESH_RATE) || 1;
-				animation_redefined = true;
 			}
 
 			if (new_options.once !== undefined) {
@@ -1433,12 +1565,38 @@
 				my_options.paused = new_options.paused;
 			}
 
+			this.checkUpdate();
+
 			return this;
 		},
 
 		resize: null,	// Sprites cannot be explicitly resized
 
 		// Implementation details
+
+		checkUpdate: function () {
+			var
+				options = this.options,
+				oldNeedsUpdate = this.needsUpdate
+			;
+
+			if	(
+					(this.callbacks.length === 0)
+				&&	(
+						(this.endAnimation || options.paused)
+					||	(
+							(!options.callback)
+						&&	((!options.animation) || (this.animation_options.numberOfFrame <= 1))
+						)
+					)
+				) {
+				this.needsUpdate = false;
+			} else {
+				this.needsUpdate = true;
+			}
+
+			this.updateNeedsUpdate(oldNeedsUpdate);
+		},
 
 		update: function () {
 			var
@@ -1601,7 +1759,7 @@
 	// ******************************************************************** //
 
 	fg.PSpriteGroup = Object.create(fg.PBaseSprite);
-	$.extend(fg.PSpriteGroup, {
+	fg.extend(fg.PSpriteGroup, {
 		init: function (name, options, parent) {
 			var
 				my_options,
@@ -1616,13 +1774,17 @@
 			}
 
 			// Set default options
-			$.extend(my_options, {
+			fg.extend(my_options, {
 				// Public options
 				background: null,
 				backgroundType: fg.BACKGROUND_TILED,
-				crop: false
+				crop: false,
+				borderRadius: 0,
+				borderWidth: 1,
+				borderColor: null,
 
 				// Implementation details
+				hasBorder: false
 			});
 
 			// The playground has a parentDOM property
@@ -1634,6 +1796,9 @@
 
 			fg.PBaseSprite.init.apply(this, arguments);
 
+			this.needsUpdate = true;
+			this.updateList = [];
+
 			// If the background has not been defined, force
 			// the background to null in order to be
 			// symmetric with the sprite and setAnimation
@@ -1642,6 +1807,7 @@
 			}
 
 			this.setBackground(new_options);
+			this.setBorder(new_options);
 		},
 
 		// Public functions
@@ -1681,14 +1847,6 @@
 					fg.PBaseSprite.resize.call(this, new_options);
 				}
 			}
-
-			return this;
-		},
-
-		move: function (options) {
-			fg.PBaseSprite.move.call(this, options);
-
-			this.moveChildrenAbsRect();
 
 			return this;
 		},
@@ -1748,6 +1906,34 @@
 			return this;
 		},
 
+		setBorder: function (options) {
+			var
+				my_options = this.options,
+				new_options = options || {},
+				round = fg.truncate
+			;
+
+			if (new_options.borderColor !== undefined) {
+				my_options.borderColor = fg.r[new_options.borderColor];
+			}
+
+			if (new_options.borderRadius !== undefined) {
+				my_options.borderRadius = round(new_options.borderRadius);
+			}
+
+			if (new_options.borderWidth !== undefined) {
+				my_options.borderWidth = round(new_options.borderWidth);
+			}
+
+			if (my_options.borderColor && my_options.borderWidth) {
+				my_options.hasBorder = true;
+			} else {
+				my_options.hasBorder = false;
+			}
+
+			return this;
+		},
+
 		crop: function (cropping) {
 			var
 				options = this.options
@@ -1788,6 +1974,7 @@
 			;
 
 			this.layers.push({name: name, obj: group});
+			this.updateList.push({name: name, obj: group});
 
 			return group;
 		},
@@ -1798,6 +1985,7 @@
 			;
 
 			this.layers.unshift({name: name, obj: group});
+			this.updateList.unshift({name: name, obj: group});
 
 			return group;
 		},
@@ -1816,63 +2004,42 @@
 
 		// Implementation details
 
+		checkUpdate: fg.noop,
+
 		update: function () {
 			var
-				layers = this.layers,
-				len_layers = layers.length,
+				update_list = this.updateList,
+				len_update_list = update_list.length,
 				i
 			;
 
 			fg.PBaseSprite.update.call(this);
 
-			for (i = 0; i < len_layers; i += 1) {
-				if (layers[i]) {
-					layers[i].obj.update();
+			for (i = 0; i < len_update_list; i += 1) {
+				if (update_list[i]) {
+					update_list[i].obj.update();
 				}
 			}
 		},
 
 		draw: function () {
 			var
+				left = this.left,
+				top = this.top,
 				layers = this.layers,
 				len_layers = layers.length,
 				i
 			;
+
+			fg.absLeft += left;
+			fg.absTop += top;
 
 			for (i = 0; i < len_layers; i += 1) {
 				layers[i].obj.draw();
 			}
-		},
 
-		moveChildrenAbsRect: function () {
-			var
-				absRect = this.absRect,
-				myAbsLeft = absRect.left,
-				myAbsTop = absRect.top,
-				playground = fg.s.playground,
-				layers = this.layers,
-				len_layers = layers.length,
-				layer_obj,
-				layerAbsRect,
-				i
-			;
-
-			for (i = 0; i < len_layers; i += 1) {
-				// Update the child node absRect
-				layer_obj = layers[i].obj;
-				layerAbsRect = layer_obj.absRect;
-				layerAbsRect.move({
-					left: myAbsLeft + layer_obj.left,
-					top: myAbsTop + layer_obj.top
-				});
-
-				layer_obj.insidePlayground = layerAbsRect.collideRect(playground);
-
-				// If this node has children, they must be updated too
-				if (layer_obj.moveChildrenAbsRect) {
-					layer_obj.moveChildrenAbsRect();
-				}
-			}
+			fg.absLeft -= left;
+			fg.absTop -= top;
 		}
 	});
 
@@ -1884,26 +2051,33 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	$.extend(fg, {
+	fg.extend(fg, {
 		// Public functions
 
-		playground: function (parentDOM) {
+		playground: function (dom) {
 			var
 				i,
 				playground = fg.s.playground,
 				playground_callbacks = fg.playgroundCallbacks,
-				len_playground_callbacks = playground_callbacks.length,
-				dom
+				len_playground_callbacks = playground_callbacks.length
 			;
 
 			if (!playground) {
-				if (parentDOM) {
-					dom = $(parentDOM);
-				} else {
-					dom = $('#playground');
+				if (typeof dom === 'string') {
+					// Allow the ID to start with the '#' symbol
+					if (dom[0] === '#') {
+						dom = dom.split('#')[1];
+					}
+
+					dom = document.getElementById(dom);
+				} else if (!dom) {
+					// Default to the element with id of 'playground'
+					dom = document.getElementById('playground');
+				} else if (dom.jquery) {
+					dom = dom.get(0);
 				}
 
-				playground = fg.SpriteGroup('playground', {width: dom.width(), height: dom.height(), parentDOM: dom}, '');
+				playground = fg.SpriteGroup('playground', {width: dom.offsetWidth, height: dom.offsetHeight, parentDOM: dom}, '');
 
 				// The playground cannot be resized or moved
 				playground.resize = null;
@@ -1918,8 +2092,8 @@
 
 				if (fg.idUpdate === null) {
 					fg.nextUpdate = performance.now() + fg.REFRESH_RATE;
-					fg.idUpdate = setTimeout(fg.update, 4);
-					requestAnimFrame(fg.draw);
+					fg.idUpdate = setInterval(fg.update, fg.REFRESH_RATE);
+					fg.idDraw = requestAnimFrame(fg.draw);
 				}
 			}
 
@@ -1931,7 +2105,7 @@
 				resourceManager = fg.resourceManager
 			;
 
-			if (callback) {
+			if (callback !== undefined) {
 				resourceManager.completeCallback = callback;
 			}
 
@@ -1951,7 +2125,7 @@
 
 		stopGame: function () {
 			if (fg.idUpdate !== null) {
-				clearTimeout(fg.idUpdate);
+				clearInterval(fg.idUpdate);
 				fg.idUpdate = null;
 			}
 
@@ -1976,6 +2150,14 @@
 			return this;
 		},
 
+		forceRedraw: function () {
+			fg.needsRedraw = true;
+
+			if (fg.idDraw === null) {
+				fg.idDraw = requestAnimFrame(fg.draw);
+			}
+		},
+
 		// Implementation details
 
 		update: function () {
@@ -1996,9 +2178,6 @@
 
 				fg.needsRedraw = true;
 			}
-
-			// Avoid the spiral of death by always leaving at least 4 ms between updates
-			fg.idUpdate = setTimeout(fg.update, 4);
 		},
 
 		draw: function () {
@@ -2007,7 +2186,9 @@
 			;
 
 			if (fg.idUpdate !== null) {
-				requestAnimFrame(fg.draw);
+				fg.idDraw = requestAnimFrame(fg.draw);
+			} else {
+				fg.idDraw = null;
 			}
 
 			if (fg.needsRedraw) {
@@ -2015,7 +2196,26 @@
 
 				fg.needsRedraw = false;
 			}
+		},
+
+		insidePlayground: function (sprite) {
+			var
+				playground = fg.s.playground,
+				sprite_left = fg.absLeft + sprite.left,
+				sprite_top = fg.absTop + sprite.top
+			;
+
+			return	(
+						(
+							((sprite_left >= 0) && (sprite_left < playground.right))
+						||	((0 >= sprite_left) && (0 < (sprite_left + sprite.width)))
+						)
+					&&	(
+							((sprite_top >= 0) && (sprite_top < playground.bottom))
+						||	((0 >= sprite_top) && (0 < (sprite_top + sprite.height)))
+						)
+			);
 		}
 	});
-}(jQuery));
+}());
 

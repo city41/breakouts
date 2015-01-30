@@ -201,11 +201,15 @@
 
 	// Enable controlling the paddle with the touch events
 	fg.playgroundCallback(function (dom) {
-		dom.on('touchmove', function (e) {
+		var
+			element = $(dom)
+		;
+
+		element.on('touchmove', function (e) {
 			var
 				touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0],
 				mouseTracker = fg.mouseTracker,
-				offset = dom.offset()
+				offset = element.offset()
 			;
 
 			e.preventDefault();

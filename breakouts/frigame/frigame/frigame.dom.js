@@ -55,6 +55,10 @@
 		fg.support.backgroundsize = Modernizr.prefixed('backgroundSize');
 	}
 
+	if (Modernizr.borderradius) {
+		fg.support.borderradius = Modernizr.prefixed('borderRadius');
+	}
+
 	// ******************************************************************** //
 	// ******************************************************************** //
 	// ******************************************************************** //
@@ -80,6 +84,18 @@
 				svg,
 				support = fg.support
 			;
+
+			// If used as a border, only the solid color is supported
+			if (startColor.a === 1) {
+				this.solid_color = ['rgb(', String(startColor.r), ',', String(startColor.g), ',', String(startColor.b), ')'].join('');
+			} else {
+				if (support.rgba) {
+					this.solid_color = this.startColorStr;
+				} else {
+					// Alpha not supported, use a simple rgb color
+					this.solid_color = ['rgb(', String(startColor.r), ',', String(startColor.g), ',', String(startColor.b), ')'].join('');
+				}
+			}
 
 			if (startColor === endColor) {
 				// Solid color
@@ -166,22 +182,9 @@
 					this.ie_filter = ['progid:DXImageTransform.Microsoft.Gradient(GradientType=', type, ',startColorstr="', start_color_string, '",endColorstr="', end_color_string, '")'].join('');
 				} else {
 					// Fallback to solid color
-					if (startColor.a === 1) {
-						this.css_options = {
-							'background-color': ['rgb(', String(startColor.r), ',', String(startColor.g), ',', String(startColor.b), ')'].join('')
-						};
-					} else {
-						if (support.rgba) {
-							this.css_options = {
-								'background-color': this.startColorStr
-							};
-						} else {
-							// Alpha not supported, use a simple rgb color
-							this.css_options = {
-								'background-color': ['rgb(', String(startColor.r), ',', String(startColor.g), ',', String(startColor.b), ')'].join('')
-							};
-						}
-					}
+					this.css_options = {
+						'background-color': this.solid_color
+					};
 				}
 			}
 
@@ -207,6 +210,14 @@
 			}
 
 			return apply_ie_filters;
+		},
+
+		getSolidColor: function () {
+			if (!this.dom_initialized) {
+				this.initDOM();
+			}
+
+			return this.solid_color;
 		}
 	});
 
@@ -382,7 +393,7 @@
 				currentFrame = options.currentFrame,
 				animation = options.animation,
 				animation_options = this.animation_options,
-				insidePlayground = this.insidePlayground,
+				insidePlayground = fg.insidePlayground(this),
 				dom = this.dom,
 				left = this.left,
 				top = this.top,
@@ -493,7 +504,7 @@
 					old_options.multiy = multiy;
 				}
 
-				if (update_position || ((options.idleCounter === 0) && (animation_options.numberOfFrame !== 1))) {
+				if (update_position || (currentFrame !== old_options.currentFrame)) {
 					css_options['background-position'] = [
 						String(-(animation_options.offsetx + multix + (currentFrame * animation_options.deltax))),
 						'px ',
@@ -501,6 +512,8 @@
 						'px'
 					].join('');
 					update_css = true;
+
+					old_options.currentFrame = currentFrame;
 				}
 
 				if	(
@@ -620,7 +633,7 @@
 			this.old_options = {};
 
 			if (!parent) {
-				dom = $(['<div id="', fg.domPrefix, name, '"></div>'].join('')).prependTo(options.parentDOM);
+				dom = $(['<div id="', fg.domPrefix, name, '"></div>'].join('')).prependTo($(options.parentDOM));
 				dom.addClass(fg.cssClass);	// Reset background properties set by external CSS
 				dom.css({
 					'left': '0px',
@@ -674,6 +687,11 @@
 				height = this.height,
 				background = options.background,
 				backgroundType = options.backgroundType,
+				has_border = options.hasBorder,
+				border_radius = options.borderRadius,
+				border_width = (has_border && options.borderWidth) || 0,
+				border_color = has_border && options.borderColor,
+				border_width_changed = border_width !== old_options.borderWidth,
 				angle = options.angle,
 				scaleh = options.scaleh,
 				scalev = options.scalev,
@@ -697,7 +715,7 @@
 				fg.last_sprite = last_sprite;
 			}
 
-			if ((this.layers.length || background) && alpha && scaleh && scalev && !options.hidden) {
+			if ((this.layers.length || background || border_color) && alpha && scaleh && scalev && !options.hidden) {
 				if (!this.dom) {
 					dom = $(['<div id="', fg.domPrefix, this.name, '"></div>'].join(''));
 					dom.addClass(fg.cssClass);	// Reset background properties set by external CSS
@@ -743,15 +761,15 @@
 					old_options.hidden = hidden;
 				}
 
-				if (left !== old_options.left) {
-					css_options.left = [String(left - options.posOffsetX), 'px'].join('');
+				if ((left !== old_options.left) || border_width_changed) {
+					css_options.left = [String(left - options.posOffsetX - border_width), 'px'].join('');
 					update_css = true;
 
 					old_options.left = left;
 				}
 
-				if (top !== old_options.top) {
-					css_options.top = [String(top - options.posOffsetY), 'px'].join('');
+				if ((top !== old_options.top) || border_width_changed) {
+					css_options.top = [String(top - options.posOffsetY - border_width), 'px'].join('');
 					update_css = true;
 
 					old_options.top = top;
@@ -863,6 +881,42 @@
 
 					old_options.background = background;
 					old_options.backgroundType = backgroundType;
+				}
+
+				if (support.borderradius && ((border_radius !== old_options.borderRadius) || border_width_changed)) {
+					if (border_radius) {
+						css_options[support.borderradius] = [String(border_radius + border_width), 'px'].join('');
+					} else {
+						css_options[support.borderradius] = '';
+					}
+
+					update_css = true;
+
+					old_options.borderRadius = border_radius;
+				}
+
+				if (border_width_changed) {
+					if (border_width) {
+						css_options['border-width'] = [String(border_width), 'px'].join('');
+					} else {
+						css_options['border-width'] = '';
+					}
+
+					update_css = true;
+
+					old_options.borderWidth = border_width;
+				}
+
+				if (border_color !== old_options.borderColor) {
+					if (border_color) {
+						css_options['border-color'] = border_color.getSolidColor();
+					} else {
+						css_options['border-color'] = '';
+					}
+
+					update_css = true;
+
+					old_options.borderWidth = border_width;
 				}
 
 				if (crop !== old_options.crop) {
