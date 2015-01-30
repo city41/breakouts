@@ -26,21 +26,20 @@ var GameEndScreen = me.ScreenObject.extend( {
 	        // constructor
 	        init : function() {
 	        	// size does not matter, it's just to avoid having a zero size renderable
-	            this._super(me.Renderable, "init", [0, 0, 100, 100]);
+	            this._super(me.Renderable, 'init', [0, 0, 100, 100]);
 				// init a font object
 				this.font = new me.Font('Arial', 20, 'black', 'center');
 
 	        },
 	        draw : function (renderer) {
-                context = renderer.getContext();
-	        	this.font.draw(context, 'you are the master !', me.game.viewport.width/2,
-                               me.game.viewport.height/2 + 80);
+	        	this.font.draw(renderer.getContext(), 'you are the master !', me.game.viewport.width/2, me.game.viewport.height/2 + 80);
 	        }
 	    })), 2);
 
 		// automatically switch back to Menu screen after 2sec
 		this.timeoutID = setTimeout(function(){me.state.change(me.state.MENU)},2000);
 	},
+
 
 	onDestroyEvent : function() {
 		// unregister the event

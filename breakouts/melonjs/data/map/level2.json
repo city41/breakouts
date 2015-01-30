@@ -12,18 +12,8 @@
          "y":0
         }, 
         {
-         "data":[80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80],
-         "height":26,
-         "name":"collision",
-         "opacity":1,
-         "type":"tilelayer",
-         "visible":false,
-         "width":20,
-         "x":0,
-         "y":0
-        }, 
-        {
          "color":"#ff00ff",
+         "draworder":"topdown",
          "height":26,
          "name":"Objects",
          "objects":[
@@ -34,6 +24,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":48,
@@ -49,6 +40,7 @@
         }, 
         {
          "color":"#0055ff",
+         "draworder":"topdown",
          "height":26,
          "name":"BlueBricks",
          "objects":[
@@ -59,6 +51,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -72,6 +65,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -86,6 +80,7 @@
                      "color":"blue",
                      "hasPowerUp":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -99,6 +94,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -113,6 +109,7 @@
                      "color":"blue",
                      "hasPowerDown":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -126,6 +123,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -139,6 +137,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -152,6 +151,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -165,6 +165,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -178,6 +179,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -191,6 +193,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -204,6 +207,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -217,6 +221,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -230,6 +235,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -243,6 +249,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -256,6 +263,7 @@
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -271,6 +279,7 @@
         }, 
         {
          "color":"#ffaa00",
+         "draworder":"topdown",
          "height":26,
          "name":"OrangeBricks",
          "objects":[
@@ -281,6 +290,7 @@
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -294,6 +304,7 @@
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -308,6 +319,7 @@
                      "color":"orange",
                      "hasPowerDown":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -323,6 +335,7 @@
         }, 
         {
          "color":"#55ff00",
+         "draworder":"topdown",
          "height":26,
          "name":"GreenBricks",
          "objects":[
@@ -334,6 +347,7 @@
                      "color":"green",
                      "hasPowerUp":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -347,6 +361,7 @@
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -360,6 +375,7 @@
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -375,6 +391,7 @@
         }, 
         {
          "color":"#ff0000",
+         "draworder":"topdown",
          "height":26,
          "name":"RedBricks",
          "objects":[
@@ -385,6 +402,7 @@
                     {
                      "color":"red"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -398,6 +416,7 @@
                     {
                      "color":"red"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -411,6 +430,7 @@
                     {
                      "color":"red"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -424,11 +444,95 @@
                     {
                      "color":"red"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
                  "x":176,
                  "y":144
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "color":"#ff0000",
+         "draworder":"topdown",
+         "height":26,
+         "name":"collision",
+         "objects":[
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":384
+                }, 
+                {
+                 "height":368,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":0
+                }, 
+                {
+                 "height":16,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":288,
+                 "x":16,
+                 "y":0
+                }, 
+                {
+                 "height":368,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":304,
+                 "y":0
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":304,
+                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -442,6 +546,7 @@
     {
      "name":"tie fighta!"
     },
+ "renderorder":"right-down",
  "tileheight":16,
  "tilesets":[
         {

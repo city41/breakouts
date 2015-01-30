@@ -75,13 +75,12 @@ var PlayScreen = me.ScreenObject.extend( {
 		this._removeAllOf('power-down');
 		this._removeAllOf('power-up');
 
-        var ball = me.pool.pull("ball", 50, me.game.viewport.height / 2);
-        var countdown = me.pool.pull("countdown", 0, 0);
-		me.game.world.addChild(ball, 19000);
-		me.game.world.addChild(countdown, 20000);
+
+		me.game.world.addChild(new EntityBall(50, me.game.viewport.height / 2, {}), 19000);
+		me.game.world.addChild(new EntityCountdown(0, 0, {}), 20000);
 
 		game.paddle = me.game.world.getChildByName('paddle')[0];
-		game.ball = ball;
+		game.ball = me.game.world.getChildByName('ball')[0];
 		game.data.bricks = me.game.world.getChildByName('brick').length;
 
 		// add a basic HUD
@@ -89,7 +88,7 @@ var PlayScreen = me.ScreenObject.extend( {
 	        // constructor
 	        init : function() {
 	        	// size does not matter, it's just to avoid having a zero size renderable
-	            this._super(me.Renderable, "init", [0 ,0 ,100, 100]);
+	            this._super(me.Renderable, 'init', [0, 0, 100, 100]);
 	            // init a font object
 				this.font = new me.Font('Arial', 20, 'black');
 				this.font.textBaseline = "bottom";
@@ -97,10 +96,9 @@ var PlayScreen = me.ScreenObject.extend( {
 
 	        },
 	        draw : function (renderer) {
-                var context = renderer.getContext();
-	        	this.font.draw(context, 'lives: ' + game.data.lives, 25, this.fontYpos);
-				this.font.draw(context, 'score: ' + game.data.score, 105, this.fontYpos);
-				this.font.draw(context, 'level: ' + (game.data.level+1), 230, this.fontYpos);
+	        	this.font.draw(renderer.getContext(), 'lives: ' + game.data.lives, 25, this.fontYpos);
+				this.font.draw(renderer.getContext(), 'score: ' + game.data.score, 105, this.fontYpos);
+				this.font.draw(renderer.getContext(), 'level: ' + (game.data.level+1), 230, this.fontYpos);
 	        }
 	    })), 3);
 	},

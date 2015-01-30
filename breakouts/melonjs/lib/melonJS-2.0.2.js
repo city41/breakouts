@@ -18853,7 +18853,6 @@ if (!window.performance.now) {
                     }
 
                     // ignore if the pull function does not return a corresponding object
-                    console.log(obj);
                     if (obj) {
                         // set the obj z order correspondingly to its parent container/group
                         obj.z = group.z;

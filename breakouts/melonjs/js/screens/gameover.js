@@ -26,14 +26,13 @@ var GameOverScreen = me.ScreenObject.extend( {
 	        // constructor
 	        init : function() {
 	        	// size does not matter, it's just to avoid having a zero size renderable
-	            this._super(me.Renderable, "init", [0, 0, 100, 100]);
+	            this._super(me.Renderable, 'init', [0, 0, 100, 100]);
 				// init a font object
 				this.font = new me.Font('Arial', 20, 'black', 'center');
 
 	        },
 	        draw : function (renderer) {
-                var context = renderer.getContext();
-	        	this.font.draw(context, 'game over!', me.game.viewport.width/2, me.game.viewport.height/2 + 80);
+	        	this.font.draw(renderer.getContext(), 'game over!', me.game.viewport.width/2, me.game.viewport.height/2 + 80);
 	        }
 	    })), 2);
 

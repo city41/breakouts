@@ -34,17 +34,19 @@ var game = {
 	 */
 	onload: function() {
 
-		// init the video (with auto-scaling on)
-    var scale = window.devicePixelRatio || 1;
-		if (!me.video.init('screen', me.video.CANVAS, 320, 416,
-                            me.device.isMobile ? true : false,
-                            me.device.isMobile ? "auto" : scale)) {
-			alert("Sorry but your browser does not support html 5 canvas. Please try with another one!");
-			return;
-		}
+        // Initialize the video.
+        var scale = me.device.isMobile ? "auto" : me.device.getPixelRatio();
+        if (!me.video.init("screen",  me.video.CANVAS, 320, 416, me.device.isMobile ? true : false, scale)) {
+            alert("Your browser does not support HTML5 canvas.");
+            return;
+        }
 
-		// disable interpolation when scaling
-		me.video.renderer.setImageSmoothing(false);
+        // add "#debug" to the URL to enable the debug Panel
+        if (document.location.hash === "#debug") {
+            window.onReady(function () {
+                me.plugin.register.defer(this, me.debug.Panel, "debug", me.input.KEY.V);
+            });
+        }
 
 		// enable pre-renderning globally (instead of per layer)
 		// as it gives better performance on mobile device
@@ -87,19 +89,11 @@ var game = {
 		me.pool.register("ball", EntityBall);
 		me.pool.register("countdown", EntityCountdown);
 
-        if (document.location.hash === "#debug") {
-            window.onReady(function () {
-                me.plugin.register.defer(this, me.debug.Panel, "debug");
-            });
-        }
-
 		// add a fn callback that displays pause on pause :)
 		me.state.onPause = function () {
 			var _font = new me.Font('Arial', 20, 'black', 'center');
 			_font.bold();
-			_font.draw(me.video.renderer.getContext(), 'Paused !', me.game.viewport.width/2,
-                       me.game.viewport.height/2 + 110);
-			me.video.renderer.blitSurface();
+			_font.draw(me.video.renderer.getContext(), 'Paused !', me.game.viewport.width/2, me.game.viewport.height/2 + 110);
 		};
 
 		// switch to MENU state

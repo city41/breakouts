@@ -1,14 +1,13 @@
 EntityCountdown = me.Entity.extend({
 	init: function(x, y, settings) {
-        var settings = {};
 		// define this here instead of tiled
-		settings.image = me.loader.getImage("tiles16");
+		settings.image = "tiles16";
 		settings.width = 32;
 		settings.height = 48;
 		settings.spritewidth = 32;
 		settings.spriteheight = 48;
 		settings.name = 'countdown';
-		this._super(me.Entity, "init", [144, 322, settings]);
+        this._super(me.Entity, 'init', [x, y, settings]);
 
 		this.lastFrame = -1;
 
@@ -19,13 +18,16 @@ EntityCountdown = me.Entity.extend({
 		}).bind(this));
 
 		// center it
-		this.pos.x = me.game.viewport.width / 2 - this.renderable.width / 2;
-		this.pos.y = me.game.viewport.height / 2 - this.renderable.height / 2;
+        this.pos.set(
+            me.game.viewport.width / 2 - this.width / 2,
+            me.game.viewport.height / 2 - this.height / 2
+        );
+        this.updateBounds();
+
 	},
 
 	update: function(dt) {
-		this._super(me.Entity, "update", [dt]);
-        if (this.body) this.body.update(dt);
+        this._super(me.Entity, 'update', [dt]);
 		if (this.renderable) {
 			if(this.renderable.getCurrentAnimationFrame() != this.lastFrame) {
 				me.audio.play('countdownblip', false, null, 0.3);
@@ -35,7 +37,7 @@ EntityCountdown = me.Entity.extend({
 		return true;
 	},
 
-	onDestroyEvent: function() {
+	onDeactivateEvent: function() {
 		// launch the ball !
 		if (game.ball) {
 			game.ball.active = true;

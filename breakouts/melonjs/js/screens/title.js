@@ -28,7 +28,7 @@ var TitleScreen = me.ScreenObject.extend( {
 	        // constructor
 	        init : function() {
 	        	// size does not matter, it's just to avoid having a zero size renderable
-	            this._super(me.Renderable, "init", [0, 0, 100, 100]);
+	            this._super(me.Renderable, 'init', [0, 0, 100, 100]);
 				// init a font object
 				this.font = new me.Font('Arial', 20, 'black', 'center');
 				// add multiline support would be nice...
@@ -38,10 +38,9 @@ var TitleScreen = me.ScreenObject.extend( {
 
 	        },
 	        draw : function (renderer) {
-                var context = renderer.getContext();
-	        	this.font.draw(context, this.instructions,  me.game.viewport.width/2, me.game.viewport.height/2 + 80);
-				this.font.draw(context, this.instructions2, me.game.viewport.width/2, me.game.viewport.height/2 + 140);
-				this.font.draw(context, this.instructions3, me.game.viewport.width/2, me.game.viewport.height/2 + 160);
+	        	this.font.draw(renderer.getContext(), this.instructions,  me.game.viewport.width/2, me.game.viewport.height/2 + 80);
+				this.font.draw(renderer.getContext(), this.instructions2, me.game.viewport.width/2, me.game.viewport.height/2 + 140);
+				this.font.draw(renderer.getContext(), this.instructions3, me.game.viewport.width/2, me.game.viewport.height/2 + 160);
 	        }
 	    })), 3);
 
@@ -52,6 +51,7 @@ var TitleScreen = me.ScreenObject.extend( {
 		me.event.unsubscribe(this.handler);
 		me.input.unbindKey(me.input.KEY.ENTER);
 		me.input.unbindPointer(me.input.mouse.LEFT);
+
 	}
 });
 
