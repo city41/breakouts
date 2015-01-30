@@ -34,21 +34,25 @@
 
 	// mouseTracker inside a playgroundCallback in order to have the playground DOM
 	fg.playgroundCallback(function (dom) {
-		dom.mousemove(function (e) {
+		var
+			element = $(dom)
+		;
+
+		$(document).mousemove(function (e) {
 			var
 				mouseTracker = fg.mouseTracker,
-				offset = dom.offset()
+				offset = element.offset()
 			;
 
 			mouseTracker.x = e.pageX - offset.left;
 			mouseTracker.y = e.pageY - offset.top;
 		});
 
-		dom.mousedown(function (e) {
+		$(document).mousedown(function (e) {
 			fg.mouseTracker[e.which] = true;
 		});
 
-		dom.mouseup(function (e) {
+		$(document).mouseup(function (e) {
 			fg.mouseTracker[e.which] = false;
 		});
 	});

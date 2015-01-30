@@ -1,0 +1,84 @@
+<h1>Getting started</h1>
+
+<h2>Installation</h2>
+
+<p><em>Windows users: please follow the installation guide in the README file</em></p>
+
+<p>The dependencies required to develop with LimeJS include <a href="http://www.python.org/">Python 2.6+</a>, <a href="http://git-scm.com/download">Git</a> and <a href="http://subversion.apache.org/">Subversion</a> or Git-SVN. If you wish to use Closure Compiler then <a href="http://www.java.com/en/">Java</a> is also required. Once you have your built game there are no specific requirements for the distribution server.</p>
+
+<p>Download the source from <a href="http://github.com/digitalfruit/limejs">github</a>. The files include Javascript source files (in lime/) and one Python helper command line tool(lime.py) in bin/ directory.</p>
+
+<p>Check out the features of the CLI utility by running</p>
+
+<pre><code>#!Bash
+bin/lime.py --help
+</code></pre>
+
+<p>You will see the utility can handle initial setup, dependency updating, project creation, template generations and project building.</p>
+
+<p>Start by running inital setup: </p>
+
+<pre><code>#!Bash
+bin/lime.py init
+</code></pre>
+
+<p>This will download <a href="http://code.google.com/closure/library/">Closure Library</a>, <a href="http://box2d.thinkpixellab.com/">Box2D physics library</a>, <a href="http://code.google.com/closure/compiler/">Closure Compiler</a> &amp; <a href="http://code.google.com/closure/templates/">Templates</a> and set them all up so they are ready for being used.</p>
+
+<p>You're done! Create a simple helloworld project by running </p>
+
+<pre><code>#!Bash
+bin/lime.py create helloworld
+</code></pre>
+
+<p>Open helloworld/helloworld.html in the browser and enjoy your accomplishment.</p>
+
+<h2>Common Closure</h2>
+
+<p>LimeJS is built with Closure Library. Closure is JavaScript library built by Google, it has been used to develop lot of Google's great products like Gmail or Docs. It is highly maintainable and readable, fast and feature rich. It also integrates well with other Closure tools like Compiler and Templates.</p>
+
+<h3>Namespaces</h3>
+
+<p>One of Closure's the most noticeable features is its namespacing system. Unlike some other libraries all the code is separated between files. Every file provides names for its code and can request some other files being present. While developing you only have to include <em>base.js</em> file that gives you new functions <code>goog.provide(namespace)</code> and <code>goog.require(namespace)</code>. Provide function declares that all code in the file can be requested with that name. Require function requests another file with that name. The whole system is analogues with any other language that has namespaces built in (Java, ActionScript, Python) with an exception that the name does not need to specify correct folder structure but can be completely arbitrary. Closure uses its built in <em>deps.js</em> file to map the namespaces to file paths. This means that if you add new namespaces you have to run </p>
+
+<pre><code>#!Bash
+python bin/lime.py update
+</code></pre>
+
+<p>to update the <em>deps.js</em> so your new file can be accessed.</p>
+
+<p>It is not required that you use <code>goog.provide()</code> for your own project files but its highly encouraged. Using this will also get you much better results when you are ready to compile your game.</p>
+
+<h3>Inheritance</h3>
+
+<p>Working with LimeJS one of the common actions is to make your custom subclass of a builtin class. Using this you can add your custom game specific methods to common objects. This is an example of a <em>lime.Circle</em>'s subclass <em>mygame.Ball</em>.</p>
+
+<pre><code>#!JavaScript
+// make file loadable from other files
+goog.provide('mygame.Ball'); 
+
+// request that lime.Circle's definitions are loaded
+goog.require('lime.Circle'); 
+
+// new constructor
+mygame.Ball = function(){
+    // call parents constructor 
+    goog.base(this);
+
+    // custom initialization code
+    this.color_ = 'red';
+}
+// define parent class
+goog.inherits(mygame.Ball,lime.Circle); 
+
+// new custom method for ball instances
+mygame.Ball.prototype.myMethod = function(){    
+}
+</code></pre>
+
+<h3>Events</h3>
+
+<p>Closure provides you functions for listening and unlistening events for objects. You add an event listener with function <code>goog.events.listen(src, type, listener, opt_capture, opt_handler)</code>. Src is the target object dispatching the event, type is the event name(for example mousedown). Listener is callback function that is called when event fires. You can also make the event fire in capture phase and define custom context object for callback function. Removing event listener uses same kind of function named <code>goog.events.unlisten()</code> with all the same parameters.</p>
+
+<p>If you wish to dispatch events from your custom object you have to make them subclass of <em>goog.events.EventTarget</em> and then call the objects <code>dispatchEvent()</code> method.</p>
+
+<p><em>There is much more you could know about Closure Library, check out the <a href="http://closure-library.googlecode.com/svn/docs/index.html">docs</a>, <a href="http://www.amazon.com/Closure-Definitive-Guide-Michael-Bolin/dp/1449381871">book</a> or <a href="http://www.youtube.com/watch?v=yp_9q3tgDnQ">video</a> for more information.</em></p>

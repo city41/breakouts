@@ -1,4 +1,4 @@
-/*global jQuery, friGame */
+/*global friGame */
 /*jslint white: true, browser: true */
 
 // Copyright (c) 2011-2014 Franco Bugnano
@@ -26,7 +26,7 @@
 // Uses the safeDrawImage function taken from:
 // Akihabara Copyright (c) 2010 Francesco Cottone, http://www.kesiev.com/, licensed under the MIT
 
-(function ($, fg) {
+(function (fg) {
 	'use strict';
 
 	var
@@ -39,7 +39,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	$.extend(fg.PGradient, {
+	fg.extend(fg.PGradient, {
 		initCanvas: function () {
 			var
 				startColor = this.startColor,
@@ -48,7 +48,7 @@
 
 			if (startColor === endColor) {
 				// Solid color
-				this.fillStyle = this.startColorStr;
+				this.style = this.startColorStr;
 			} else {
 				// Gradient
 				this.gradients = {};
@@ -58,9 +58,8 @@
 			this.canvas_initialized = true;
 		},
 
-		addGroup: function (group) {
+		addGroup: function (ctx, group) {
 			var
-				ctx = fg.ctx,
 				width = group.width,
 				height = group.height,
 				dimension,
@@ -90,7 +89,7 @@
 					gradient.addColorStop(1, this.endColorStr);
 
 					gradients[dimension] = {
-						fillStyle: gradient,
+						style: gradient,
 						groups: {}
 					};
 				}
@@ -126,7 +125,7 @@
 						if (gradient_groups[name]) {
 							// Remove the group from the dimension
 							delete gradient_groups[name];
-							if ($.isEmptyObject(gradient_groups)) {
+							if (fg.isEmptyObject(gradient_groups)) {
 								// If no groups are using this dimension, delete the gradient
 								delete gradients[dimension];
 							}
@@ -136,16 +135,16 @@
 			}
 		},
 
-		drawBackground: function (ctx, group) {
+		setFillStyle: function (ctx, group) {
 			var
 				width = group.width,
 				height = group.height,
 				dimension
 			;
 
-			if (this.fillStyle) {
+			if (this.style) {
 				// Solid color
-				ctx.fillStyle = this.fillStyle;
+				ctx.fillStyle = this.style;
 			} else {
 				// Gradient
 				if (this.type === fg.GRADIENT_HORIZONTAL) {
@@ -154,9 +153,34 @@
 					dimension = height;
 				}
 
-				ctx.fillStyle = this.gradients[dimension].fillStyle;
+				ctx.fillStyle = this.gradients[dimension].style;
 			}
+		},
 
+		setStrokeStyle: function (ctx, group) {
+			var
+				width = group.width,
+				height = group.height,
+				dimension
+			;
+
+			if (this.style) {
+				// Solid color
+				ctx.strokeStyle = this.style;
+			} else {
+				// Gradient
+				if (this.type === fg.GRADIENT_HORIZONTAL) {
+					dimension = width;
+				} else {
+					dimension = height;
+				}
+
+				ctx.strokeStyle = this.gradients[dimension].style;
+			}
+		},
+
+		drawBackground: function (ctx, group) {
+			this.setFillStyle(ctx, group);
 			ctx.fill();
 		}
 	});
@@ -166,11 +190,11 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	$.extend(fg.PAnimation, {
+	fg.extend(fg.PAnimation, {
 		drawBackground: function (ctx, group) {
 			var
 				img = this.options.img,
-				fillStyle = this.fillStyle
+				style = this.style
 			;
 
 			if (group.options.backgroundType === fg.BACKGROUND_STRETCHED) {
@@ -189,12 +213,12 @@
 				);
 			} else {
 				// Tiled background
-				if (!fillStyle) {
-					fillStyle = ctx.createPattern(img, 'repeat');
-					this.fillStyle = fillStyle;
+				if (!style) {
+					style = ctx.createPattern(img, 'repeat');
+					this.style = style;
 				}
 
-				ctx.fillStyle = fillStyle;
+				ctx.fillStyle = style;
 				ctx.fill();
 			}
 		}
@@ -206,7 +230,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	$.extend(fg.PSprite, {
+	fg.extend(fg.PSprite, {
 		draw: function () {
 			var
 				options = this.options,
@@ -223,7 +247,7 @@
 				ctx = fg.ctx
 			;
 
-			if (this.insidePlayground && animation && alpha && scaleh && scalev && !options.hidden) {
+			if (fg.insidePlayground(this) && animation && alpha && scaleh && scalev && !options.hidden) {
 				ctx.save();
 
 				ctx.translate(this.centerx, this.centery);
@@ -274,37 +298,56 @@
 		'draw'
 	]);
 
-	$.extend(fg.PSpriteGroup, {
+	fg.extend(fg.PSpriteGroup, {
 		init: function (name, options, parent) {
 			var
 				dom,
 				width,
-				height
+				height,
+				canvas
 			;
 
 			this.old_options = {};
 
 			if (!parent) {
-				width = String(options.width);
-				height = String(options.height);
+				dom = options.parentDOM;
+				if (dom.getContext) {
+					this.dom = null;
 
-				dom = $(['<canvas id="', fg.domPrefix, name, '" width ="', width, '" height="', height, '"></canvas>'].join('')).prependTo(options.parentDOM);
-				dom.addClass(fg.cssClass);	// Reset background properties set by external CSS
-				dom.css({
-					'left': '0px',
-					'top': '0px',
-					'width': [width, 'px'].join(''),
-					'height': [height, 'px'].join(''),
-					'overflow': 'hidden'
-				});
+					fg.ctx = dom.getContext('2d');
 
-				this.dom = dom;
+					// Force the width and height of the sprite group the same as the ones defined for the canvas
+					options.width = dom.width || 300;
+					options.height = dom.height || 150;
+				} else {
+					width = options.width;
+					height = options.height;
 
-				fg.ctx = dom.get(0).getContext('2d');
+					canvas = document.createElement('canvas');
+					canvas.screencanvas = true;	// Optimization for CocoonJS
+					canvas.id = [fg.domPrefix, name].join('');
+					canvas.width = width;
+					canvas.height = height;
+					dom.insertBefore(canvas, dom.firstChild);
+					canvas.className = fg.cssClass;	// Reset background properties set by external CSS
+					fg.extend(canvas.style, {
+						'left': '0px',
+						'top': '0px',
+						'width': [String(width), 'px'].join(''),
+						'height': [String(height), 'px'].join(''),
+						'overflow': 'hidden'
+					});
+
+					this.dom = canvas;
+
+					fg.ctx = canvas.getContext('2d');
+				}
 			}
 
 			// Call the overridden function last, in order to have the callbacks called once the object has been fully initialized
 			overrides.PSpriteGroup.init.apply(this, arguments);
+
+			this.gradients = {};
 		},
 
 		// Public functions
@@ -312,7 +355,10 @@
 		remove: function () {
 			var
 				background = this.options.background,
-				old_background = this.old_options.background
+				old_background = this.old_options.background,
+				border_color = this.options.borderColor,
+				old_border_color = this.old_options.borderColor,
+				dom = this.dom
 			;
 
 			overrides.PSpriteGroup.remove.apply(this, arguments);
@@ -325,8 +371,16 @@
 				background.removeGroup(this);
 			}
 
-			if (this.dom) {
-				this.dom.remove();
+			if (old_border_color && old_border_color.removeGroup) {
+				old_border_color.removeGroup(this);
+			}
+
+			if (border_color && border_color.removeGroup) {
+				border_color.removeGroup(this);
+			}
+
+			if (dom && dom.parentNode) {
+				dom.parentNode.removeChild(dom);
 			}
 		},
 
@@ -341,9 +395,17 @@
 				top = this.top,
 				width = this.width,
 				height = this.height,
-				insidePlayground = this.insidePlayground,
+				insidePlayground = fg.insidePlayground(this),
 				background = insidePlayground && options.background,
 				old_background = old_options.background,
+				border_radius = options.borderRadius,
+				border_width = options.borderWidth,
+				border_half_width = border_width / 2,
+				border_color = insidePlayground && border_width && options.borderColor,
+				old_border_color = old_options.borderColor,
+				background_changed = background !== old_background,
+				border_changed = border_color !== old_border_color,
+				size_changed = (width !== old_options.width) || (height !== old_options.height),
 				angle = options.angle,
 				scaleh = options.scaleh,
 				scalev = options.scalev,
@@ -361,38 +423,55 @@
 			}
 
 			if (insidePlayground) {
-				if (background !== old_background) {
-					if (old_background && old_background.removeGroup) {
-						old_background.removeGroup(this);
+				if (background_changed || border_changed || size_changed) {
+					if (background_changed || size_changed) {
+						if (old_background && old_background.removeGroup) {
+							this.gradients[old_background.name] -= 1;
+							if (size_changed || (!this.gradients[old_background.name])) {
+								old_background.removeGroup(this);
+							}
+						}
+
+						if (background && background.addGroup) {
+							if (!this.gradients[background.name]) {
+								this.gradients[background.name] = 1;
+							} else {
+								this.gradients[background.name] += 1;
+							}
+
+							background.addGroup(ctx, this);
+						}
+
+						old_options.background = background;
 					}
 
-					if (background && background.addGroup) {
-						background.addGroup(this);
+					if (border_changed || size_changed) {
+						if (old_border_color && old_border_color.removeGroup) {
+							this.gradients[old_border_color.name] -= 1;
+							if (size_changed || (!this.gradients[old_border_color.name])) {
+								old_border_color.removeGroup(this);
+							}
+						}
+
+						if (border_color && border_color.addGroup) {
+							if (!this.gradients[border_color.name]) {
+								this.gradients[border_color.name] = 1;
+							} else {
+								this.gradients[border_color.name] += 1;
+							}
+
+							border_color.addGroup(ctx, this);
+						}
+
+						old_options.borderColor = border_color;
 					}
 
 					old_options.width = width;
 					old_options.height = height;
-					old_options.background = background;
-				} else {
-					if ((width !== old_options.width) || (height !== old_options.height)) {
-						// Reset the background in order to create a new one with the new width and height
-						if (background) {
-							if (background.removeGroup) {
-								background.removeGroup(this);
-							}
-
-							if (background.addGroup) {
-								background.addGroup(this);
-							}
-						}
-
-						old_options.width = width;
-						old_options.height = height;
-					}
 				}
 			}
 
-			if ((this.layers.length || background) && alpha && scaleh && scalev && !options.hidden) {
+			if ((this.layers.length || background || border_color) && alpha && scaleh && scalev && !options.hidden) {
 				if (angle || (scaleh !== 1) || (scalev !== 1)) {
 					ctx.save();
 					context_saved = true;
@@ -430,17 +509,47 @@
 				if (background || crop) {
 					// Prepare a rect path for the background and the clipping region
 					ctx.beginPath();
-					ctx.rect(0, 0, width, height);
+
+					if (border_radius) {
+						fg.roundedRect(ctx, 0, 0, width, height, border_radius);
+					} else {
+						ctx.rect(0, 0, width, height);
+					}
 				}
 
 				if (background) {
 					background.drawBackground(ctx, this);
 				}
 
+				if (border_color) {
+					ctx.beginPath();
+
+					if (border_radius) {
+						fg.roundedRect(ctx, -border_half_width, -border_half_width, width + border_width, height + border_width, border_radius + border_half_width);
+					} else {
+						ctx.rect(-border_half_width, -border_half_width, width + border_width, height + border_width);
+					}
+
+					border_color.setStrokeStyle(ctx, this);
+					ctx.lineWidth = border_width;
+					ctx.stroke();
+				}
+
 				if (crop) {
 					if (!context_saved) {
 						ctx.save();
 						context_saved = true;
+					}
+
+					if (border_color) {
+						// The border has created a new path, so the old path must be re-created here
+						ctx.beginPath();
+
+						if (border_radius) {
+							fg.roundedRect(ctx, 0, 0, width, height, border_radius);
+						} else {
+							ctx.rect(0, 0, width, height);
+						}
 					}
 
 					ctx.clip();
@@ -499,5 +608,22 @@
 			tox.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
 		}
 	};
-}(jQuery, friGame));
+
+	fg.roundedRect = function (ctx, x, y, width, height, radius) {
+		var
+			pi = Math.PI,
+			pi_2 = pi / 2
+		;
+
+		ctx.moveTo(x, y + radius);
+		ctx.lineTo(x, y + height - radius);
+		ctx.arc(x + radius, y + height - radius, radius, pi, pi_2, true);
+		ctx.lineTo(x + width - radius, y + height);
+		ctx.arc(x + width - radius, y + height - radius, radius, pi_2, 0, true);
+		ctx.lineTo(x + width, y + radius);
+		ctx.arc(x + width - radius, y + radius, radius, 0, -pi_2, true);
+		ctx.lineTo(x + radius, y);
+		ctx.arc(x + radius, y + radius, radius, -pi_2, pi, true);
+	};
+}(friGame));
 

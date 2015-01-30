@@ -1,0 +1,154 @@
+/*
+ * config.json
+ * 
+ */
+{
+	"global": { // Settings for the entire game (Entities and component settings are generally found in their respective files.)
+		"initialScene": "load",                  // Once the game is ready, this scene is automatically loaded.
+		"fps": 60,                               // Target FPS to be used by the game engine.
+		"rootElement": "root",                   // Optional. Defines the id of the root DOM element used by the game. The default is "root" and this element is created if it does not already exist.
+        "aspectRatio": 0.7692307692307692307692, // Optional. Whether the rootElement should be automatically resized to maintain aspect ratio. Leave this off if the rootElement is to be strictly styled using CSS.
+		"nativeAssetResolution": 320,            // Optional. Screen width in pixels that the source images were originally designed for.
+		"resizeFont": true                       // Optional. Whether to adjust the body element's fontSize to proportionally match current window size. Useful for cascading the value of em's across all game DOM elements.
+	},
+	"builds": [                                  // Builds and their respective settings
+		{
+			"id": "game",                        // This is the id of the build and is matched to a folder name in the "builds/" folder. Build tools create this folder if needed.
+			"namespace": "platypus.breakout",    // Optional namespace for the game - defaults to "PBS.KIDS.platformer"
+			"cssCompression": true,
+			"jsCompression": true,
+			"manifest": true,                    // Determines whether this build uses Application Cache.
+			"pngCompression": 24,                // Whether to compress PNGs: 0 = No, # > 0 compresses to # of colors per image.
+			"paths": {
+				//"default": "",                 // If a path is specified here, all files use this absolute path; otherwise files default to relative path names.
+				//"assets":  ""                  // The list of assets can have an alternative absolute path (for example, when using a CDN). If not defined, assets use the default path above.
+			}
+		}
+	],
+	"source": { 
+		"assets": [ // Assets such as images and audio
+		
+			// Audio. Using different assets for browser compatability, as well as audio sprite for older iOS Safari compatability
+            {"id": "death",          "src": {"ogg": "audio/brickDeath.ogg",           "mp3": "audio/brickDeath.mp3",           "m4aCombined": {"assetId": "combined", "src": "audio/combined.m4a", "data": {"offset": 2050,  "length": 190}}}},
+            {"id": "blip",           "src": {"ogg": "audio/countdownBlip.ogg",        "mp3": "audio/countdownBlip.mp3",        "m4aCombined": {"assetId": "combined", "src": "audio/combined.m4a", "data": {"offset": 3050,  "length": 160}}}},
+            {"id": "down",           "src": {"ogg": "audio/powerdown.ogg",            "mp3": "audio/powerdown.mp3",            "m4aCombined": {"assetId": "combined", "src": "audio/combined.m4a", "data": {"offset": 4050,  "length": 270}}}},
+            {"id": "up",             "src": {"ogg": "audio/powerup.ogg",              "mp3": "audio/powerup.mp3",              "m4aCombined": {"assetId": "combined", "src": "audio/combined.m4a", "data": {"offset": 5050,  "length": 440}}}},
+            {"id": "recover",        "src": {"ogg": "audio/recover.ogg",              "mp3": "audio/recover.mp3",              "m4aCombined": {"assetId": "combined", "src": "audio/combined.m4a", "data": {"offset": 6050,  "length": 400}}}},
+
+			// Images. Sprite sheets are evenly split into rows and columns. Could add support for sprite sheet definition files later.
+            {"id": "logo",           "src": "images/logo.png"},
+            {"id": "title",          "src": "images/bg_prerendered.png"},
+            {"id": "tiles",          "src": "images/tiles.png",        "data": {"rows": 9, "columns": 12}}
+		],
+        "includes": [
+            {"id": "CreateJS",      "src": "http://code.createjs.com/createjs-2013.02.12.min.js"},
+            {"id": "Browser",       "src": "../engine/browser.js"},
+            {"id": "Main",          "src": "../engine/main.js"},
+            {"id": "MainCSS",       "src": "css/main.css"},
+            {"id": "GameCSS",       "src": "css/game.css"},
+            {"id": "FullScreenCSS", "src": "css/fullscreen.css"}
+        ],
+		"classes": [
+			{"id": "Game",			  			"src": "../engine/game.js"},
+            {"id": "ComponentFactory",			"src": "../engine/factory.js"},
+			{"id": "Entity",          			"src": "../engine/entity.js"},
+			{"id": "Scene",           			"src": "../engine/scene.js"},
+			{"id": "Collision-Shape", 			"src": "../engine/collision-shape.js"},
+			{"id": "Collision-Data-Container", 	"src": "../engine/collision-data-container.js"},
+			{"id": "AABB", 			  			"src": "../engine/aabb.js"},
+            {"id": "Vector2D",                  "src": "../engine/vector2D.js"}
+		],
+		"components": [ // JavaScript files defining component modules
+			// This is a list of all the Platypus re-usable components that this game uses. For a full list of available components, check out https://github.com/PBS-KIDS/Platypus/wiki/Components-Reference
+            {"id": "asset-loader",               "src": "../engine/components/asset-loader.js"},
+            {"id": "enable-ios-audio",           "src": "../engine/components/enable-ios-audio.js"},
+            {"id": "handler-collision",          "src": "../engine/components/handler-collision.js"},
+			{"id": "handler-controller",         "src": "../engine/components/handler-controller.js"},
+			{"id": "tiled-loader",               "src": "../engine/components/tiled-loader.js"},
+            {"id": "handler-render-createjs",    "src": "../engine/components/handler-render-createjs.js"},
+            {"id": "handler-render-dom",         "src": "../engine/components/handler-render-dom.js"},
+            {"id": "handler-ai",                 "src": "../engine/components/handler-ai.js"},
+			{"id": "handler-logic",              "src": "../engine/components/handler-logic.js"},
+			{"id": "camera",                     "src": "../engine/components/camera.js"},
+			{"id": "collision-group",            "src": "../engine/components/collision-group.js"},
+            {"id": "audio",                      "src": "../engine/components/audio.js"},
+            {"id": "broadcast-events",           "src": "../engine/components/broadcast-events.js"},
+            {"id": "change-scene",               "src": "../engine/components/change-scene.js"},
+            {"id": "dom-element",                "src": "../engine/components/dom-element.js"},
+            {"id": "entity-container",           "src": "../engine/components/entity-container.js"},
+            {"id": "entity-controller",          "src": "../engine/components/entity-controller.js"},
+            {"id": "fullscreen",                 "src": "../engine/components/fullscreen.js"},
+            {"id": "random-events",              "src": "../engine/components/random-events.js"},
+            {"id": "render-debug",               "src": "../engine/components/render-debug.js"},
+            {"id": "render-tiles",               "src": "../engine/components/render-tiles.js"},
+            {"id": "render-animation",           "src": "../engine/components/render-animation.js"},
+            {"id": "render-image",               "src": "../engine/components/render-image.js"},
+            {"id": "logic-button",               "src": "../engine/components/logic-button.js"},
+            {"id": "logic-delay-message",        "src": "../engine/components/logic-delay-message.js"},
+            {"id": "logic-destroy-me",           "src": "../engine/components/logic-destroy-me.js"},
+            {"id": "logic-directional-movement", "src": "../engine/components/logic-directional-movement.js"},
+            {"id": "logic-gravity",              "src": "../engine/components/logic-gravity.js"},
+            {"id": "logic-rebounder",            "src": "../engine/components/logic-rebounder.js"},
+            {"id": "logic-state-machine",        "src": "../engine/components/logic-state-machine.js"},
+            {"id": "component-switcher",         "src": "../engine/components/component-switcher.js"},
+            {"id": "render-destroy-me",          "src": "../engine/components/render-destroy-me.js"},
+            {"id": "entity-linker",       	     "src": "../engine/components/entity-linker.js"},
+            {"id": "logic-spawner",              "src": "../engine/components/logic-spawner.js"},
+            {"id": "logic-portal",	             "src": "../engine/components/logic-portal.js"},
+			{"id": "collision-basic",            "src": "../engine/components/collision-basic.js"},
+			{"id": "collision-tiles",            "src": "../engine/components/collision-tiles.js"},
+			
+			
+			{"id": "logic-paddle",               "src": "components/logic-paddle.js"}
+  		],
+		"entities": [ // JSON files describing entities
+		    {"id": "action-layer",    "src": "entities/action-layer.json"}, // If "src" key is included, this will be replaced by the JSON structure in the linked file.
+			{"id": "desktop-interface-layer",    "src": "entities/desktop-interface-layer.json"},
+            {"id": "multitouch-interface-layer", "src": "entities/multitouch-interface-layer.json"},
+            {"id": "touch-interface-layer",      "src": "entities/touch-interface-layer.json"},
+            {"id": "tile-layer",      "src": "entities/tile-layer.json"},
+			{"id": "render-layer",    "src": "entities/render-layer.json"},
+			{"id": "collision-layer", "src": "entities/collision-layer.json"},
+            {"id": "button-fullscreen", "src": "entities/button-fullscreen.json"},
+            {"id": "ball-killer",     "src": "entities/ball-killer.json"},
+            {"id": "button-jump-left",  "src": "entities/button-jump-left.json"},
+            {"id": "button-jump-right", "src": "entities/button-jump-right.json"},
+            {"id": "end-game",        "src": "entities/end-game.json"},
+            {"id": "button-play-game","src": "entities/button-play-game.json"},
+            {"id": "score-keeper",    "src": "entities/score-keeper.json"},
+            {"id": "brick-blue",      "src": "entities/brick-blue.json"},
+            {"id": "progress-bar",    "src": "entities/progress-bar.json"},
+            {"id": "brick-orange",    "src": "entities/brick-orange.json"},
+            {"id": "title-screen",    "src": "entities/title-screen.json"},
+            {"id": "brick-red",       "src": "entities/brick-red.json"},
+            {"id": "brick-green",	  "src": "entities/brick-green.json"},
+            {"id": "ball",            "src": "entities/ball.json"},
+            {"id": "ball-spawner",    "src": "entities/ball-spawner.json"},
+            {"id": "paddle",          "src": "entities/paddle.json"},
+            {"id": "pill-minus",      "src": "entities/pill-minus.json"},
+            {"id": "pill-plus",       "src": "entities/pill-plus.json"}
+		],
+		"scenes": [ // JSON files describing scenes
+            {"id": "load",          "src": "scenes/load.json"}, // If "src" key is included, this will be replaced by the JSON structure in the linked file.
+            {"id": "menu",          "src": "scenes/menu.json"},
+            {"id": "scene-level-0", "src": "scenes/scene-level-0.json"},
+            {"id": "scene-level-1", "src": "scenes/scene-level-1.json"},
+            {"id": "scene-level-2", "src": "scenes/scene-level-2.json"},
+            {"id": "scene-level-3", "src": "scenes/scene-level-3.json"},
+            {"id": "end",           "src": "scenes/end.json"}
+		],
+		"levels": [ // JSON files describing levels
+            {"id": "level0", "src": "levels/level0.json"},
+            {"id": "level1", "src": "levels/level1.json"},
+            {"id": "level2", "src": "levels/level2.json"},
+            {"id": "level3", "src": "levels/level3.json"}
+		]
+	},
+	"client-supports": [ // "client-supports" is an array of different file sources used where a different file type or size may be required depending on properties of the client.
+		{                //    Each contained object lists mutually exclusive properties, so that a single aspect is comprised of an item from each object list. This example includes a single object in the list, but additional objects can be appended for different aspects
+		    "ogg": ["firefox", "opera", "chrome"],         // Array lists user agent checks that should load this resource type
+		    "m4aCombined": ["android", "silk", "ipod", "ipad", "iphone"],  // Order determines first valid version, so Safari on iPad will use "m4aCombined" rather than "mp3" below
+		    "mp3": ["msie", "safari"]
+		}
+	]
+}

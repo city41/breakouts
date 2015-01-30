@@ -1,0 +1,21 @@
+{
+	"id": "button-left",
+	"components":[
+        {
+            "type": "dom-element",
+            "element": "div",
+            "className": "game-button go-left-button",
+            "onmousedown": "start-move",
+            "ontouchstart": "start-move",
+            "onmouseup": "stop-move",
+            "ontouchend": "stop-move",
+            "ontouchcancel": "stop-move"
+        },{
+            "type": "broadcast-events",
+            "events":{
+                "start-move": "button-left:down",
+                "stop-move":  "button-left:up"
+            }
+        }
+	]
+}

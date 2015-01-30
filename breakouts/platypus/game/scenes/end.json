@@ -1,0 +1,18 @@
+{
+	"layers":[
+		{
+			"id": "menu-layer",
+			"components": [
+				{"type": "handler-logic"},
+				{"type": "handler-render-dom"},
+				{"type": "handler-controller"},
+				{"type": "entity-container",
+					"entities": [
+                        {"type": "title-screen"},
+                        {"type": "end-game"}
+					]
+				}
+			]
+		}
+	]
+}

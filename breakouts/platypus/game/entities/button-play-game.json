@@ -1,0 +1,16 @@
+{
+	"id": "button-play-game",
+	"components":[
+		{
+		    "type": "dom-element",
+            "innerHTML": "tap to start<br /><br /><br />during the game: use L/R arrow keys to skip levels",
+		    "className": "menu-button",
+		    "onmouseup": "new-scene",
+		    "ontouchend": "new-scene"
+		},{
+		    "type": "change-scene",
+		    "scene": "scene-level-0",
+		    "transition": "fade-to-black"
+        }
+	]
+}

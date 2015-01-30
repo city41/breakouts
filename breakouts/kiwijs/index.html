@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>KiwiJS - Breakout</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <script src="lib/kiwi.js"></script>
+    <script src="lib/kiwipreloader.js"></script>
+
+    <script type="text/javascript" src="src/PhysicsSprite.js"></script>
+    <script type="text/javascript" src="src/States/BreakOut-1.0.0.js"></script>
+    <script type="text/javascript" src="src/States/IntroState.js"></script>
+    <script type="text/javascript" src="src/States/GameOverState.js"></script>
+    <script type="text/javascript" src="src/States/GameComplete.js"></script>
+    <script type="text/javascript" src="src/States/LoadingState.js"></script>
+    <script type="text/javascript" src="src/game.js"></script>
+
+    <style type="text/css">
+      html,body {
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-size: 12pt;
+      }
+
+      @media (min-width: 641px) {
+        #content {
+          position: absolute !important;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          border: 1px solid #555;
+          cursor: none;
+        }
+      }
+    </style>
+</head>
+<body>
+    <div id="content"></div>
+</body>
+</html>

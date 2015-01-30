@@ -1,0 +1,21 @@
+{
+	"id": "button-pickaxe",
+	"components":[
+        {
+            "type": "dom-element",
+            "element": "div",
+            "className": "game-button pickaxe-button",
+            "onmousedown": "start-axe",
+            "ontouchstart": "start-axe",
+            "onmouseup": "stop-axe",
+            "ontouchend": "stop-axe",
+            "ontouchcancel": "stop-axe"
+        },{
+            "type": "broadcast-events",
+            "events":{
+                "start-axe": "button-pickaxe:down",
+                "stop-axe":  "button-pickaxe:up"
+            }
+        }
+	]
+}

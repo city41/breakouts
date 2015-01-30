@@ -1,0 +1,13 @@
+{
+	"id": "ball-killer",
+	"components":[
+		{
+			"type": "collision-basic", 
+			"collisionType": "davey-jones-locker",
+			"immobile": true
+//		},{
+//		    "type": "render-debug"
+        }
+	],
+	"properties":{}
+}

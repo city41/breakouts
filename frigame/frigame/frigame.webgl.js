@@ -1,4 +1,4 @@
-/*global jQuery, friGame, Float32Array, mat4 */
+/*global friGame, Float32Array, mat4 */
 /*jslint white: true, browser: true */
 
 // Copyright (c) 2011-2014 Franco Bugnano
@@ -24,7 +24,7 @@
 // Uses ideas and APIs inspired by:
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
 
-(function ($, fg) {
+(function (fg) {
 	'use strict';
 
 	var
@@ -41,7 +41,7 @@
 		'remove'
 	]);
 
-	$.extend(fg.PGradient, {
+	fg.extend(fg.PGradient, {
 		remove: function () {
 			var
 				gl = fg.gl
@@ -52,7 +52,7 @@
 			}
 
 			if (this.gradients) {
-				$.each(this.gradients, function () {
+				fg.each(this.gradients, function () {
 					gl.deleteBuffer(this.vertexPositionBuffer);
 				});
 			}
@@ -182,7 +182,7 @@
 						if (gradient_groups[name]) {
 							// Remove the group from the dimension
 							delete gradient_groups[name];
-							if ($.isEmptyObject(gradient_groups)) {
+							if (fg.isEmptyObject(gradient_groups)) {
 								// If no groups are using this dimension, delete the gradient
 								gl.deleteBuffer(gradients[dimension].vertexPositionBuffer);
 								delete gradients[dimension];
@@ -235,7 +235,7 @@
 		'onLoad'
 	]);
 
-	$.extend(fg.PAnimation, {
+	fg.extend(fg.PAnimation, {
 		remove: function () {
 			var
 				gl = fg.gl
@@ -589,7 +589,7 @@
 	// ******************************************************************** //
 	// ******************************************************************** //
 
-	$.extend(fg.PSprite, {
+	fg.extend(fg.PSprite, {
 		draw: function () {
 			var
 				options = this.options,
@@ -640,15 +640,13 @@
 		'draw'
 	]);
 
-	$.extend(fg.PSpriteGroup, {
+	fg.extend(fg.PSpriteGroup, {
 		init: function (name, options, parent) {
 			var
 				gl,
 				dom,
 				width,
 				height,
-				str_width,
-				str_height,
 				canvas,
 				mvMatrix = mat4.create(),
 				mvMatrixStack = [],
@@ -658,29 +656,47 @@
 			this.old_options = {};
 
 			if (!parent) {
+				dom = options.parentDOM;
 				width = options.width;
 				height = options.height;
-				str_width = String(width);
-				str_height = String(height);
 
-				dom = $(['<canvas id="', fg.domPrefix, name, '" width ="', str_width, '" height="', str_height, '"></canvas>'].join('')).prependTo(options.parentDOM);
-				dom.addClass(fg.cssClass);	// Reset background properties set by external CSS
-				dom.css({
-					'left': '0px',
-					'top': '0px',
-					'width': [str_width, 'px'].join(''),
-					'height': [str_height, 'px'].join(''),
-					'overflow': 'hidden'
-				});
+				if (dom.getContext) {
+					this.dom = null;
 
-				this.dom = dom;
+					try {
+						// Try to grab the standard context. If it fails, fallback to experimental.
+						gl = dom.getContext('webgl', {alpha: false}) || dom.getContext('experimental-webgl', {alpha: false});
+					} catch (e) {
+						gl = null;
+					}
 
-				try {
-					// Try to grab the standard context. If it fails, fallback to experimental.
-					canvas = dom.get(0);
-					gl = canvas.getContext('webgl', {alpha: false}) || canvas.getContext('experimental-webgl', {alpha: false});
-				} catch (e) {
-					gl = null;
+					// Force the width and height of the sprite group the same as the ones defined for the canvas
+					options.width = dom.width || 300;
+					options.height = dom.height || 150;
+				} else {
+					canvas = document.createElement('canvas');
+					canvas.screencanvas = true;	// Optimization for CocoonJS
+					canvas.id = [fg.domPrefix, name].join('');
+					canvas.width = width;
+					canvas.height = height;
+					dom.insertBefore(canvas, dom.firstChild);
+					canvas.className = fg.cssClass;	// Reset background properties set by external CSS
+					fg.extend(canvas.style, {
+						'left': '0px',
+						'top': '0px',
+						'width': [String(width), 'px'].join(''),
+						'height': [String(height), 'px'].join(''),
+						'overflow': 'hidden'
+					});
+
+					this.dom = canvas;
+
+					try {
+						// Try to grab the standard context. If it fails, fallback to experimental.
+						gl = canvas.getContext('webgl', {alpha: false}) || canvas.getContext('experimental-webgl', {alpha: false});
+					} catch (e) {
+						gl = null;
+					}
 				}
 
 				if (gl) {
@@ -717,7 +733,8 @@
 		remove: function () {
 			var
 				background = this.options.background,
-				old_background = this.old_options.background
+				old_background = this.old_options.background,
+				dom = this.dom
 			;
 
 			overrides.PSpriteGroup.remove.apply(this, arguments);
@@ -730,8 +747,8 @@
 				background.removeGroup(this);
 			}
 
-			if (this.dom) {
-				this.dom.remove();
+			if (dom && dom.parentNode) {
+				dom.parentNode.removeChild(dom);
 			}
 		},
 
@@ -829,5 +846,5 @@
 			}
 		}
 	});
-}(jQuery, friGame));
+}(friGame));
 
