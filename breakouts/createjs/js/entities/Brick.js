@@ -18,14 +18,6 @@
 	// setup inheritance
 	createjs.extend(Brick, createjs.Sprite);
 
-	Brick.prototype.setPower = function(power){
-		this.power = power
-	}
-	Brick.prototype.firePower = function(){
-		if(this.power){
-			this.power.fire();
-		}
-	}
 	// resolve superclass overwritten methods
 	// (e.g. Sprite.constructor -> Brick.Sprite_constructor)
 	createjs.promote(Brick, 'Sprite');

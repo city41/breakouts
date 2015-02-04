@@ -17,5 +17,6 @@ Documentation
 Source : https://github.com/CreateJS
 
 ##Breakout Status
-first version with all features implemented (including power-up/power-down)
-globally working, though it might requires some tweaks.
+Revised version with core game mechanics illustrating the game engine features.
+(sprite, tweening, asset preloading, sound playback...)
+Extra game mechanics like power up/down have been removed.

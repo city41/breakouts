@@ -77,7 +77,6 @@ Ball.prototype.tick = function(){
 								this.velx = this.determineBounceVelocity(bricks[i]);
 								var tween = createjs.Tween.get(bricks[i])
 								.to({alpha:0, scaleY:0.1, scaleX:0.1, x:bricks[i].x+(bricks[i].width/2), y:bricks[i].y+(bricks[i].height/2)}, 1000)
-								bricks[i].firePower(); //in case this bricks has a powerup fire it
 								bricks.splice(i, 1); //out of the colision routine
 								this.game.score += 100;
 								this.updateScore();

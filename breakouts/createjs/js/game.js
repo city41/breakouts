@@ -118,7 +118,7 @@
              */
 
             function getAudioFiles() {
-                var filesNames = ['brickDeath', 'countdownBlip', 'powerdown', 'powerup', 'recover'];
+                var filesNames = ['brickDeath', 'countdownBlip'];
                 var extensions = ['.mp3', '.ogg', '.wav'];
                 var result = [];
 
@@ -291,26 +291,12 @@
                 frames: [
 					// x, y, width, height, imageIndex, regX, regY
                     [0, 64, 48, 16, 0, 24, 8],
-                    [0, 80, 32, 16, 0, 16, 8]
                 ],
                 animations: {
                     normal: 0,
-                    small: 1
                 }
             });
 			
-			Game.spriteSheets.power = new createjs.SpriteSheet({
-					images: [tileImage],
-					frames:  [
-						// x, y, width, height, imageIndex, regX, regY
-						[96,96,16,16,0],
-						[112,96,16,16,0]
-					],
-					animations: {
-						powerup: 0,
-						powerdown: 1
-					}
-			})
         },
 
         tick: function(elapsedTime) {
