@@ -96,7 +96,7 @@
             }].concat(getAudioFiles());
 
             Game.loadingIndicator = new createjs.Text("Loading 0%", "30px Arial", '#000');
-            Game.loadingIndicator.x = 10;
+            Game.loadingIndicator.x = 0;
             Game.loadingIndicator.y = 200;
             Game.stage.addChild(Game.loadingIndicator);
 
