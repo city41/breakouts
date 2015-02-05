@@ -71,7 +71,6 @@ EntityBall = me.Entity.extend({
     onCollision : function (response, other) {
         switch (other.body.collisionType) {
             case me.collision.types.WORLD_SHAPE:
-                console.log('COLIDIU MUNDO');
                 if (response.overlapV.y !== 0) {
                     this.body.vel.y *= -1;
                 } else if (response.overlapV.x !== 0) {
@@ -81,7 +80,6 @@ EntityBall = me.Entity.extend({
                 break;
 
             case me.collision.types.ENEMY_OBJECT:
-                console.log('COLIDIU ENEMY');
                if (response.overlapV.y !== 0) {
                     this.body.vel.y *= -1;
                 } else if (response.overlapV.x !== 0) {
