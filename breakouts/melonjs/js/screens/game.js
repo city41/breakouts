@@ -72,9 +72,6 @@ var PlayScreen = me.ScreenObject.extend( {
 	_reset: function() {
 		this._removeAllOf('ball');
 		this._removeAllOf('countdown');
-		this._removeAllOf('power-down');
-		this._removeAllOf('power-up');
-
 
 		me.game.world.addChild(new EntityBall(50, me.video.renderer.getHeight() / 2, {}), 19000);
 		me.game.world.addChild(new EntityCountdown(0, 0, {}), 20000);
