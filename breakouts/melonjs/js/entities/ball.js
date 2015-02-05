@@ -2,7 +2,8 @@
  * a ball entity
  */
 EntityBall = me.Entity.extend({
-    init: function(x, y, settings) {
+    init: function(x, y) {
+        var settings = {};
         // define this here instead of tiled
         settings.image = "tiles16";
         settings.width = 16;
@@ -18,7 +19,7 @@ EntityBall = me.Entity.extend({
         this.renderable.addAnimation('idle', [51, 52, 53, 54, 55]);
         this.renderable.setCurrentAnimation('idle');
 
-        this.speed = Math.round(170 / me.timer.fps);
+        this.speed = 3;
 
         this.type = "ball";
 
@@ -34,7 +35,6 @@ EntityBall = me.Entity.extend({
 
         // add a circle collision shape as balls are created manually
         this.body.addShape(new me.Ellipse(0, 0, 16, 16));
-
     },
 
     update: function(dt) {
@@ -52,13 +52,13 @@ EntityBall = me.Entity.extend({
         this.prev.setV(this.pos);
 
         // check if we miss the paddle and went out
+        /*
         if (this.pos.y > this.viewportHeight) {
-            console.log('on ball death');
             // force immediate object destruction (true parameter)
             me.game.world.removeChildNow(this);
             me.state.current().onBallDeath();
             return true;
-        }
+        }*/
         // handle collisions against other shapes
         me.collision.check(this);
 
@@ -69,9 +69,9 @@ EntityBall = me.Entity.extend({
      * colision handler
      */
     onCollision : function (response, other) {
-
         switch (other.body.collisionType) {
             case me.collision.types.WORLD_SHAPE:
+                console.log('COLIDIU MUNDO');
                 if (response.overlapV.y !== 0) {
                     this.body.vel.y *= -1;
                 } else if (response.overlapV.x !== 0) {
@@ -81,6 +81,7 @@ EntityBall = me.Entity.extend({
                 break;
 
             case me.collision.types.ENEMY_OBJECT:
+                console.log('COLIDIU ENEMY');
                if (response.overlapV.y !== 0) {
                     this.body.vel.y *= -1;
                 } else if (response.overlapV.x !== 0) {

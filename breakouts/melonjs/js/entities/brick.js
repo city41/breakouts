@@ -17,10 +17,6 @@ EntityBrick = me.Entity.extend({
 
 		// get the brick color
 		this.color = settings.color.toLowerCase();
-		// and power down/up flags
-		this.hasPowerUp   = settings.hasPowerUp===true;
-		this.hasPowerDown = settings.hasPowerDown===true;
-
 		// Add the animations
 		this.renderable.addAnimation('blue', [0]);
 		this.renderable.addAnimation('orange', [6]);
@@ -50,15 +46,6 @@ EntityBrick = me.Entity.extend({
 			// add score and decrease brick count
 			me.state.current().addScore(this.type);
 			me.state.current().countBrick();
-			// check for power-up/power-down
-            /*
-			if (this.hasPowerUp) {
-				me.game.world.addChild(new EntityPowerUp(this.pos.x, this.pos.y), this.z);
-			} else if(this.hasPowerDown) {
-				me.game.world.addChild(new EntityPowerDown(this.pos.x,this.pos.y), this.z);
-			}
-            */
-		    me.game.world.addChild(new EntityPowerDown(this.pos.x,this.pos.y), this.z);
 		}
 	}
 

@@ -7,17 +7,11 @@ var game = {
 	assets : [
 		{name: "logo",			type:"image",	src: "data/img/logo.png"},
 		{name: "tiles16",		type:"image",	src: "data/img/tiles16.png"},
-		//{name: "bounce",		type: "audio",	src: "data/sfx/"},
 		{name: "brickdeath",	type: "audio",	src: "data/sfx/"},
 		{name: "countdownblip",	type: "audio",	src: "data/sfx/"},
-		{name: "powerdown",		type: "audio",	src: "data/sfx/"},
-		{name: "powerup",		type: "audio",	src: "data/sfx/"},
-		{name: "recover",		type: "audio",	src: "data/sfx/"},
-		{name: "title",			type: "tmx",	src: "data/map/title.json"},
+		{name: "title",			type: "tmx",	src: "data/map/title.tmx"},
 		{name: "level0",		type: "tmx",	src: "data/map/level0.json"},
-		{name: "level1",		type: "tmx",	src: "data/map/level1.json"},
-		{name: "level2",		type: "tmx",	src: "data/map/level2.json"},
-		{name: "level3",		type: "tmx",	src: "data/map/level3.json"}
+		{name: "level1",		type: "tmx",	src: "data/map/level1.json"}
 	],
 
 	// game data (score and other things)
@@ -86,7 +80,7 @@ var game = {
 		// register our user-defined entities in the object pool
 		me.pool.register("paddle", EntityPaddle);
 		me.pool.register("brick", EntityBrick);
-		me.pool.register("ball", EntityBall);
+		me.pool.register("ball", EntityBall, true);
 		me.pool.register("countdown", EntityCountdown);
 
 		// add a fn callback that displays pause on pause :)

@@ -71,7 +71,6 @@ EntityPaddle = me.Entity.extend({
 		if (this.renderable.isCurrentAnimation('idle')) {
 			this.renderable.setCurrentAnimation("mini");
             var bounds = this.body.getShape(0).bounds;
-            console.log(bounds);
 			bounds.pos.set(this.miniSize.x, this.miniSize.y);
 			bounds.resize(this.miniSize.w,this.miniSize.h);
 			this.timer = this.powerDownLength * 1000;

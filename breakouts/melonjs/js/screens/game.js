@@ -76,7 +76,7 @@ var PlayScreen = me.ScreenObject.extend( {
 		this._removeAllOf('power-up');
 
 
-		me.game.world.addChild(new EntityBall(50, me.game.viewport.height / 2, {}), 19000);
+		me.game.world.addChild(new EntityBall(50, me.video.renderer.getHeight() / 2, {}), 19000);
 		me.game.world.addChild(new EntityCountdown(0, 0, {}), 20000);
 
 		game.paddle = me.game.world.getChildByName('paddle')[0];
@@ -100,7 +100,7 @@ var PlayScreen = me.ScreenObject.extend( {
 				this.font.draw(renderer.getContext(), 'score: ' + game.data.score, 105, this.fontYpos);
 				this.font.draw(renderer.getContext(), 'level: ' + (game.data.level+1), 230, this.fontYpos);
 	        }
-	    })), 3);
+	    })), 2200);
 	},
 
 	_removeAllOf: function(name) {

@@ -42,7 +42,7 @@ var TitleScreen = me.ScreenObject.extend( {
 				this.font.draw(renderer.getContext(), this.instructions2, me.game.viewport.width/2, me.game.viewport.height/2 + 140);
 				this.font.draw(renderer.getContext(), this.instructions3, me.game.viewport.width/2, me.game.viewport.height/2 + 160);
 	        }
-	    })), 3);
+	    })), 20000);
 
 	},
 

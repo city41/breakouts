@@ -34,7 +34,6 @@
   <object id="4" name="brick" x="80" y="80" width="32" height="16">
    <properties>
     <property name="color" value="blue"/>
-    <property name="hasPowerUp" value="true"/>
    </properties>
   </object>
   <object id="5" name="brick" x="80" y="96" width="32" height="16">

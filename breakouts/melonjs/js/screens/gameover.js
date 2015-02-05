@@ -34,7 +34,7 @@ var GameOverScreen = me.ScreenObject.extend( {
 	        draw : function (renderer) {
 	        	this.font.draw(renderer.getContext(), 'game over!', me.game.viewport.width/2, me.game.viewport.height/2 + 80);
 	        }
-	    })), 2);
+	    })), 2200);
 
 		// automatically switch back to Menu screen after 2sec
 		this.timeoutID = me.timer.setTimeout(function(){me.state.change(me.state.MENU)},2000);
