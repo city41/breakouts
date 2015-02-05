@@ -52,13 +52,12 @@ EntityBall = me.Entity.extend({
         this.prev.setV(this.pos);
 
         // check if we miss the paddle and went out
-        /*
         if (this.pos.y > this.viewportHeight) {
             // force immediate object destruction (true parameter)
             me.game.world.removeChildNow(this);
             me.state.current().onBallDeath();
             return true;
-        }*/
+        }
         // handle collisions against other shapes
         me.collision.check(this);
 

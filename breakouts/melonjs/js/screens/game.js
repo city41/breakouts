@@ -21,9 +21,9 @@ var PlayScreen = me.ScreenObject.extend( {
 		// use minpubsub to detect user action
 		this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
 			if (action === "right") {
-			_this.nextLevel();
+			_this.nextLevel.defer(this);
 			} else if (action === 'left') {
-				_this.previousLevel();
+				_this.previousLevel.defer(this);
 			}
 		});
 
@@ -42,7 +42,7 @@ var PlayScreen = me.ScreenObject.extend( {
 		if (game.data.bricks === 0) {
 			// all balls should be deactivated
 			game.ball.active = false;
-			this.nextLevel();
+			this.nextLevel.defer(this);
 		}
 	},
 
