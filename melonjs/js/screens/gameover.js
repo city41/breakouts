@@ -1,10 +1,10 @@
 
-/** 
+/**
  * Title Screen
  */
 var GameOverScreen = me.ScreenObject.extend( {
-	
-	onResetEvent: function() {	
+
+	onResetEvent: function() {
 		// load a level
 		me.levelDirector.loadLevel("title");
 		// enable keyboard/mouse/touch event
@@ -26,20 +26,20 @@ var GameOverScreen = me.ScreenObject.extend( {
 	        // constructor
 	        init : function() {
 	        	// size does not matter, it's just to avoid having a zero size renderable
-	            this.parent(new me.Vector2d(), 100, 100);
+	            this._super(me.Renderable, 'init', [0, 0, 100, 100]);
 				// init a font object
 				this.font = new me.Font('Arial', 20, 'black', 'center');
 
 	        },
-	        draw : function (context) {
-	        	this.font.draw(context, 'game over!', me.game.viewport.width/2, me.game.viewport.height/2 + 80);
-	        }      
-	    })), 2);
+	        draw : function (renderer) {
+	        	this.font.draw(renderer.getContext(), 'game over!', me.game.viewport.width/2, me.game.viewport.height/2 + 80);
+	        }
+	    })), 2200);
 
 		// automatically switch back to Menu screen after 2sec
 		this.timeoutID = me.timer.setTimeout(function(){me.state.change(me.state.MENU)},2000);
 	},
-	
+
 	onDestroyEvent : function() {
 		// unregister the event
 		me.event.unsubscribe(this.handler);
