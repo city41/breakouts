@@ -68,8 +68,10 @@ EntityBall = me.Entity.extend({
      * colision handler
      */
     onCollision : function (response, other) {
-        switch (other.body.collisionType) {
-            case me.collision.types.WORLD_SHAPE:
+        switch (other.type) {
+            // hit the walls
+            case '':
+            case 'brick':
                 if (response.overlapV.y !== 0) {
                     this.body.vel.y *= -1;
                 } else if (response.overlapV.x !== 0) {
@@ -78,8 +80,8 @@ EntityBall = me.Entity.extend({
                 return false;
                 break;
 
-            case me.collision.types.ENEMY_OBJECT:
-               if (response.overlapV.y !== 0) {
+            case 'paddle':
+                if (response.overlapV.y !== 0 && (~~this.body.vel.y >= ~~response.overlapV.y)) {
                     this.body.vel.y *= -1;
                 } else if (response.overlapV.x !== 0) {
                     this.body.vel.x *= -1;
