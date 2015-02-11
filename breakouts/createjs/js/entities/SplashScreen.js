@@ -39,5 +39,5 @@
 	  this.game.stage.update();
 	  
 	  //wait for Click
-	   this.clickText.addEventListener("click", this.game.inicia );
+	   this.clickText.addEventListener("click", this.game.reinit );
   }
