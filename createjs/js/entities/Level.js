@@ -10,7 +10,7 @@
          * Zero-indexed number of the level, used in the levelMaps.
          * @type {Number}
          */
-        this.levelNumber = levelNumber - 1;
+        this.levelNumber = levelNumber;
 		
 		/**
 		* Reference to the game itsel
@@ -151,15 +151,26 @@
 	  this.game.reset()
 	}
 	//Move to the next level or finish if we're in the last
-	Level.prototype.next = function(){
+	Level.prototype.next = function(skipNow){
 	  this.paused = true;
-	  this.levelNumber = this.game.levelNumber++;
-	  if(this.levelNumber==this.totalLevels){
+    this.game.levelNumber += 1;
+	  this.levelNumber = this.game.levelNumber;
+	  if(this.levelNumber>=this.totalLevels){
 		this.game.gameover(true);
 	  } else {
-		var t=setTimeout(function(level){level.game.inicia(); },3000, this)
+		var t=setTimeout(function(level){ level.game.inicia(); }, (skipNow ? 0 : 3000), this);
 	  }
 	}
+  Level.prototype.prev = function(skipNow) {
+    this.paused = true;
+	  this.game.levelNumber -= 1;
+	  this.levelNumber = this.game.levelNumber;
+	  if(this.levelNumber<0){
+      this.game.splashScreen();
+	  } else {
+		var t=setTimeout(function(level){ level.game.inicia(); }, (skipNow ? 0 : 3000), this);
+	  }
+  }
 	//Main game's tick handler
 	Level.prototype.tick = function(){
 		if(this.paused) return

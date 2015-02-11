@@ -79,7 +79,7 @@ Ball.prototype.tick = function(){
 								.to({alpha:0, scaleY:0.1, scaleX:0.1, x:bricks[i].x+(bricks[i].width/2), y:bricks[i].y+(bricks[i].height/2)}, 1000)
 								bricks.splice(i, 1); //out of the colision routine
 								this.game.score += 100;
-								this.updateScore();
+								this.game.updateScore();
 								this.game.playSound("brickDeath");
 								if(bricks.length==0) {
 									this.nextLevel();
@@ -102,7 +102,7 @@ Ball.prototype.tick = function(){
 		}
 		this.game.lives--;
 		if(this.game.lives>=0) { //continue from this point
-			this.updateScore();
+			this.game.updateScore();
 			this.game.currentLevel.reset();
 		} else { //game over
 			this.game.gameover(false);
@@ -114,11 +114,6 @@ Ball.prototype.tick = function(){
 Ball.prototype.nextLevel = function(){
 	this.lowerBound=0 //force to recalculate bounds
 	this.game.currentLevel.next();
-}
-//show lives/points/level number
-Ball.prototype.updateScore = function(){
-	this.game.scoreText.text = "Lives:"+this.game.lives+" Score:"+this.game.score+" Level:"+this.game.levelNumber;
-	this.game.stage.update();
 }
 //bounce velocity based on hit point on the paddle
 Ball.prototype.determineBounceVelocity = function(paddle){
