@@ -10,7 +10,7 @@
 	 this.background = background;
 	 this.logo = logo;
 	 this.game = world;
-	 this.clickText = new createjs.Text("Click here to start", "18px Arial", '#000'); 
+	 this.clickText = new createjs.Text("Click here to start", "24px Arial", '#000');
 	 this.clickText.hitArea = new createjs.Shape();
 	 this.clickText.hitArea.graphics.beginFill('#000').drawRect(0, 0, this.clickText.getMeasuredWidth(), this.clickText.getMeasuredHeight());
 	 this.instructions = new createjs.Text("During the game: use R/L\narrows keys to skip levels", "24px Arial", '#000'); 
