@@ -9,7 +9,7 @@ var game = {
 		{name: "tiles16",		type:"image",	src: "data/img/tiles16.png"},
 		{name: "brickdeath",	type: "audio",	src: "data/sfx/"},
 		{name: "countdownblip",	type: "audio",	src: "data/sfx/"},
-		{name: "title",			type: "tmx",	src: "data/map/title.tmx"},
+		{name: "title",			type: "tmx",	src: "data/map/title.json"},
 		{name: "level0",		type: "tmx",	src: "data/map/level0.json"},
 		{name: "level1",		type: "tmx",	src: "data/map/level1.json"}
 	],
