@@ -14,6 +14,7 @@ Crafty.scene('menu', function() {
 		})
 		.text(verb + ' to start')
 		.textColor('#000000')
+		.textFont({size: '20px'})
 		.css('text-align', 'center');
 
 	Crafty.e('2D, DOM, Text')
@@ -25,6 +26,7 @@ Crafty.scene('menu', function() {
 		})
 		.text('during the game: \nuse L/R arrow keys to skip levels')
 		.textColor('#000000')
+		.textFont({size: '20px'})
 		.css('text-align', 'center');
 
 
@@ -39,4 +41,3 @@ Crafty.scene('menu', function() {
 			Crafty.scene('play');
 		});
 });
-

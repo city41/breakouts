@@ -1,4 +1,4 @@
-/*global jQuery, friGame */
+/*global friGame, self, top */
 /*jslint white: true, browser: true */
 
 // Copyright (c) 2011-2014 Franco Bugnano
@@ -23,38 +23,73 @@
 
 // Uses ideas and APIs inspired by:
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
+// Based on domready (c) Dustin Diaz 2012 - License MIT
 
-(function ($, fg) {
+(function (fg) {
 	'use strict';
 
-	fg.mouseTracker = {
-		x: 0,
-		y: 0
-	};
+	var
+		fns = [],
+		fn,
+		testEl = document.documentElement,
+		hack = testEl.doScroll,
+		loadedRegex = hack ? /^loaded|^c/ : /^loaded|c/,
+		loaded = loadedRegex.test(document.readyState)
+	;
 
-	// mouseTracker inside a playgroundCallback in order to have the playground DOM
-	fg.playgroundCallback(function (dom) {
+	function flush() {
 		var
-			element = $(dom)
+			f
 		;
 
-		$(document).mousemove(function (e) {
-			var
-				mouseTracker = fg.mouseTracker,
-				offset = element.offset()
-			;
+		loaded = 1;
+		while (fns.length) {
+			f = fns.shift();
+			f();
+		}
+	}
 
-			mouseTracker.x = e.pageX - offset.left;
-			mouseTracker.y = e.pageY - offset.top;
-		});
+	if (document.addEventListener) {
+		fn = function () {
+			document.removeEventListener('DOMContentLoaded', fn, false);
+			flush();
+		};
 
-		$(document).mousedown(function (e) {
-			fg.mouseTracker[e.which] = true;
-		});
+		document.addEventListener('DOMContentLoaded', fn, false);
+	} else if (document.attachEvent) {
+		fn = function () {
+			if (/^c/.test(document.readyState)) {
+				document.detachEvent('onreadystatechange', fn);
+				flush();
+			}
+		};
 
-		$(document).mouseup(function (e) {
-			fg.mouseTracker[e.which] = false;
-		});
-	});
-}(jQuery, friGame));
+		document.attachEvent('onreadystatechange', fn);
+	}
+
+	fg.ready = function (callback) {
+		if (loaded) {
+			callback();
+		} else {
+			if (hack) {
+				if (self !== top) {
+					fns.push(callback);
+				} else {
+					(function () {
+						try {
+							testEl.doScroll('left');
+						} catch (e) {
+							return setTimeout(function () { fg.ready(callback); }, 50);
+						}
+
+						loaded = 1;
+						callback();
+					}());
+				}
+			} else {
+				fns.push(callback);
+			}
+		}
+	};
+}(friGame));
 

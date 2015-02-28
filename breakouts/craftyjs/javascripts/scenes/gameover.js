@@ -12,6 +12,7 @@ Crafty.scene('gameover', function() {
 		})
 		.text('game over!')
 		.textColor('#000000')
+		.textFont({size: '20px'})
 		.css('text-align', 'center');
 
 
@@ -30,5 +31,3 @@ Crafty.scene('gameover', function() {
 		Crafty.scene('menu');
 	}, 2000);
 });
-
-

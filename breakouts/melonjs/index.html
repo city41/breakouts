@@ -13,11 +13,12 @@
 		<div id="screen"></div>
 		
         <!-- melonJS Library -->
-		<script type="text/javascript" src="lib/melonJS-1.0.2-min.js"></script>
+		<script type="text/javascript" src="lib/melonJS-2.0.2.js"></script>
+        
+        <!-- Plugin(s) -->
+        <script type="text/javascript" src="lib/debug/debugPanel.js"></script>
 		
 		<!-- Game Scripts -->
-		<script type="text/javascript" src="js/entities/power-up.js"></script>
-		<script type="text/javascript" src="js/entities/power-down.js"></script>
 		<script type="text/javascript" src="js/entities/countdown.js"></script>
 		<script type="text/javascript" src="js/entities/ball.js"></script>
 		<script type="text/javascript" src="js/entities/brick.js"></script>
@@ -27,8 +28,8 @@
 		<script type="text/javascript" src="js/screens/title.js"></script>
 		<script type="text/javascript" src="js/screens/game.js"></script>
 		<script type="text/javascript" src="js/game.js"></script>
+		<!-- Bootstrap & Mobile optimization tricks -->
 		<script type="text/javascript">
-			/* Bootstrap */
 			window.onReady(function onReady() {
 				game.onload();
 

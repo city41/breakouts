@@ -10,7 +10,7 @@
          * Zero-indexed number of the level, used in the levelMaps.
          * @type {Number}
          */
-        this.levelNumber = levelNumber - 1;
+        this.levelNumber = levelNumber;
 		
 		/**
 		* Reference to the game itsel
@@ -30,12 +30,6 @@
          * @type {Array}
          */
         this.bricks = [];
-		
-		/**
-		* Every powerup/powerdown on this level
-		* is referenced here for easier access
-		*/
-		this.powers = [];
 		
         /**
          * The paddle controlled by the player
@@ -61,7 +55,7 @@
 	   /**
 	   * Total levels we have so far
 	   */
-	   this.totalLevels = 4;
+	   this.totalLevels = 2;
 	   
 		//init point for the maps
 		this.initY = 77;
@@ -94,9 +88,7 @@
 						[X,X,g,o,g,X,X],
 						[o,b,g,g,g,b,o],
 						[X,b,b,b,b,b,X]
-					],
-					powerUps: 1,
-					powerDowns: 1
+					]
 				},
 				{
 					name: "how's it going?",
@@ -107,37 +99,7 @@
 						[g,b,b,b,b,b,g],
 						[g,b,X,X,X,b,g],
 						[X,b,b,b,b,b,X]
-					],
-					powerUps: 1,
-					powerDowns: 1
-				},
-				{
-					name: 'tie fighta!',
-					bricks: [
-						[X,b,X,g,X,b,X],
-						[b,X,b,o,b,X,b],
-						[b,g,b,o,b,g,b],
-						[b,X,b,o,b,X,b],
-						[X,b,X,X,X,b,X],
-						[r,X,r,X,r,X,r]
-					],
-					powerUps: 2,
-					powerDowns: 2
-				},
-				{
-					name: 'swirl',
-					bricks: [
-						[r,g,o,b,r,g,o],
-						[b,X,X,X,X,X,X],
-						[o,X,o,b,r,g,o],
-						[g,X,g,X,X,X,b],
-						[r,X,r,X,r,X,r],
-						[b,X,b,o,g,X,g],
-						[o,X,X,X,X,X,o],
-						[g,r,b,o,g,r,b]
-					],
-					powerUps: 2,
-					powerDowns: 3
+					]
 				}
 		];
 		
@@ -176,72 +138,44 @@
         var paddle = new Paddle((this.game.stage.canvas.width / 2), 368, this.game);
         this.game.stage.addChild(paddle);
         this.paddle = paddle;
-		// Add powerups and powerdown
-		this.addPower();
 		
         return this;
     };
 	
-	//Add powerup and powerdown
-	Level.prototype.addPower = function(){
-		//adding powerUp
-		var powerups = this.currentLevel.powerUps
-		var randomBrick1, randomBrick2;
-		for(var i=0; i<powerups; i++){
-			randomBrick1 = this.bricks[Math.round(Math.random()*this.bricks.length-1)];
-			var powerup = new Powerup(randomBrick1.x, randomBrick1.y, this.game)
-			this.game.stage.addChild(powerup);
-			randomBrick1.setPower(powerup); //create a reference in the brick
-			this.powers.push(powerup);
-		}
-		//adding powerDown
-		var powerdowns = this.currentLevel.powerDowns
-		for(var i=0; i<powerdowns; i++){
-			randomBrick2 = this.bricks[Math.round(Math.random()*this.bricks.length-1)];
-			if(randomBrick2==randomBrick1){//avoid repetition
-				i--;
-				continue;
-			}
-			var powerdown = new Powerdown(randomBrick2.x, randomBrick2.y, this.game)
-			this.game.stage.addChild(powerdown);
-			randomBrick2.setPower(powerdown); //create a reference in the brick
-			this.powers.push(powerdown);
-		}
-	}
-	//when powerup is reached add an extra ball
-	Level.prototype.addExtraBall = function(){
-		var ball = new Ball(50, 250, this.game);
-		ball.id = 2;
-		this.balls.push(ball);
-        this.game.stage.addChild(ball);
-	}
 	//Reset elements
 	Level.prototype.reset = function(){
 	  if(this.balls.length>1) return
 	  this.balls[0].x = 50;
 	  this.balls[0].y = 250;
 	  this.balls[0].velx = (Math.random()*3)-1.5;
-	  this.paddle.gotoAndStop('normal');
-	  this.game.playSound("revover");
 	  this.game.reset()
 	}
 	//Move to the next level or finish if we're in the last
-	Level.prototype.next = function(){
+	Level.prototype.next = function(skipNow){
 	  this.paused = true;
-	  this.levelNumber = this.game.levelNumber++;
-	  if(this.levelNumber==this.totalLevels){
+    this.game.levelNumber += 1;
+	  this.levelNumber = this.game.levelNumber;
+	  if(this.levelNumber>=this.totalLevels){
 		this.game.gameover(true);
 	  } else {
-		var t=setTimeout(function(level){level.game.inicia(); },3000, this)
+		var t=setTimeout(function(level){ level.game.inicia(); }, (skipNow ? 0 : 3000), this);
 	  }
 	}
+  Level.prototype.prev = function(skipNow) {
+    this.paused = true;
+	  this.game.levelNumber -= 1;
+	  this.levelNumber = this.game.levelNumber;
+	  if(this.levelNumber<0){
+      this.game.splashScreen();
+	  } else {
+		var t=setTimeout(function(level){ level.game.inicia(); }, (skipNow ? 0 : 3000), this);
+	  }
+  }
 	//Main game's tick handler
 	Level.prototype.tick = function(){
 		if(this.paused) return
 		for(var i in this.balls)
 		   this.balls[i].tick();
-		for(var i in this.powers)
-		   this.powers[i].tick();
 	}
 	//handle mouse movement
     Level.prototype.setupEvents = function() {

@@ -12,28 +12,20 @@
          "y":0
         }, 
         {
-         "data":[80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80],
-         "height":26,
-         "name":"collision",
-         "opacity":1,
-         "type":"tilelayer",
-         "visible":false,
-         "width":20,
-         "x":0,
-         "y":0
-        }, 
-        {
          "color":"#ff00ff",
-         "height":26,
+         "draworder":"topdown",
+         "height":0,
          "name":"Objects",
          "objects":[
                 {
                  "height":16,
+                 "id":1,
                  "name":"paddle",
                  "properties":
                     {
 
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":48,
@@ -43,22 +35,25 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":20,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "color":"#0055ff",
-         "height":26,
+         "draworder":"topdown",
+         "height":0,
          "name":"BlueBricks",
          "objects":[
                 {
                  "height":16,
+                 "id":2,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -67,11 +62,14 @@
                 }, 
                 {
                  "height":16,
+                 "id":3,
                  "name":"brick",
                  "properties":
                     {
-                     "color":"blue"
+                     "color":"blue",
+                     "hasPowerDown":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -80,12 +78,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":4,
                  "name":"brick",
                  "properties":
                     {
-                     "color":"blue",
-                     "hasPowerUp":"true"
+                     "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -94,11 +93,14 @@
                 }, 
                 {
                  "height":16,
+                 "id":5,
                  "name":"brick",
                  "properties":
                     {
-                     "color":"blue"
+                     "color":"blue",
+                     "hasPowerDown":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -107,12 +109,14 @@
                 }, 
                 {
                  "height":16,
+                 "id":6,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue",
                      "hasPowerDown":"true"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -121,11 +125,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":7,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -134,11 +140,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":8,
                  "name":"brick",
                  "properties":
                     {
                      "color":"blue"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -148,35 +156,40 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":20,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "color":"#ffaa00",
-         "height":26,
+         "draworder":"topdown",
+         "height":0,
          "name":"OrangeBricks",
          "objects":[
                 {
                  "height":16,
+                 "id":9,
                  "name":"brick",
                  "properties":
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":48,
+                 "x":44,
                  "y":80
                 }, 
                 {
                  "height":16,
+                 "id":10,
                  "name":"brick",
                  "properties":
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -185,11 +198,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":11,
                  "name":"brick",
                  "properties":
                     {
                      "color":"orange"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -199,22 +214,25 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":20,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "color":"#55ff00",
-         "height":26,
+         "draworder":"topdown",
+         "height":0,
          "name":"GreenBricks",
          "objects":[
                 {
                  "height":16,
+                 "id":12,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -223,11 +241,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":13,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -236,11 +256,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":14,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -249,11 +271,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":15,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -262,11 +286,13 @@
                 }, 
                 {
                  "height":16,
+                 "id":16,
                  "name":"brick",
                  "properties":
                     {
                      "color":"green"
                     },
+                 "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
@@ -276,15 +302,105 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":20,
+         "width":0,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "color":"#ff0000",
+         "draworder":"topdown",
+         "height":0,
+         "name":"collision",
+         "objects":[
+                {
+                 "height":32,
+                 "id":17,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":384
+                }, 
+                {
+                 "height":368,
+                 "id":18,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":0,
+                 "y":0
+                }, 
+                {
+                 "height":0,
+                 "id":19,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":288,
+                 "x":16,
+                 "y":0
+                }, 
+                {
+                 "height":368,
+                 "id":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":304,
+                 "y":0
+                }, 
+                {
+                 "height":32,
+                 "id":21,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":304,
+                 "y":384
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }],
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "properties":
     {
      "name":"lets begin"
     },
+ "renderorder":"right-down",
  "tileheight":16,
  "tilesets":[
         {

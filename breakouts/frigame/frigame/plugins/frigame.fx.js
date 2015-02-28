@@ -1,4 +1,4 @@
-/*global jQuery, friGame */
+/*global friGame */
 /*jslint forin: true, nomen: true, white: true, browser: true */
 
 // Copyright (c) 2011-2014 Franco Bugnano
@@ -25,7 +25,7 @@
 // gameQuery Copyright (c) 2008 Selim Arsever (gamequery.onaluf.org), licensed under the MIT
 // based on easing equations from Robert Penner (http://www.robertpenner.com/easing)
 
-(function ($, fg) {
+(function (fg) {
 	'use strict';
 
 	var
@@ -113,7 +113,7 @@
 			'clearCallbacks'
 		]);
 
-		$.extend(this, {
+		fg.extend(this, {
 			fx: {
 				queue: [],
 				inprogress: false
@@ -525,6 +525,7 @@
 			}
 
 			tween_obj = {
+				name: new_options.name,
 				target_obj: target_obj,
 				remove: false,
 				current_step: 0,
@@ -576,6 +577,25 @@
 					tween_obj.remove = true;
 				}
 			}
+		},
+
+		removeTween: function (name) {
+			var
+				queue = fg.s.playground.fx.queue,
+				len_queue = queue.length,
+				i_queue,
+				tween_obj
+			;
+
+			for (i_queue = 0; i_queue < len_queue; i_queue += 1) {
+				tween_obj = queue[i_queue];
+				if ((tween_obj.target_obj === this) && (tween_obj.name === name)) {
+					// Mark this object for removal
+					tween_obj.remove = true;
+				}
+			}
+
+			return this;
 		}
 	};
 
@@ -583,9 +603,19 @@
 		'remove'
 	]);
 
-	$.extend(fg.PBaseSprite, {
+	fg.extend(fg.PBaseSprite, {
 		tween: function (properties, options) {
 			return fg.fx.tween.call(this, fg.fx.hooks, properties, options);
+		},
+
+		clearTweens: function () {
+			fg.fx.remove.call(this);
+
+			return this;
+		},
+
+		removeTween: function (name) {
+			return fg.fx.removeTween.call(this, name);
 		},
 
 		remove: function () {
@@ -609,5 +639,5 @@
 			});
 		}
 	});
-}(jQuery, friGame));
+}(friGame));
 

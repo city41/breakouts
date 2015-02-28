@@ -47,8 +47,9 @@
 		
 		/**
 		* level number reference
+    * 0 is 1 because levels are in array
 		*/
-		levelNumber: 1,
+		levelNumber: 0,
 		
 		/**
 		* Game score
@@ -96,7 +97,7 @@
             }].concat(getAudioFiles());
 
             Game.loadingIndicator = new createjs.Text("Loading 0%", "30px Arial", '#000');
-            Game.loadingIndicator.x = 10;
+            Game.loadingIndicator.x = 0;
             Game.loadingIndicator.y = 200;
             Game.stage.addChild(Game.loadingIndicator);
 
@@ -118,7 +119,7 @@
              */
 
             function getAudioFiles() {
-                var filesNames = ['brickDeath', 'countdownBlip', 'powerdown', 'powerup', 'recover'];
+                var filesNames = ['brickDeath', 'countdownBlip'];
                 var extensions = ['.mp3', '.ogg', '.wav'];
                 var result = [];
 
@@ -144,7 +145,20 @@
                 Game.stage.update();
                 Game.stage.removeAllChildren();
                 Game.buildSpriteSheets();
-				var splashScreen = new SplashScreen(Game.loader.getResult("background"), Game.loader.getResult("logo"), Game);
+                Game.splashScreen();
+
+                window.onkeydown = function(evt) {
+                  if (Game.levelNumber != -1) {
+                    switch(evt.keyCode) {
+                      case 37: // left arrow
+                        Game.currentLevel.prev(true);
+                        break;
+                      case 39: // right arrow
+                        Game.currentLevel.next(true);
+                        break;
+                    }
+                  }
+                }
             }
 			 // An error happened on a file
 			function handleFileError(event) {
@@ -153,10 +167,18 @@
 
         },
 		
+    splashScreen: function() {
+				var splashScreen = new SplashScreen(Game.loader.getResult("background"), Game.loader.getResult("logo"), Game);
+    },
 		//general convenient method to play sound registered here
 		playSound: function(name){
 			createjs.Sound.play(name);
 		},
+
+    updateScore: function() {
+	    Game.scoreText.text = "Lives:"+Game.lives+" Score:"+Game.score+" Level:"+(Game.levelNumber+1);
+	    Game.stage.update();
+    },
 		
 		inicia: function(event){
 			//remove all elements except background
@@ -168,11 +190,12 @@
 			 Game.currentLevel = new Level(Game.levelNumber, Game);
 			 var gameDim = Game.stage.getBounds();
 			//scoring Text
-			Game.scoreText = new createjs.Text("Lives:"+Game.lives+" Score:"+Game.score+" Level:"+Game.levelNumber, "20px Arial", '#000');
+			Game.scoreText = new createjs.Text('', '20px Arial', '#000');
 			Game.scoreText.maxWidth = gameDim.width - 30
 			Game.scoreText.y = gameDim.height - 20;
 			Game.scoreText.x = 20;
 			Game.stage.addChild(Game.scoreText);
+      Game.updateScore();
             Game.currentLevel.setupEvents();
 			Game.runCountDown();
 			Game.setupUpdateLoop();
@@ -190,7 +213,7 @@
 			countdown.addEventListener("animationend", function(evt){ 
 				Game.paused = false; 
 				Game.currentLevel.paused = false;
-				Game.stage.removeChildAt(Game.stage.getNumChildren()-1);
+				Game.stage.removeChild(countdown);
 			})
 			
 			var dim = Game.stage.getBounds();
@@ -217,6 +240,7 @@
 			Game.stage.update();
 			//set levelNumber to -1 so main loop skip
 			Game.levelNumber = -1;
+      Game.currentLevel = null;
 			//scoring Text
 			var gameOver = new GameOverScreen(Game.loader.getResult("background"), Game.loader.getResult("logo"), Game, isLast);
 		},
@@ -226,7 +250,7 @@
 		reinit: function(){
 			Game.lives = 3;
 			Game.score = 0;
-			Game.levelNumber = 1;
+			Game.levelNumber = 0;
 			Game.paused = true;
 			Game.inicia();
 		},	
@@ -291,26 +315,12 @@
                 frames: [
 					// x, y, width, height, imageIndex, regX, regY
                     [0, 64, 48, 16, 0, 24, 8],
-                    [0, 80, 32, 16, 0, 16, 8]
                 ],
                 animations: {
                     normal: 0,
-                    small: 1
                 }
             });
 			
-			Game.spriteSheets.power = new createjs.SpriteSheet({
-					images: [tileImage],
-					frames:  [
-						// x, y, width, height, imageIndex, regX, regY
-						[96,96,16,16,0],
-						[112,96,16,16,0]
-					],
-					animations: {
-						powerup: 0,
-						powerdown: 1
-					}
-			})
         },
 
         tick: function(elapsedTime) {

@@ -14,10 +14,6 @@ ig.module('game.main').requires('game.games.menu', 'game.games.play', 'game.leve
 			window.scrollTo(0, 1);
 		}, 0);
 
-		if (ig.ua.mobile) {
-			ig.Sound.enabled = false;
-		}
-
 		if(window.location.href.indexOf('usetiles') > -1 && !ig.ua.mobile) {
 			disablePrerendering(LevelLevel);
 			disablePrerendering(LevelTitle);
@@ -26,4 +22,3 @@ ig.module('game.main').requires('game.games.menu', 'game.games.play', 'game.leve
 		ig.main('#canvas', MenuGame, 60, 320, 416, 1);
 	});
 });
-

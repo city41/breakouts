@@ -4,18 +4,8 @@
  * @param {Number} y initial y position
  */
 var Ball = function(x, y, world) {
-	this.initialize(x, y, world);
-};
-
-// setup inheritance
-Ball.prototype = new createjs.Sprite();
-
-Ball.prototype.Sprite_initialize = Ball.prototype.initialize;
-
-//Initialize the class
-Ball.prototype.initialize = function(x, y, world) {
 	this.game = world
-	this.Sprite_initialize(this.game.spriteSheets.ball, 'ball')
+	this.Sprite_constructor(this.game.spriteSheets.ball, 'ball')
 	this.x = x;
 	this.y = y;
 	this.vely = -3;
@@ -36,6 +26,9 @@ Ball.prototype.initialize = function(x, y, world) {
 	this.brickWidth = bounds.width;
 	this.brickHeight = bounds.height;
 };
+
+// setup inheritance
+createjs.extend(Ball, createjs.Sprite);
 
 //ball animation
 Ball.prototype.tick = function(){
@@ -84,10 +77,9 @@ Ball.prototype.tick = function(){
 								this.velx = this.determineBounceVelocity(bricks[i]);
 								var tween = createjs.Tween.get(bricks[i])
 								.to({alpha:0, scaleY:0.1, scaleX:0.1, x:bricks[i].x+(bricks[i].width/2), y:bricks[i].y+(bricks[i].height/2)}, 1000)
-								bricks[i].firePower(); //in case this bricks has a powerup fire it
 								bricks.splice(i, 1); //out of the colision routine
 								this.game.score += 100;
-								this.updateScore();
+								this.game.updateScore();
 								this.game.playSound("brickDeath");
 								if(bricks.length==0) {
 									this.nextLevel();
@@ -110,7 +102,7 @@ Ball.prototype.tick = function(){
 		}
 		this.game.lives--;
 		if(this.game.lives>=0) { //continue from this point
-			this.updateScore();
+			this.game.updateScore();
 			this.game.currentLevel.reset();
 		} else { //game over
 			this.game.gameover(false);
@@ -123,13 +115,12 @@ Ball.prototype.nextLevel = function(){
 	this.lowerBound=0 //force to recalculate bounds
 	this.game.currentLevel.next();
 }
-//show lives/points/level number
-Ball.prototype.updateScore = function(){
-	this.game.scoreText.text = "Lives:"+this.game.lives+" Score:"+this.game.score+" Level:"+this.game.levelNumber;
-	this.game.stage.update();
-}
 //bounce velocity based on hit point on the paddle
 Ball.prototype.determineBounceVelocity = function(paddle){
 	var ratio = (paddle.width/10)/2
 	return ((this.x-paddle.x)/10)-ratio;
 }
+
+// resolve superclass overwritten methods
+// (e.g. Sprite.constructor -> Ball.Sprite_constructor)
+createjs.promote(Ball, 'Sprite');

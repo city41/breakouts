@@ -32,7 +32,7 @@
 				var hit = this.hit('Paddle')[0];
 
 				if (hit) {
-					this.vel.x = this._determineBounceVelocity(hit.obj); 
+					this.vel.x = this._determineBounceVelocity(hit.obj);
 					this.vel.y *= - 1;
 				}
 			}
@@ -40,7 +40,7 @@
 
 		_determineBounceVelocity: function(paddle) {
 			var distance = Crafty.math.distance(paddle.centerX, paddle.centerY, this.centerX, this.centerY);
-			
+
 			var magnitude = distance - this.h / 2 - paddle.h / 2;
 			var ratio = magnitude / (paddle.w / 2) * 2.5;
 
@@ -119,8 +119,10 @@
 					x: this.speed,
 					y: this.speed
 				}
-			}).animate('spin', 3, 4, 7).animate('spin', 10, - 1).bind('EnterFrame', this._enterFrame);
+			})
+			.reel('spin', 400, 3, 4, 5)
+			.animate('spin', -1)
+			.bind('EnterFrame', this._enterFrame);
 		}
 	});
 })();
-
