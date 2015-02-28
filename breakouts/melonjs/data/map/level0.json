@@ -19,7 +19,6 @@
          "objects":[
                 {
                  "height":16,
-                 "id":1,
                  "name":"paddle",
                  "properties":
                     {
@@ -47,7 +46,6 @@
          "objects":[
                 {
                  "height":16,
-                 "id":2,
                  "name":"brick",
                  "properties":
                     {
@@ -62,7 +60,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":3,
                  "name":"brick",
                  "properties":
                     {
@@ -78,7 +75,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":4,
                  "name":"brick",
                  "properties":
                     {
@@ -93,7 +89,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":5,
                  "name":"brick",
                  "properties":
                     {
@@ -109,7 +104,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":6,
                  "name":"brick",
                  "properties":
                     {
@@ -125,7 +119,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":7,
                  "name":"brick",
                  "properties":
                     {
@@ -140,7 +133,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":8,
                  "name":"brick",
                  "properties":
                     {
@@ -168,7 +160,6 @@
          "objects":[
                 {
                  "height":16,
-                 "id":9,
                  "name":"brick",
                  "properties":
                     {
@@ -183,7 +174,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":10,
                  "name":"brick",
                  "properties":
                     {
@@ -198,7 +188,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":11,
                  "name":"brick",
                  "properties":
                     {
@@ -226,7 +215,6 @@
          "objects":[
                 {
                  "height":16,
-                 "id":12,
                  "name":"brick",
                  "properties":
                     {
@@ -241,7 +229,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":13,
                  "name":"brick",
                  "properties":
                     {
@@ -256,7 +243,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":14,
                  "name":"brick",
                  "properties":
                     {
@@ -271,7 +257,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":15,
                  "name":"brick",
                  "properties":
                     {
@@ -286,7 +271,6 @@
                 }, 
                 {
                  "height":16,
-                 "id":16,
                  "name":"brick",
                  "properties":
                     {
@@ -314,7 +298,6 @@
          "objects":[
                 {
                  "height":32,
-                 "id":17,
                  "name":"",
                  "properties":
                     {
@@ -329,7 +312,6 @@
                 }, 
                 {
                  "height":368,
-                 "id":18,
                  "name":"",
                  "properties":
                     {
@@ -343,8 +325,7 @@
                  "y":0
                 }, 
                 {
-                 "height":0,
-                 "id":19,
+                 "height":16,
                  "name":"",
                  "properties":
                     {
@@ -359,7 +340,6 @@
                 }, 
                 {
                  "height":368,
-                 "id":20,
                  "name":"",
                  "properties":
                     {
@@ -374,7 +354,6 @@
                 }, 
                 {
                  "height":32,
-                 "id":21,
                  "name":"",
                  "properties":
                     {
@@ -394,7 +373,6 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":22,
  "orientation":"orthogonal",
  "properties":
     {
