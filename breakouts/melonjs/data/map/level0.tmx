@@ -60,7 +60,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#ffaa00" name="OrangeBricks">
-  <object name="brick" x="44" y="80" width="32" height="16">
+  <object name="brick" x="48" y="80" width="32" height="16">
    <properties>
     <property name="color" value="orange"/>
    </properties>
