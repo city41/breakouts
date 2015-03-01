@@ -36,10 +36,7 @@ These audio files are in the `sfx` directory and provided in mp3, ogg and wav fo
 
 There are two choices here for the background, either prerendered or using a Tiled tmx file. The prerendered version is the entire background in one image, where as the tile approach builds the background from `tiles.png` and `bg.tmx` or `bg.json`.  
 
-Most implementations are going the prerendered route for performance reasons. If your engine supports tiling via tmx or some other method, it'd be cool to offer that as an alternative. If you do, the way I've been doing that is with 'usetiles' as a query parameter in the URL. For example on the Lime version:  
-
-* http://city41.github.com/breakouts/limejs/index.html <---- will use the prerendered background
-* http://city41.github.com/breakouts/limejs/index.html?usetiles <---- will use the tmx tiled background
+Pick whichever makes more sense for your engine (most use the prerendered version).
 
 ### Tiled bmx file
 

@@ -26,11 +26,13 @@ Be sure to use the provided [resources](https://github.com/city41/breakouts/tree
 
 For the most part, if you just check out the [existing implementations](http://city41.github.com/breakouts) and make sure to do everything they do, you should be all set. Here are a few details to keep in mind:
 
-* There is a power up item that adds another ball, ala multiball in pinball. The player doesn't lose a life until he misses all of the balls in the playing field
-* There is also a power down item that shrinks the paddle to 2/3's its full size. This wears off after 10 seconds
-* There are a good number of sound effects: hitting a brick, powering up, powering down, power down wearing off, and the countdown's "blip"
+* There are a few sound effects: hitting a brick, the countdown's "blip", etc
 * The game is entirely mouse driven.
 * The background can be prerendered or use tiles (or both). See "The Background" section in the [resources](https://github.com/city41/breakouts/tree/master/resources) README
+
+### What about power ups? levels 3 and 4?
+
+When Breakouts first launched, the games had power ups, power downs and 4 levels. We have since decided to simplify the game. So please don't add the power ups, or levels 3 and 4. You may still see these lingering in some versions, we are gradually going through and removing them.
 
 ## Mobile Devices
 
@@ -40,7 +42,7 @@ If your engine is mobile friendly, please make your implementation work on mobil
 If your engine can do a part of the game in a better way than prescribed, but has the same overall result, please do it. For example, the Impact and Crafty versions use frame animation for when a brick disappears. But the Lime version uses its scaling action to accomplish the same effect, but does it better. Stuff like that is great, please point out the good things your engine can do!
 
 ## Tests?
-Writing tests for your implementation is totally up to you. In my opinion they aren't needed, so unless you insist probably don't bother.
+Please don't write tests. Tests really aren't the point of these games and just muddy the comparison.
 
 ## Supply A Good README
 
