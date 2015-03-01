@@ -52,9 +52,8 @@ ig.module('game.entities.ball').requires('impact.entity').defines(function() {
 
 		_determineBounceVelocity: function(paddle) {
 			var magnitude = (this.distanceTo(paddle) - this.size.y / 2 - paddle.size.y / 2);
-			// using ratio allows us to account for if the paddle changes sizes with powerups
 			var ratio = magnitude / (paddle.size.x / 2) * 2.5;
-			
+
 			if(this.pos.x + this.size.x / 2 < paddle.pos.x + paddle.size.x / 2) {
 				// send the ball to the left if hit on the left side of the paddle, and vice versa
 				ratio = -ratio;
@@ -64,4 +63,3 @@ ig.module('game.entities.ball').requires('impact.entity').defines(function() {
 		}
 	});
 });
-

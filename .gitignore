@@ -5,3 +5,6 @@ node_modules/
 *.swp
 README.html
 npm-debug.log
+breakouts/impactjs/lib/impact/
+breakouts/impactjs/lib/weltmeister/
+breakouts/impactjs/tools/

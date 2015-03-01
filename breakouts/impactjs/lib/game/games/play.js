@@ -2,7 +2,7 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 
 'game.games.level-setups', 'game.games.gameover', 'game.games.win',
 
-'game.entities.brick', 'game.entities.ball', 'game.entities.paddle', 'game.entities.power-up', 'game.entities.power-down', 'game.entities.countdown',
+'game.entities.brick', 'game.entities.ball', 'game.entities.paddle', 'game.entities.countdown',
 
 'game.levels.level')
 
@@ -26,16 +26,12 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 
 			this.paddle = this.getEntitiesByType(EntityPaddle)[0];
 
-			this.paddle.onPowerUp = (function() {
-				this._addBall(true);
-			}).bind(this);
-
 			this._reset(1);
 		},
 
-		_addBall: function(active) {
-			var ball = this.spawnEntity(EntityBall, 50, 280, {
-				active: active,
+		_addBall: function() {
+			this.spawnEntity(EntityBall, 50, 280, {
+				active: false,
 				onDeath: this._onBallDeath.bind(this)
 			});
 		},
@@ -53,13 +49,11 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 			}
 
 			this._killAllOf(EntityCountdown);
-			this._killAllOf(EntityPowerUp);
-			this._killAllOf(EntityPowerDown);
 			this._killAllOf(EntityBall);
 
 			this._populateLevel(this.level);
 			this._addCountdown();
-			this._addBall(false);
+			this._addBall();
 		},
 
 		update: function() {
@@ -99,7 +93,7 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 
 			this.spawnEntity(EntityCountdown, 0, 0, {
 				duration: 2,
-				onDeath: this._activateAllBalls.bind(this)
+				onDeath: this._activateBall.bind(this)
 			});
 		},
 
@@ -119,18 +113,13 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 			var bricks = setup.bricks;
 			this.brickCount = 0;
 
-			var powerUpLocations = this._getLocations(bricks, setup.powerUps);
-			var powerDownLocations = this._getLocations(bricks, setup.powerDowns);
-
 			for (var y = 0; y < bricks.length; ++y) {
 				for (var x = 0; x < bricks[y].length; ++x) {
 					var color = bricks[y][x];
 					if (color) {
 						var brick = this.spawnEntity(EntityBrick, x * brickWidth + cornerX, y * brickHeight + cornerY, {
 							color: color,
-							onDeath: onDeath,
-							hasPowerUp: this._hasLocation(x, y, powerUpLocations),
-							hasPowerDown: this._hasLocation(x, y, powerDownLocations)
+							onDeath: onDeath
 						});
 
 						++this.brickCount;
@@ -139,40 +128,8 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 			}
 		},
 
-		_getLocations: function(bricks, count) {
-			var locations = [];
-			for (var i = 0; i < count; ++i) {
-				var x, y;
-				do {
-					y = (Math.random() * bricks.length) | 0;
-					x = (Math.random() * bricks[y].length) | 0;
-				} while (this._hasLocation(x, y, locations));
-				locations.push({
-					x: x,
-					y: y
-				});
-			}
-			return locations;
-		},
-
-		_hasLocation: function(x, y, locations) {
-			for (var i = 0; i < locations.length; ++i) {
-				if (locations[i].x === x && locations[i].y === y) {
-					return true;
-				}
-			}
-			return false;
-		},
-
 		_onBrickDeath: function(brick) {
 			this.score += 100;
-
-			if (brick.hasPowerUp) {
-				this.spawnEntity(EntityPowerUp, brick.pos.x, brick.pos.y);
-			}
-			else if(brick.hasPowerDown) {
-				this.spawnEntity(EntityPowerDown, brick.pos.x, brick.pos.y);
-			}
 
 			--this.brickCount;
 			if (this.brickCount === 0) {
@@ -183,39 +140,35 @@ ig.module('game.games.play').requires('impact.game', 'impact.font',
 		_killAllOf: function(entityType) {
 			var entities = this.getEntitiesByType(entityType);
 
-			for(var i = 0; i < entities.length; ++i) {
+			for (var i = 0; i < entities.length; ++i) {
 				entities[i].kill();
 			}
 		},
 
-		_activateAllBalls: function() {
-			var balls = this.getEntitiesByType(EntityBall);
+		_activateBall: function() {
+			var ball = this.getEntitiesByType(EntityBall)[0];
 
-			for(var i = 0; i < balls.length; ++i) {
-				balls[i].active = true;
+			if (ball) {
+				ball.active = true;
 			}
+
 		},
 
 		_setForNextLife: function() {
 			this._addCountdown();
-			this._addBall(false);
-			this._killAllOf(EntityPowerUp);
-			this._killAllOf(EntityPowerDown);
+			this._addBall();
 		},
 
 		_onBallDeath: function(ball) {
 			ball.kill();
 
-			// are all the balls dead?
-			if (!this.getEntitiesByType(EntityBall).length) {
-				--this.lives;
-				if (this.lives) {
-					this._setForNextLife();
-				} else {
-					ig.system.setGame(GameOverGame);
-				}
+			--this.lives;
+
+			if (this.lives) {
+				this._setForNextLife();
+			} else {
+				ig.system.setGame(GameOverGame);
 			}
 		}
 	});
 });
-
