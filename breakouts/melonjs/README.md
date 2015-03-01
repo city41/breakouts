@@ -22,9 +22,7 @@ globally working, though it might requires some tweaks.
 
 ##Notes:
 * tested and working on all recent major browsers (including audio)
-* optimized (through specific settings) for mobile/table device
-  (tested & running on iPhone4 & iPad2)
-* audio is disabled on mobile devices
+* optimized (through specific settings) for mobile/table device (tested & running on iPhone4 & iPad2)
 * additional fadeIn/fadeOut effect have been used for transition
 * all levels (including the title screen) have been fully designed using Tiled
 
