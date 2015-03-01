@@ -21,9 +21,9 @@ var PlayScreen = me.ScreenObject.extend( {
 		// use minpubsub to detect user action
 		this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
 			if (action === "right") {
-			_this.nextLevel.defer(this);
+			_this.nextLevel.defer(_this);
 			} else if (action === 'left') {
-				_this.previousLevel.defer(this);
+				_this.previousLevel.defer(_this);
 			}
 		});
 
