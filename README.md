@@ -24,6 +24,7 @@ So far we have Breakout implementations for
 * [FriGame](http://frigame.org/)
 * [Frozen](http://frozenjs.com/)
 * [ImpactJS](http://www.impactjs.com)
+* [KiwiJS](http://www.kiwijs.org)
 * [LimeJS](http://www.limejs.com)
 * [MelonJS](http://www.melonjs.org)
 * [Phaser](http://phaser.io)
@@ -44,20 +45,10 @@ and feature:
 * sound effects
 * hit detection
 * text rendering
-* tiled backgrounds
 
 ## Play the Breakouts
 
 All of the Breakouts are up and playable at this project's [website](http://jsbreakouts.org)
-
-### Turning on or off prerendering the background
-
-It's interesting to see an engine's support for tiles, so all the implementations can load the background via tiles. By default though, they load a prerendered background image for better performance. To turn on use of tiles, add `usetiles` to the URL, for example:
-
-* http://city41.github.com/breakouts/craftyjs/index.html   <---- will use a prerendered background
-* http://city41.github.com/breakouts/craftyjs/index.html?usetiles   <---- will create the background via individual tiles
-
-**NOTE:** A mobile device will always use the prerendered background, even if `usetiles` is set. Tiles on mobile devices tend to kill performance quite a bit
 
 ## Contribute
 
