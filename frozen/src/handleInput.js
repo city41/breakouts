@@ -7,13 +7,13 @@ define([
 
   return function handleInput(im){
     //start game
-    if(this.state.screen === 0 && (im.touchAction.isPressed() || im.mouseAction.isPressed())){
+    if(this.state.screen === 0 && (im.mouseAction.isPressed())){
       this.state.screen = 1;
       this.loadLevel(0);
     }
 
     //move paddles
-    var position = im.touchAction.position || im.mouseAction.position;
+    var position = im.mouseAction.position;
     if(position){
       var paddle = this.entities.paddle;
       if(this.state.screen === 1 && paddle){
