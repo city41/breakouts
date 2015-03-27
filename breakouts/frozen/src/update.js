@@ -115,6 +115,7 @@ define([
             powerdownSound.play();
           }
         }, this);
+        this.box.setLinearVelocity(paddle.id, 0);
       }
 
       //if the paddle is small, countdown how much time is left in the small state

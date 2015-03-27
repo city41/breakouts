@@ -17,7 +17,7 @@ define([
     if(this.state.screen === 1){ //game playing
       this.entities.paddle.draw(ctx);
 
-      var entities = Array.prototype.concat.call(this.state.balls, this.state.currentBricks, this.state.powerUps, this.state.powerDowns);
+      var entities = this.state.balls.concat(this.state.currentBricks, this.state.powerUps, this.state.powerDowns);
       _.forEach(entities, function(entity){
         entity.draw(ctx);
       });
