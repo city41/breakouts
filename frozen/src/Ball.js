@@ -17,7 +17,7 @@ define([
     anim: null,
     restitution: 1.0,
     friction: 0,
-    impulse: 1.8,
+    impulse: 2.5,
     slowY: 0, //tracker of box2d to keep from slowing vertically
     aliveTime: 0,
     groupIndex: -1,
@@ -34,7 +34,7 @@ define([
       this.aliveTime += millis;
     },
     draw: function(ctx){
-      this.anim.draw(ctx, (this.x - this.radius) * this.scale, (this.y - this.radius) * this.scale);
+      this.anim.draw(ctx, Math.floor((this.x - this.radius) * this.scale), Math.floor((this.y - this.radius) * this.scale));
     }
   });
 

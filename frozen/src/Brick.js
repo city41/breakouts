@@ -3,27 +3,15 @@ define([
   'dcl',
   'frozen/box2d/entities/Rectangle',
   'frozen/Animation',
-  'frozen/plugins/loadImage!resources/tiles.png',
-  'dojo/on'
-], function(_, dcl, Rectangle, Animation, tiles, on){
+  'frozen/ResourceManager',
+  'frozen/plugins/loadImage!resources/tiles.png'
+], function(_, dcl, Rectangle, Animation, ResourceManager, tiles){
 
   'use strict';
 
   var animFrameTime = 100;
 
-  var flippedTiles = null;
-
-  //create a flipped image of the tiles when the original tiles image finishes loading
-  on(tiles, 'load', function(){
-    var offscreenCanvas = document.createElement('canvas');
-    offscreenCanvas.height = tiles.height;
-    offscreenCanvas.width = tiles.width;
-    var ctx = offscreenCanvas.getContext('2d');
-    ctx.translate(offscreenCanvas.width, 0);
-    ctx.scale(-1, 1);
-    ctx.drawImage(tiles,0,0);
-    flippedTiles = offscreenCanvas;
-  });
+  var flippedTiles = ResourceManager.prototype.flipImageX('flipped', tiles);
 
   return dcl(Rectangle, {
     img: tiles,

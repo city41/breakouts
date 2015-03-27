@@ -1,4 +1,5 @@
 define([
+  './initInput',
   './handleInput',
   './update',
   './draw',
@@ -8,12 +9,11 @@ define([
   './Ball',
   './loadLevel',
   'lodash',
-  'dojo/keys',
   'dojo/has',
   'frozen/box2d/BoxGame',
   'frozen/box2d/Box',
   'frozen/box2d/entities/Rectangle'
-], function(handleInput, update, draw, walls, Paddle, PaddleJoint, Ball, loadLevel, _, keys, has, BoxGame, Box, Rectangle){
+], function(initInput, handleInput, update, draw, walls, Paddle, PaddleJoint, Ball, loadLevel, _, has, BoxGame, Box, Rectangle){
 
   'use strict';
 
@@ -43,25 +43,7 @@ define([
       launchMillis: 0, //for countdown
       prevLaunchMillis: 3001 //to calc if should beep on countdown time change
     },
-    initInput: function(im){
-      //bind key events. second param is for single presses
-      im.addKeyAction(keys.LEFT_ARROW, true);
-      im.addKeyAction(keys.RIGHT_ARROW, true);
-    },
-    addBodies: function(){
-      var args = _.toArray(arguments);
-      var entities = _.flatten(args, true);
-      _.forEach(entities, function(entity){
-        this.addBody(entity);
-      }, this);
-    },
-    removeBodies: function(){
-      var args = _.toArray(arguments);
-      var entities = _.flatten(args, true);
-      _.forEach(entities, function(entity){
-        this.removeBody(entity);
-      }, this);
-    },
+    initInput: initInput,
     newBall: function(){
       var newBall = new Ball();
       this.state.balls.push(newBall);
