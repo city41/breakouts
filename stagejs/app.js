@@ -1,19 +1,18 @@
 var P2_DEBUG = false;
 
-Cut.Loader.load(function(root, container) {
-  Cut.Mouse.subscribe(root, container, true);
+Stage(function(stage) {
 
-  root.on("viewport", function(width, height) {
+  stage.on("viewport", function(size) {
     this.pin({
-      offsetX : (width / 2) | 0,
-      offsetY : (height / 2) | 0,
-      scale : window.devicePixelRatio || 1
+      offsetX : (size.width / 2) | 0,
+      offsetY : (size.height / 2) | 0,
+      scale : size.ratio || 1
     });
   });
 
   var ui = {}, sound = {};
 
-  var M = Cut.Math;
+  var M = Stage.Math;
 
   var world = new p2.World({
     gravity : [ 0, 0 ],
@@ -119,7 +118,7 @@ Cut.Loader.load(function(root, container) {
   });
   paddleFull.addShape(shape.paddleFull);
   paddleFull.isPaddle = true;
-  paddleFull.ui = Cut.image("tiles:paddleFull").pin("handle", 0.5);
+  paddleFull.ui = Stage.image("paddleFull").pin("handle", 0.5);
 
   world.addBody(paddle = paddleFull);
 
@@ -129,7 +128,7 @@ Cut.Loader.load(function(root, container) {
   });
   paddleMini.addShape(shape.paddleMini);
   paddleMini.isPaddle = true;
-  paddleMini.ui = Cut.image("tiles:paddleMini").pin("handle", 0.5);
+  paddleMini.ui = Stage.image("paddleMini").pin("handle", 0.5);
 
   function newBall() {
     var body = new p2.Body({
@@ -139,7 +138,7 @@ Cut.Loader.load(function(root, container) {
     body.angularDamping = 0;
     body.addShape(shape.ball);
     body.isBall = true;
-    body.ui = Cut.anim("tiles:ball_", 10).pin("handle", 0.5).play();
+    body.ui = Stage.anim("ball", 10).pin("handle", 0.5).play();
     return body;
   }
 
@@ -149,7 +148,7 @@ Cut.Loader.load(function(root, container) {
     });
     body.addShape(shape.drop);
     body.isDrop = name;
-    body.ui = Cut.image("tiles:" + name).pin("handle", 0.5);
+    body.ui = Stage.image(name).pin("handle", 0.5);
     return body;
   }
 
@@ -159,7 +158,7 @@ Cut.Loader.load(function(root, container) {
     });
     body.addShape(shape.brick);
     body.isBrick = true;
-    body.ui = Cut.anim("tiles:b" + color + "_").pin("handle", 0.5);
+    body.ui = Stage.anim(color).pin("handle", 0.5);
     body.ui.drop = function() {
       this.repeat(1, function() {
         this.remove();
@@ -291,7 +290,7 @@ Cut.Loader.load(function(root, container) {
     ui.logo.tween(500).clear(true).pin("alpha", 1);
   }
 
-  root.on("click", function() {
+  stage.on("click", function() {
     if (over) {
       over = false;
       updateMessage("");
@@ -358,31 +357,31 @@ Cut.Loader.load(function(root, container) {
     }, P2_DEBUG ? 0 : 3000);
   }
 
-  ui.p2 = Cut.p2(world, {
+  ui.p2 = new Stage.P2(world, {
     lineWidth : 0.01,
     lineColor : "#888",
     ratio : 256,
     debug : P2_DEBUG
-  }).appendTo(root).on(Cut.Mouse.MOVE, function(ev, point) {
+  }).appendTo(stage).on(Stage.Mouse.MOVE, function(point) {
     paddle.position[0] = Math.max(-0.85, Math.min(0.85, point.x));
-  }).spy(true).pin("scale", 160);
+  }).attr('spy', true).pin("scale", 160);
 
-  ui.tri = Cut.image("tiles:tri").prependTo(ui.p2).pin("align", 0.5).pin(
-      "alpha", 0).visible(!P2_DEBUG);
-  ui.two = Cut.image("tiles:two").prependTo(ui.p2).pin("align", 0.5).pin(
-      "alpha", 0).visible(!P2_DEBUG);
-  ui.one = Cut.image("tiles:one").prependTo(ui.p2).pin("align", 0.5).pin(
-      "alpha", 0).visible(!P2_DEBUG);
-  ui.logo = Cut.image("logo:logo").prependTo(ui.p2).pin("align", 0.5).pin(
-      "alpha", 0);
-  ui.bg = Cut.image("bg:prerendered").prependTo(ui.p2).pin("align", 0.5)
+  ui.tri = Stage.image("tri").prependTo(ui.p2).pin("align", 0.5)
+      .pin("alpha", 0).visible(!P2_DEBUG);
+  ui.two = Stage.image("two").prependTo(ui.p2).pin("align", 0.5)
+      .pin("alpha", 0).visible(!P2_DEBUG);
+  ui.one = Stage.image("one").prependTo(ui.p2).pin("align", 0.5)
+      .pin("alpha", 0).visible(!P2_DEBUG);
+  ui.logo = Stage.image("logo").prependTo(ui.p2).pin("align", 0.5).pin("alpha",
+      0);
+  ui.bg = Stage.image("bg:prerendered").prependTo(ui.p2).pin("align", 0.5)
       .visible(!P2_DEBUG);
-  ui.status = Cut.string("font:_").appendTo(ui.bg).pin({
+  ui.status = Stage.string("font").appendTo(ui.bg).pin({
     alignX : 0.5,
     alignY : 1,
     offsetY : -0.05,
   });
-  ui.message = Cut.string("font:_").appendTo(ui.bg).pin({
+  ui.message = Stage.string("font").appendTo(ui.bg).pin({
     alignX : 0.5,
     alignY : 1,
     offsetY : -0.4,
