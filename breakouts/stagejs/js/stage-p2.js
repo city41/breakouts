@@ -1,32 +1,34 @@
-/*
- * CutJS viewer for p2.js
+/**
+ * P2.js viewer for Stage.js
  */
-
-Cut.p2 = function(world, options) {
-  return new Cut.P2(world, options);
-};
-
-Cut.P2 = function(world, options) {
-  Cut.P2.prototype._super.apply(this, arguments);
+Stage.P2 = function(world, options) {
+  Stage.P2._super.call(this);
 
   var self = this;
   this.world = world;
 
-  options = options || {};
-
-  this.debug = options.debug || false;
-
-  this.ratio = options.ratio || 128;
-
-  this.maxSubSteps = options.maxSubSteps || 3;
-  this.timeStep = options.timeStep || 1 / 60;
-
-  this.lineWidth = "lineWidth" in options ? Cut._function(options.lineWidth)
-      : Cut._function(0.025);
-  this.lineColor = "lineColor" in options ? Cut._function(options.lineColor)
-      : Cut._function("#000000");
-  this.fillColor = "fillColor" in options ? Cut._function(options.fillColor)
-      : Cut._function(Cut.P2.randomColor);
+  this.options = {
+    maxSubSteps : 3,
+    timeStep : 1 / 60,
+    debug : false,
+    debugPolygons : false,
+    lineWidth : 0.025,
+    lineColor : '#000000',
+    fillColor : function() {
+      var red = Stage.Math.random(192, 256) | 0;
+      var green = Stage.Math.random(192, 256) | 0;
+      var blue = Stage.Math.random(192, 256) | 0;
+      return "#" + red.toString(16) + green.toString(16) + blue.toString(16);
+    },
+    ratio : 128,
+    get : function(key) {
+      var value = this[key];
+      return typeof value === 'function' ? value() : value;
+    },
+    extend : function(options) {
+      return Stage._extend({}, this, options);
+    }
+  }.extend(options);
 
   world.on("addBody", function(e) {
     self.addRenderable(e.body);
@@ -59,19 +61,19 @@ Cut.P2 = function(world, options) {
     this.addRenderable(world.springs[i]);
   }
 
-  this.tick(function() {
-    this.step();
+  this.tick(function(t) {
+    this.step(1 / 60, t / 1000);
   });
 
   this.tempv = p2.vec2.fromValues(0, 0);
 };
 
-Cut.P2.prototype = new Cut(Cut.Proto);
-Cut.P2.prototype._super = Cut;
-Cut.P2.prototype.constructor = Cut.P2;
+Stage.P2._super = Stage;
+Stage.P2.prototype = Stage._create(Stage.P2._super.prototype);
+Stage.P2.prototype.constructor = Stage.P2;
 
-Cut.P2.prototype.step = function(t) {
-  this.world.step(this.timeStep, t, this.maxSubSteps);
+Stage.P2.prototype.step = function(t) {
+  this.world.step(this.options.timeStep, t, this.options.maxSubSteps);
 
   for (var i = 0; i < this.world.bodies.length; i++) {
     var body = this.world.bodies[i];
@@ -104,7 +106,7 @@ Cut.P2.prototype.step = function(t) {
 
     var a = Math.atan2(dx, dy) + Math.PI / 2;
 
-    var s = Cut.Math.length(dx, dy) / spring.restLength;
+    var s = Stage.Math.length(dx, dy) / spring.restLength;
 
     spring.ui.pin({
       offsetX : x,
@@ -115,19 +117,19 @@ Cut.P2.prototype.step = function(t) {
   }
 };
 
-Cut.P2.prototype.addRenderable = function(obj) {
+Stage.P2.prototype.addRenderable = function(obj) {
 
-  if (!this.debug && typeof obj.ui !== "undefined") {
+  if (!this.options.debug && typeof obj.ui !== "undefined") {
     obj.ui && obj.ui.appendTo(this);
     return;
   }
 
-  obj.ui = Cut.create().appendTo(this);
+  obj.ui = Stage.create().appendTo(this);
 
   if (obj instanceof p2.Body && obj.shapes.length) {
-    if (obj.concavePath && !this.debugPolygons) {
-      var cutout = this.drawConvex(obj.concavePath);
-      Cut.image(cutout).appendTo(obj.ui).pin({
+    if (obj.concavePath && !this.options.debugPolygons) {
+      var texture = this.drawConvex(obj.concavePath);
+      Stage.image(texture).appendTo(obj.ui).pin({
         handle : 0.5,
         offsetX : obj.shapeOffsets[i] ? obj.shapeOffsets[i][0] : 0,
         offsetY : -(obj.shapeOffsets[i] ? obj.shapeOffsets[i][1] : 0),
@@ -138,34 +140,34 @@ Cut.P2.prototype.addRenderable = function(obj) {
       for (var i = 0; i < obj.shapes.length; i++) {
         var shape = obj.shapes[i];
 
-        var cutout = null;
+        var texture = null;
         if (shape instanceof p2.Circle) {
-          cutout = this.drawCircle(shape.radius);
+          texture = this.drawCircle(shape.radius);
 
         } else if (shape instanceof p2.Particle) {
-          cutout = this.drawCircle(2 * this.lineWidth(), {
+          texture = this.drawCircle(2 * this.options.get('lineWidth'), {
             lineColor : "",
-            fillColor : this.lineColor()
+            fillColor : this.options.lineColor
           });
 
         } else if (shape instanceof p2.Plane) {
-          cutout = this.drawPlane(-10, 10, 10);
+          texture = this.drawPlane(-10, 10, 10);
 
         } else if (shape instanceof p2.Line) {
-          cutout = this.drawLine(shape.length);
+          texture = this.drawLine(shape.length);
 
         } else if (shape instanceof p2.Rectangle) {
-          cutout = this.drawRectangle(shape.width, shape.height);
+          texture = this.drawRectangle(shape.width, shape.height);
 
         } else if (shape instanceof p2.Capsule) {
-          cutout = this.drawCapsule(shape.length, shape.radius);
+          texture = this.drawCapsule(shape.length, shape.radius);
 
         } else if (shape instanceof p2.Convex) {
           if (shape.vertices.length) {
-            cutout = this.drawConvex(shape.vertices);
+            texture = this.drawConvex(shape.vertices);
           }
         }
-        Cut.image(cutout).appendTo(obj.ui).pin({
+        Stage.image(texture).appendTo(obj.ui).pin({
           handle : 0.5,
           offsetX : obj.shapeOffsets[i] ? obj.shapeOffsets[i][0] : 0,
           offsetY : -(obj.shapeOffsets[i] ? obj.shapeOffsets[i][1] : 0),
@@ -175,45 +177,53 @@ Cut.P2.prototype.addRenderable = function(obj) {
     }
 
   } else if (obj instanceof p2.Spring) {
-    var cutout = this.drawSpring(obj.restLength);
-    Cut.image(cutout).appendTo(obj.ui).pin({
+    var texture = this.drawSpring(obj.restLength);
+    Stage.image(texture).appendTo(obj.ui).pin({
       handle : 0.5
     });
   }
 
 };
 
-Cut.P2.prototype.removeRenderable = function(obj) {
+Stage.P2.prototype.removeRenderable = function(obj) {
   obj.ui && (obj.ui.drop ? obj.ui.drop() : obj.ui.remove());
 };
 
-Cut.P2.prototype.drawLine = function(length, options) {
-  options = this.options(options);
-  var lineWidth = options.lineWidth * 2, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawLine = function(length, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
-  return Cut.Out.drawing(length + 2 * lineWidth, lineWidth, this.ratio,
-      function(ctx, ratio) {
-        ctx.scale(ratio, ratio);
+  lineWidth *= 2;
+  var ratio = options.ratio;
 
-        ctx.moveTo(lineWidth, lineWidth / 2);
-        ctx.lineTo(lineWidth + length, lineWidth / 2);
+  return Stage.canvas(function(ctx) {
+    this.size(length + 2 * lineWidth, lineWidth, ratio);
 
-        ctx.lineWidth = lineWidth;
-        ctx.lineCap = "round";
-        ctx.strokeStyle = lineColor;
-        ctx.stroke();
-      });
+    ctx.scale(ratio, ratio);
 
+    ctx.moveTo(lineWidth, lineWidth / 2);
+    ctx.lineTo(lineWidth + length, lineWidth / 2);
+
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = lineColor;
+    ctx.stroke();
+  });
 };
 
-Cut.P2.prototype.drawRectangle = function(w, h, options) {
-  options = this.options(options);
-  var lineWidth = options.lineWidth, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawRectangle = function(w, h, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
   var width = w + 2 * lineWidth;
   var height = h + 2 * lineWidth;
+  var ratio = options.ratio;
 
-  return Cut.Out.drawing(width, height, this.ratio, function(ctx, ratio) {
+  return Stage.canvas(function(ctx) {
+    this.size(width, height, ratio);
+
     ctx.scale(ratio, ratio);
     ctx.beginPath();
     ctx.rect(lineWidth, lineWidth, w, h);
@@ -227,14 +237,18 @@ Cut.P2.prototype.drawRectangle = function(w, h, options) {
   });
 };
 
-Cut.P2.prototype.drawCircle = function(radius, options) {
-  options = this.options(options);
-  var lineWidth = options.lineWidth, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawCircle = function(radius, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
   var width = radius * 2 + lineWidth * 2;
   var height = radius * 2 + lineWidth * 2;
+  var ratio = options.ratio;
 
-  return Cut.Out.drawing(width, height, this.ratio, function(ctx, ratio) {
+  return Stage.canvas(function(ctx) {
+    this.size(width, height, ratio);
+
     ctx.scale(ratio, ratio);
     ctx.beginPath();
     ctx.arc(width / 2, height / 2, radius, 0, 2 * Math.PI);
@@ -243,26 +257,30 @@ Cut.P2.prototype.drawCircle = function(radius, options) {
       ctx.fill();
     }
 
-    ctx.moveTo(radius + lineWidth, radius + lineWidth);
-    ctx.lineTo(lineWidth, radius + lineWidth);
+    if (lineColor) {
+      ctx.moveTo(radius + lineWidth, radius + lineWidth);
+      ctx.lineTo(lineWidth, radius + lineWidth);
 
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = lineColor;
-    ctx.stroke();
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = lineColor;
+      ctx.stroke();
+    }
   });
 };
 
-Cut.P2.prototype.drawCapsule = function(len, radius, options) {
-
-  options = this.options(options);
-  var lineWidth = options.lineWidth, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawCapsule = function(len, radius, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
   var width = len + 2 * radius + 2 * lineWidth;
   var height = 2 * radius + 2 * lineWidth;
+  var ratio = options.ratio;
 
-  return Cut.Out.drawing(width, height, this.ratio, function(ctx, ratio) {
+  return Stage.canvas(function(ctx) {
+    this.size(width, height, ratio);
+
     ctx.scale(ratio, ratio);
-
     ctx.beginPath();
     ctx.moveTo(radius + lineWidth, lineWidth);
     ctx.lineTo(len + radius + lineWidth, lineWidth);
@@ -282,9 +300,10 @@ Cut.P2.prototype.drawCapsule = function(len, radius, options) {
   });
 };
 
-Cut.P2.prototype.drawSpring = function(length, options) {
-  options = this.options(options);
-  var lineWidth = options.lineWidth, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawSpring = function(length, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
   length = Math.max(length, lineWidth * 10);
 
@@ -292,9 +311,12 @@ Cut.P2.prototype.drawSpring = function(length, options) {
   var dx = length / N;
   var dy = 0.2 * length;
 
-  return Cut.Out.drawing(length, dy * 2, this.ratio, function(ctx, ratio) {
-    ctx.scale(ratio, ratio);
+  var ratio = options.ratio;
 
+  return Stage.canvas(function(ctx) {
+    this.size(length, dy * 2, ratio);
+
+    ctx.scale(ratio, ratio);
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = lineColor;
     ctx.lineJoin = "round";
@@ -318,11 +340,16 @@ Cut.P2.prototype.drawSpring = function(length, options) {
   });
 };
 
-Cut.P2.prototype.drawPlane = function(x0, x1, max, options) {
-  options = this.options(options);
-  var lineWidth = options.lineWidth, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawPlane = function(x0, x1, max, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
-  return Cut.Out.drawing(max * 2, max * 2, this.ratio, function(ctx, ratio) {
+  var ratio = options.ratio;
+
+  return Stage.canvas(function(ctx) {
+    this.size(max * 2, max * 2, ratio);
+
     ctx.scale(ratio, ratio);
 
     if (fillColor) {
@@ -348,25 +375,28 @@ Cut.P2.prototype.drawPlane = function(x0, x1, max, options) {
 
 };
 
-Cut.P2.prototype.drawConvex = function(verts, options) {
-  options = this.options(options);
-  var lineWidth = options.lineWidth, lineColor = options.lineColor, fillColor = options.fillColor;
+Stage.P2.prototype.drawConvex = function(verts, options) {
+  options = this.options.extend(options);
+  var lineWidth = options.get('lineWidth'), lineColor = options
+      .get('lineColor'), fillColor = options.get('fillColor');
 
   if (!verts.length) {
     return;
   }
 
   var width = 0, height = 0;
+  var ratio = options.ratio;
+
   for (var i = 0; i < verts.length; i++) {
     var v = verts[i], x = v[0], y = -v[1];
     width = Math.max(Math.abs(x), width);
-    height = Math.max(Math.abs(y), height)
+    height = Math.max(Math.abs(y), height);
   }
 
-  var cutout = Cut.Out.drawing(2 * width + 2 * lineWidth, 2 * height + 2
-      * lineWidth, this.ratio, function(ctx, ratio) {
-    ctx.scale(ratio, ratio);
+  return Stage.canvas(function(ctx) {
+    this.size(2 * width + 2 * lineWidth, 2 * height + 2 * lineWidth, ratio);
 
+    ctx.scale(ratio, ratio);
     ctx.beginPath();
     for (var i = 0; i < verts.length; i++) {
       var v = verts[i], x = v[0] + width + lineWidth, y = -v[1] + height
@@ -392,21 +422,4 @@ Cut.P2.prototype.drawConvex = function(verts, options) {
     ctx.strokeStyle = lineColor;
     ctx.stroke();
   });
-
-  return cutout;
-};
-
-Cut.P2.prototype.options = function(options) {
-  options = typeof options === "object" ? options : {};
-  options.lineWidth = options.lineWidth || this.lineWidth();
-  options.lineColor = options.lineColor || this.lineColor();
-  options.fillColor = options.fillColor || this.fillColor();
-  return options;
-};
-
-Cut.P2.randomColor = function() {
-  var red = Cut.Math.random(192, 256) | 0;
-  var green = Cut.Math.random(192, 256) | 0;
-  var blue = Cut.Math.random(192, 256) | 0;
-  return "#" + red.toString(16) + green.toString(16) + blue.toString(16);
 };
