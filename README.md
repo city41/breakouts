@@ -20,7 +20,6 @@ So far we have Breakout implementations for
 
 * [Crafty](http://www.craftyjs.com)
 * [CreateJS](http://www.createjs.com)
-* [CutJS](http://cutjs.org)
 * [FriGame](http://frigame.org/)
 * [Frozen](http://frozenjs.com/)
 * [ImpactJS](http://www.impactjs.com)
@@ -30,6 +29,7 @@ So far we have Breakout implementations for
 * [Phaser](http://phaser.io)
 * [Platypus](http://github.com/PBS-KIDS/Platypus)
 * [Quintus](http://html5quintus.com/)
+* [Stage.js](http://piqnt.com/stage.js/)
 
 ## About Breakout
 
