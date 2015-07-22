@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entropy - Breakout Game</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+<body>
+    <div class="screens">
+        <div class="screen loading-screen">
+            <div class="progress-bar-outer">
+                <div class="progress-bar-inner">
+                </div>
+            </div>
+        </div>
+        <div class="screen menu-screen">
+            <div class="breakout-logo"></div>
+            <div class="menu-click-to-start">Click to start</div>
+            <div class="menu-message-text">During the game, use left/right arrows to skip levels.</div>
+        </div>
+        <div class="screen gameplay-screen">
+            <canvas class="game-canvas"></canvas>
+        </div>
+        <div class="screen gameover-screen">
+            <div class="gameover-text">Game over</div>
+        </div>
+    </div>
+    <footer>
+        breakout. powered by entropy. mrtambourine &copy; 2015
+    </footer>
+    <!-- Only these four scripts are needed initially, rest will be preloaded later. -->
+    <script src="./lib/preloadjs.min.js"></script>
+    <script src="./lib/entropy.min.js" defer></script>
+    <script src="./lib/entropy-plugins.min.js" defer></script>
+    <script src="./js/states/Loading.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+            game = new Entropy.Game();
+
+            fadeInScreen('.loading-screen', function () {
+                game.state.change('Loading');
+            })
+        })
+
+        //Some helper CSS animation functions
+        function fadeOutScreen(screen, done) {
+            var screenElement = document.querySelector(screen);
+
+            screenElement.classList.add('fade-out');
+
+            var animationEnd = function () {
+                off(screenElement, 'animationend', animationEnd);
+                screenElement.classList.remove('fade-out');
+                screenElement.classList.remove('active');
+
+                return done();
+            }
+
+            on(screenElement, 'animationend', animationEnd);
+        }
+
+        function fadeInScreen(screen, done) {
+            var screenElement = document.querySelector(screen);
+
+            screenElement.classList.add('fade-in');
+            screenElement.classList.add('active');
+
+            var animationEnd = function () {
+                off(screenElement, 'animationend', animationEnd);
+                screenElement.classList.remove('fade-in');
+
+                return done();
+            }
+
+            on(screenElement, 'animationend', animationEnd);
+        }
+        
+        function on(element, type, callback) {
+            var pfx = ["webkit", "moz", "MS", "o", ""];
+            for (var p = 0; p < pfx.length; p++) {
+                if (!pfx[p]) type = type.toLowerCase();
+                element.addEventListener(pfx[p]+type, callback, false);
+            }
+        }
+
+        function off(element, type, callback) {
+            var pfx = ["webkit", "moz", "MS", "o", ""];
+            for (var p = 0; p < pfx.length; p++) {
+                if (!pfx[p]) type = type.toLowerCase();
+                element.removeEventListener(pfx[p]+type, callback, false);
+            }
+        }
+
+        function pad(n, width, z) {
+            z = z || '0';
+            n = n + '';
+            return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+        }
+
+        function clamp(value, min, max) {
+            if (value < min) {
+                return min;
+            }
+
+            if (value > max) {
+                return max;
+            }
+
+            return value;
+        }
+    </script>
+</body>
+</html>
