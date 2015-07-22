@@ -33,7 +33,6 @@ Entropy.State({
             .loadFile('./js/entities/Paddle.js')
             .loadFile('./js/entities/Counter.js')
             .loadFile('./js/entities/Block.js')
-            .loadFile('./js/entities/PowerUp.js')
             .loadFile('./js/entities/WallTop.js')
             .loadFile('./js/entities/WallRight.js')
             .loadFile('./js/entities/WallLeft.js')
