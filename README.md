@@ -8,7 +8,7 @@ last updated: Dec-1-2013
 
 **tl;dr** Breakouts is to JavaScript game engines what [TodoMVC](http://todomvc.com) is to JavaScript MV\* frameworks.
 
-There are a lot of JavaScript game engines out there, the JavaScript wiki lists [over 80 of them](https://github.com/bebraw/jswiki/wiki/Game-Engines). This project is an attempt to get some insight into the engines out there. This was done by implementing a simple version of the game Breakout in various engines. With the implementations in hand, you can compare and contrast and play with the engines to help get a feel for whether you like them or not.  
+There are a lot of JavaScript game engines out there, the JavaScript wiki lists [over 80 of them](https://github.com/bebraw/jswiki/wiki/Game-Engines). This project is an attempt to get some insight into the engines out there. This was done by implementing a simple version of the game Breakout in various engines. With the implementations in hand, you can compare and contrast and play with the engines to help get a feel for whether you like them or not.
 
 ### Companion Article
 There is also a companion article to this project on [BuildNewGames](http://buildnewgames.com/game-engine-comparison/), which goes into detail on the first
@@ -30,6 +30,7 @@ So far we have Breakout implementations for
 * [Platypus](http://github.com/PBS-KIDS/Platypus)
 * [Quintus](http://html5quintus.com/)
 * [Stage.js](http://piqnt.com/stage.js/)
+* [Entropy](http://github.com/RainPhilosopher/entropy)
 
 ## About Breakout
 
