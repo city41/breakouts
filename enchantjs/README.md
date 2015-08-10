@@ -7,10 +7,16 @@ This is an enchant.js implementation of the classic Breakout game created for th
 
 It is open source (MIT license).
 
-*Line 5662 of the enchant.js file has been changed from 
+Line 5662 of the enchant.js file has been changed from 
+
 this.src.disconnect(this.connectTarget);
+
 to
+
 this.src.disconnect();
+
 which stops Chrome from crashing with the following error:
+
 Uncaught InvalidAccessError: Failed to execute 'disconnect' on 'AudioNode':
-*
+
+
