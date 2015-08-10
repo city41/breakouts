@@ -1,0 +1,14 @@
+{
+  "volo": {
+    "baseUrl": "js",
+    "dependencies": {
+      "dgrid": "github:SitePen/dgrid/v0.3.7",
+      "dojo": "github:dojo/dojo/1.8.3",
+      "put-selector": "github:kriszyp/put-selector/v0.3.4",
+      "xstyle": "github:phated/xstyle/v0.1.3",
+      "util": "github:dojo/util/1.8.3",
+      "dijit": "github:dojo/dijit/1.8.3"
+    }
+  },
+  "dojoBuild": "app.profile.js"
+}

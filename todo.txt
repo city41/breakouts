@@ -1,0 +1,27 @@
+-- make layout/bg/etc consistent in all versions
+
+-- put engine, source link and homepage link on each implementation page
+
+-- implementation guidelines
+	-- set link too
+
+-- set resources link
+
+-- highlight "JavaScript"
+
+-- proofread
+
+-- proofread again
+
+-- test website in all browsers
+
+-- test implementations in all browsers
+
+-- favicon and apple icons
+
+-- screenshot with question mark level
+
+-- move indexsoon to index
+
+-- redeploy all versions to be sure they are up to date
+	-- crafty is not update to date

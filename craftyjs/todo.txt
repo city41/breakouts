@@ -1,0 +1,2 @@
+better solution for pausing
+

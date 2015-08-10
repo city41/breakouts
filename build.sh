@@ -1,0 +1,1 @@
+sh js/util/buildscripts/build.sh --package ./ --dojoConfig config.js --profile app.profile.js
