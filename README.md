@@ -20,6 +20,8 @@ So far we have Breakout implementations for
 
 * [Crafty](http://www.craftyjs.com)
 * [CreateJS](http://www.createjs.com)
+* [enchant.js](http://enchantjs.com/)
+* [Entropy](http://github.com/RainPhilosopher/entropy)
 * [FriGame](http://frigame.org/)
 * [Frozen](http://frozenjs.com/)
 * [ImpactJS](http://www.impactjs.com)
@@ -30,7 +32,6 @@ So far we have Breakout implementations for
 * [Platypus](http://github.com/PBS-KIDS/Platypus)
 * [Quintus](http://html5quintus.com/)
 * [Stage.js](http://piqnt.com/stage.js/)
-* [Entropy](http://github.com/RainPhilosopher/entropy)
 
 ## About Breakout
 
