@@ -1,0 +1,6 @@
+all sfx
+occassional speed bugs ????
+
+figure out how to reset power down timeout
+
+

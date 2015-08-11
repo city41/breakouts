@@ -1,0 +1,15 @@
+
+.friGame {
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+	outline: none;
+	background: none;
+	border-width: 0px;
+	border-style: solid;
+
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+

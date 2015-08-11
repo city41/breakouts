@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+
+		<title>FriGame -- Breakouts</title>
+
+		<link rel="stylesheet" href="frigame/frigame.css" />
+        <link rel="stylesheet" href="style.css" />
+
+        <style>
+            body, html {
+                position: static;
+            }
+
+            #playground { 
+				margin: 0 auto;
+				color: white;
+				cursor: none;
+            }
+
+			@media (min-width: 641px) {
+				#playground {
+					position: absolute !important;
+					left: 0;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					margin: auto;
+				}
+			}
+
+        </style>
+	</head>
+
+	<body>
+		<div id="playground">
+			<div id="welcomeScreen">
+				<div id="loadingBarB">
+					<div id="loadingBar"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- deps -->
+		<script src="jquery-1.10.2.js"></script>
+		<script src="frigame/frigame.common.js"></script>
+		<script src="frigame/frigame.canvas.js"></script>
+		<script src="frigame/plugins/frigame.fx.js"></script>
+		<script src="frigame/plugins/frigame.sound.js"></script>
+		<script src="frigame/plugins/frigame.keytracker.js"></script>
+    <script src="frigame/plugins/frigame.mousetracker.js"></script>
+    
+
+		<!-- game -->
+		<script src="breakout/defines.js"></script>
+		<script src="breakout/levels.js"></script>
+		<script src="breakout/sprites.js"></script>
+		<script src="breakout/ball.js"></script>
+		<script src="breakout/scenes.js"></script>
+		<script src="breakout/breakout.js"></script>
+	</body>
+</html>
+

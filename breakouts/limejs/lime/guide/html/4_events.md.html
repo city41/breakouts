@@ -1,0 +1,48 @@
+<h1>Events</h1>
+
+<p>Event management in Lime is very similar to normal events management in Closure library. You use the same methods <code>goog.events.listen(src, type, listener, opt_capt, opt_handler)</code> to listen for events and <code>goog.events.unlisten(src, type, listener, opt_capt, opt_handler)</code> to remove the listener. The target object(src) is the same Node element that you interact normally. Event types are the ones you would normally add to your DOM elements: usually <em>mousedown</em>, <em>mousemove</em> and <em>mouseup</em> for mouse events and <em>touchstart</em>, <em>touchmove</em>, <em>touchend</em> and <em>touchcancel</em> for touch events. Event types can be also specified as an array.</p>
+
+<p>The idea behind Lime event management is to allow you to write all your code only once for both touch and mouse based devices. If you have tried to do this before you might know this is not so simple to achieve as it first sounds. First of all there is no one-to-one relation between mouse and touch events. Mousedown may usually mean same as touchstart but mousemove is totally different concept than touchmove. Secondly there is a implementation difference - the position of the different events is exposed differently for different events. And thirdly the touch devices usually support multitouch. This means that you can't only have handlers for specific events but you need to set next responders for specific interations. Lime tries to solve all those problems.</p>
+
+<p>When you listen for an event on an element in Lime the Event object you receive in your handler function isn't the normal browser event but instance of <em>lime.events.Event</em>. The properties of this object include:</p>
+
+<ul>
+<li><em>position</em> - Coordinate for the event in target node's coordinate space</li>
+<li><em>screenPosition</em> - Coordinate for the event in screen coordinate space</li>
+<li><em>targetObject</em> - Object that fired the event</li>
+<li><em>event</em> - Normal browser event(you can call stopPropagation() on that for example)</li>
+</ul>
+
+<p>These positions are the same for both mouse and touch events. All the coordinates can be transformed to different coordinate spaces with Node object's helper functions.</p>
+
+<h2>event.swallow()</h2>
+
+<p>Event object also has <code>swallow(eventType,handler)</code> method. This allows you to interact with queue of events. You would normally use it so that you listen for a first interaction(mousdown, touchstart etc) as you normally would and then on a handler would swallow next mousemove or mouseup events. Swallow means that the handlers only get called if it is still part of the same interaction. On a multitouch capable device every individual touch has its own swallow handlers so if your touchstart had been started by one finger it never gets mixed up with movement of some other finger. When the interaction ends(touchend, mouseup) all swallowed listeners are automatically cleared.</p>
+
+<pre><code>#!JavaScript
+goog.events.listen(ball,['mousedown','touchstart'],function(e){
+    this.setFill('#c00'); // ball is colored to red when touched
+
+    e.swallow(['mouseup','touchend','touchcancel'],function(){
+        this.setFill('#0c0'); // ball is colored back to green when interaction ends
+    }
+});
+</code></pre>
+
+<h2>Dragging</h2>
+
+<p>One common interaction is to drag elements around. Lime has made it simple for you. In the event handler simply call <code>event.startDrag()</code>. You can also provide parameters that limit the draggable area, snap to center or provide custom target object. Because the drag method uses the same <code>swallow()</code> logic as described earlier every dragging is handled separately and you can drag around multiple items same time without writing a single line of code.</p>
+
+<pre><code>#!JavaScript
+goog.events.listen(ball,['mousedown','touchstart'],function(e){
+    e.startDrag(true); // true is for snapToCenter
+});
+</code></pre>
+
+<h2>Non DOM elements</h2>
+
+<p>When you use Canvas renderer there are no DOM elements to pick up the events. While developing with raw Canvas methods this can be problem cause you only have one event target. Fortunately in Lime using different renderers doesn't affect the event system at all. You can still listen events on Nodes that don't have a DOM counterpart. </p>
+
+<h2>The Hit Test</h2>
+
+<p>If you have some weird custom displayobject you can override it's <code>hitTest()</code> method to give it a custom area from where it responds to events. By default all sprites respond to their bounding box(not to fill). Custom shapes check their own geometry. Layers don't have any body so they respond to all of their children.</p>

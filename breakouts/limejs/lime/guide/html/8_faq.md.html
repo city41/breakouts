@@ -1,0 +1,45 @@
+<h1>FAQ</h1>
+
+<p><em>This is a draft</em></p>
+
+<p>This page combines answers to some of the common problems/questions that have come up in the forums. If you can't find a solution from here post your question to to <a href="http://groups.google.com/group/limejs/topics">Google Groups page</a> or <a href="https://github.com/digitalfruit/limejs/issues">GitHub issues</a> page.</p>
+
+<h3>Where should I start? What is the first step?</h3>
+
+<p>Read the <em>README</em> file. Many times if needed. If any terms confuse you type them into Google. Try to get the demos or helloworld running and continue from there.</p>
+
+<h3>So I saw mention of <code>lime.py</code> in the README. Is LimeJS about writing Python code that is transformed to run in the browser?</h3>
+
+<p>Absolutely not! <code>Lime.py</code> is just a helper tool to speed up running some common tasks during development process. It could have been written in any language. We picked Python because Google's Closure tools are also written and Python and choosing any other language would have resulted adding extra dependency. LimeJS is pure Javascript library and developing on it does not require understanding Python. </p>
+
+<h3>I ran <code>init</code> and <code>create helloworld</code> but nothing shows up in the browser.</h3>
+
+<h3>While running <code>build</code> I get a cryptic error message about "namespace % already defined".</h3>
+
+<h3>I'm confused. Some weird files seem to be searched by lime.py.</h3>
+
+<h3>Build returns empty file.</h3>
+
+<h3>I made a change and now I get blank screen. Help!</h3>
+
+<p>Debugging is just a part of development process. Get to know how your browsers' development tools work. We recommend <a href="http://www.youtube.com/watch?v=N8SS-rUEZPg">Webkit Development Tools</a> but <a href="http://getfirebug.com">Firebug</a> should also be a fine choice.</p>
+
+<h3>I'm trying to use a new object I found from the documentation but it seems to be undefined.</h3>
+
+<p>Most of the classes are not included by default and you have to include them manually. Add line <code>goog.require('lime.some.Class')</code> to the beginning of your file where you need to use it.</p>
+
+<h3>WTF. Undefined has no method <code>setScale()</code>?</h3>
+
+<p>You are creating a new shape without <code>new</code> operator before the constructor. Change the line that says <code>var myshape = lime.Sprite()</code> to <code>var myshape = new lime.Sprite()</code>.</p>
+
+<h3>I found a bug/have a feature request. Where should I report it?</h3>
+
+<p>Best way is to post it to out <a href="https://github.com/digitalfruit/limejs/issues">GitHub issues</a> page. If you don't have a GitHub account you can just post it to the <a href="http://groups.google.com/group/limejs/topics">forums</a>.</p>
+
+<h3>I'd like to help out developing LimeJS. Where should I start?</h3>
+
+<p>Make an account at <a href="http://github.com">GitHub</a> and fork our <a href="http://github.com/digitalfruit/limejs">repository</a>. Make your changes and set up a pull request. If you need ideas about what parts to work on check the to-do list in the <a href="https://github.com/digitalfruit/limejs/blob/master/README.md">README</a> or look at the <a href="http://groups.google.com/group/limejs/topics">forums</a> or ask us.</p>
+
+<h3>Whats the deal with Box2D?</h3>
+
+<p>http://groups.google.com/group/limejs/browse_thread/thread/f2584b367d5439c4</p>

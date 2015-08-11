@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="26" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="name" value="lets begin"/>
+ </properties>
+ <tileset firstgid="1" name="tiles16" tilewidth="16" tileheight="16">
+  <image source="../img/tiles16.png" width="192" height="144"/>
+  <tile id="79">
+   <properties>
+    <property name="type" value="solid"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="20" height="26">
+  <data encoding="base64">
+   PAAAAFQAAABUAAAAVAAAAFQAAABUAAAAVAAAAFQAAABUAAAAVAAAAFQAAABUAAAAVAAAAFQAAABUAAAAVAAAAFQAAABUAAAAVAAAADAAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABIAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAASAAAAEgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAABIAAAASAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAEgAAABgAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAYAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAbAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAAGwAAABgAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAYAAAAA==
+  </data>
+ </layer>
+ <objectgroup color="#ff00ff" name="Objects">
+  <object name="paddle" x="80" y="368" width="48" height="16"/>
+ </objectgroup>
+ <objectgroup color="#0055ff" name="BlueBricks">
+  <object name="brick" x="144" y="96" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+   </properties>
+  </object>
+  <object name="brick" x="112" y="96" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="hasPowerDown" value="true"/>
+   </properties>
+  </object>
+  <object name="brick" x="80" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+   </properties>
+  </object>
+  <object name="brick" x="80" y="96" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="hasPowerDown" value="true"/>
+   </properties>
+  </object>
+  <object name="brick" x="176" y="96" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="hasPowerDown" value="true"/>
+   </properties>
+  </object>
+  <object name="brick" x="208" y="96" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+   </properties>
+  </object>
+  <object name="brick" x="208" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="blue"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ffaa00" name="OrangeBricks">
+  <object name="brick" x="48" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="orange"/>
+   </properties>
+  </object>
+  <object name="brick" x="144" y="64" width="32" height="16">
+   <properties>
+    <property name="color" value="orange"/>
+   </properties>
+  </object>
+  <object name="brick" x="240" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="orange"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#55ff00" name="GreenBricks">
+  <object name="brick" x="112" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="green"/>
+   </properties>
+  </object>
+  <object name="brick" x="112" y="64" width="32" height="16">
+   <properties>
+    <property name="color" value="green"/>
+   </properties>
+  </object>
+  <object name="brick" x="176" y="64" width="32" height="16">
+   <properties>
+    <property name="color" value="green"/>
+   </properties>
+  </object>
+  <object name="brick" x="144" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="green"/>
+   </properties>
+  </object>
+  <object name="brick" x="176" y="80" width="32" height="16">
+   <properties>
+    <property name="color" value="green"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff0000" name="collision">
+  <object x="0" y="384" width="16" height="32"/>
+  <object x="0" y="0" width="16" height="368"/>
+  <object x="16" y="0" width="288" height="16"/>
+  <object x="304" y="0" width="16" height="368"/>
+  <object x="304" y="384" width="16" height="32"/>
+ </objectgroup>
+</map>

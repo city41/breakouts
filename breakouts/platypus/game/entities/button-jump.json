@@ -1,0 +1,24 @@
+/*
+ * 
+ */
+{
+	"id": "button-jump",
+	"components":[
+        {
+            "type": "dom-element",
+            "element": "div",
+            "className": "game-button jump-button",
+            "onmousedown": "start-jump",
+            "ontouchstart": "start-jump",
+            "onmouseup": "stop-jump",
+            "ontouchend": "stop-jump",
+            "ontouchcancel": "stop-jump"
+        },{
+            "type": "broadcast-events",
+		    "events":{
+                "start-jump": "button-jump:down",
+                "stop-jump":  "button-jump:up"
+		    }
+		}
+	]
+}

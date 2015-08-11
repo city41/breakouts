@@ -1,0 +1,22 @@
+{
+	"layers":[
+		{
+			"id": "menu-layer",
+			"components": [
+				{"type": "handler-logic"},
+				{"type": "handler-render-dom"},
+				{"type": "handler-controller"},
+				{"type": "entity-container",
+					"entities": [
+                        {"type": "title-screen"},
+                        {"type": "button-play-game"}
+					]
+				}
+			]
+        },{
+            "id": "enable-ios-audio-layer",
+            "filter": {"includes": ["iOS"]},
+            "components": [{"type": "enable-ios-audio", "audioId": "combined"}]
+		}
+	]
+}

@@ -1,0 +1,7 @@
+body {
+	margin: 0 auto;
+}
+
+#content, #content canvas {
+	max-width: 100% ;
+}

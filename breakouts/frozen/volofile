@@ -1,0 +1,39 @@
+'use strict';
+
+var gruntCommand;
+
+try {
+  gruntCommand = require('volo-grunt');
+} catch(err){
+  // NPM install hasn't been run yet
+  gruntCommand = {
+    summary: 'Need to run `npm install` (directly or `volo onCreate`/`volo grunt`)',
+    run: 'n.npm install'
+  };
+}
+
+module.exports = {
+  grunt: gruntCommand,
+  onCreate: {
+    summary: 'Called upon creation of a new project - runs `npm install`',
+    run: function(d, v, namedArgs, projectName){
+      [
+        'index.html',
+        'package.json',
+        'README.md'
+      ].forEach(function (name) {
+          v.write(name, v.template(v.read(name), {
+              NAME: projectName
+          }));
+      });
+      // Prefix with n. so spawn knows to grab it from local
+      v.spawn('n.npm', 'install', {
+        useConsole: true
+      })
+      .then(function(){
+          d.resolve();
+      })
+      .fail(d.reject);
+    }
+  }
+};

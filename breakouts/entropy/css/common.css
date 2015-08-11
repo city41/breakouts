@@ -1,0 +1,147 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: rgb(10, 10, 10);
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.screens {
+    height: 100%;
+    width: 100%;
+}
+
+.screen {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    display: none;
+    margin: 0 auto;
+    width: 320px;
+    height: 416px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Press Start 2P';
+}
+
+.active {
+    display: block;
+}
+
+.menu-screen {
+    cursor: pointer;
+}
+
+.menu-screen, .gameplay-screen {
+    background-image: url('../assets/textures/bg_prerendered.png');
+}
+
+.breakout-logo {
+    width: 131px;
+    height: 200px;
+    margin: 0 auto;
+    background-image: url('../assets/textures/logo.png');
+    position: relative;
+    top: 60px;
+}
+
+.menu-message-text, .menu-click-to-start {
+    position: absolute;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.menu-click-to-start {
+    top: 300px;
+    width: 320px;
+}
+
+.menu-message-text {
+    position: absolute;
+    text-align: center;
+    padding: 10px 25px;
+    bottom: 10px;
+
+}
+
+.gameover-text {
+    text-align: center;
+    font-size: 9pt;
+    color: white;
+    position: relative;
+    top: 200px;
+}
+
+.progress-bar-outer {
+    height: 1px;
+    width: 100%;
+    background-color: rgb(50, 50, 50);
+    position: absolute;
+    top: 207px;
+    left: 0px;
+}
+
+.progress-bar-inner {
+    height: 1px;
+    width: 0px;
+    background-color: rgb(250, 250, 250);
+}
+
+footer {
+    position: fixed;
+    color: rgb(220, 220, 220);
+    bottom: 0px;
+    right: 0px;
+    text-align: right;
+    padding: 5px;
+    font-family: 'Roboto';
+    font-weight: 100;
+    font-size: 11pt;
+}
+
+/**
+ * Fade animations
+ */
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn .5s ease-in 1 forwards;
+}
+
+.fade-out {
+  opacity: 1;
+  animation: fadeOut .5s ease-in 1 forwards;
+}
+
+.is-paused {
+  animation-play-state: paused;
+}
