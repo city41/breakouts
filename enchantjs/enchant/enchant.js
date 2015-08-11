@@ -5658,7 +5658,10 @@ enchant.WebAudioSound = enchant.Class.create(enchant.EventTarget, {
      */
     play: function(dup) {
         if (this._state === 1 && !dup) {
-            this.src.disconnect(this.connectTarget);
+             //This was hanging Chrome when playing a sound
+             //this.src.disconnect(this.connectTarget);
+             //changing to the following fixes the issue
+            this.src.disconnect();
         }
         if (this._state !== 2) {
             this._currentTime = 0;
