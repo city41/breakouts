@@ -1,6 +1,6 @@
 ![logo](https://raw.github.com/city41/breakouts/master/logo.png)
 
-[![Stories in Ready](https://badge.waffle.io/city41/breakouts.png)](http://waffle.io/city41/breakouts)
+[![Stories in Ready](https://badge.waffle.io/city41/breakouts.png)](https://waffle.io/city41/breakouts)
 
 last updated: Dec-1-2013
 
@@ -18,19 +18,19 @@ three engines that were a part of Breakouts (Impact, Lime and Crafty).
 
 So far we have Breakout implementations for
 
-* [Crafty](http://www.craftyjs.com)
+* [Crafty](http://craftyjs.com/)
 * [CreateJS](http://www.createjs.com)
 * [enchant.js](http://enchantjs.com/)
-* [Entropy](http://github.com/RainPhilosopher/entropy)
+* [Entropy](https://github.com/tdzienniak/entropy)
 * [FriGame](http://frigame.org/)
 * [Frozen](http://frozenjs.com/)
-* [ImpactJS](http://www.impactjs.com)
+* [ImpactJS](http://impactjs.com/)
 * [KiwiJS](http://www.kiwijs.org)
 * [LimeJS](http://www.limejs.com)
-* [MelonJS](http://www.melonjs.org)
+* [MelonJS](http://melonjs.org/)
 * [Phaser](http://phaser.io)
-* [Platypus](http://github.com/PBS-KIDS/Platypus)
-* [Quintus](http://html5quintus.com/)
+* [Platypus](https://github.com/PBS-KIDS/Platypus)
+* [Quintus](http://www.html5quintus.com/)
 * [Stage.js](http://piqnt.com/stage.js/)
 
 ## About Breakout
@@ -50,7 +50,7 @@ and feature:
 
 ## Play the Breakouts
 
-All of the Breakouts are up and playable at this project's [website](http://jsbreakouts.org)
+All of the Breakouts are up and playable at this project's [website](http://www.jsbreakouts.org/)
 
 ## Contribute
 
