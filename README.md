@@ -1,3 +1,9 @@
+# This Project Is No Longer Being Updated
+
+Breakouts is in "archival" mode. The website and repo will remain available, but no updates will be made. We will not accept any new pull requests or contributions at this point.
+
+Thanks for all the help from everyone! If anyone wants to take over the project, please email me at matt.e.greer@gmail.com
+
 ![logo](https://raw.github.com/city41/breakouts/master/logo.png)
 
 [![Stories in Ready](https://badge.waffle.io/city41/breakouts.png)](https://waffle.io/city41/breakouts)
