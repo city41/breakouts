@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="javascripts/crafty.js"></script>
+    <script type="text/javascript" src="javascripts/launch.js"></script>
+    <script type="text/javascript" src="javascripts/components/edges.js"></script>
+    <script type="text/javascript" src="javascripts/components/center.js"></script>
+    <script type="text/javascript" src="javascripts/components/ball.js"></script>
+    <script type="text/javascript" src="javascripts/components/brick.js"></script>
+    <script type="text/javascript" src="javascripts/components/paddle.js"></script>
+    <script type="text/javascript" src="javascripts/components/countdown.js"></script>
+    <script type="text/javascript" src="javascripts/components/powerup.js"></script>
+    <script type="text/javascript" src="javascripts/components/powerdown.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/common.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/loading.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/levelsetups.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/menu.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/play.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/gameover.js"></script>
+    <script type="text/javascript" src="javascripts/scenes/win.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <title>CraftyJS -- Breakouts</title>
+    <style>
+    	body, html { 
+				margin: 0; 
+				padding: 0;
+				overflow: hidden; 
+				font-family: Arial; 
+				font-size: 20px;
+				background-color: black;
+			}
+    	#cr-stage { 
+				margin: 0 auto;
+				color: white;
+				cursor: none;
+			}
+			@media (min-width: 641px) {
+				#cr-stage {
+					position: absolute !important;
+					left: 0;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					margin: auto;
+				}
+			}
+
+    </style>
+
+</head>
+<body>
+	<div id="cr-stage"></div>
+</body>
+</html>

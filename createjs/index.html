@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div align="center">
+			<canvas id="stage" width="320" height="416"></canvas>
+			<!-- <p><span id="fps"></span> FPS</p> -->
+		</div>
+		<!-- This are all createJS classes we use if you want to just pick what you need 
+			instead of the minimified version we use to leverage loading time -->
+		
+		<!--
+		<script type="text/javascript" src="lib/createjs/events/Event.js"></script>
+		<script type="text/javascript" src="lib/createjs/events/EventDispatcher.js"></script>
+		<script type="text/javascript" src="lib/createjs/utils/Proxy.js"></script>
+		<script type="text/javascript" src="lib/easeljs/utils/Ticker.js"></script>
+		<script type="text/javascript" src="lib/easeljs/utils/UID.js"></script>
+		<script type="text/javascript" src="lib/easeljs/geom/Rectangle.js"></script>
+        <script type="text/javascript" src="lib/easeljs/geom/Matrix2D.js"></script>
+		<script type="text/javascript" src="lib/easeljs/display/DisplayObject.js"></script>      
+		<script type="text/javascript" src="lib/easeljs/display/Container.js"></script>	
+		<script type="text/javascript" src="lib/easeljs/display/Bitmap.js"></script>
+  		<script type="text/javascript" src="lib/easeljs/display/SpriteSheet.js"></script>
+		<script type="text/javascript" src="lib/easeljs/display/Sprite.js"></script>
+		<script type="text/javascript" src="lib/easeljs/display/Stage.js"></script>
+        <script type="text/javascript" src="lib/easeljs/display/Text.js"></script>
+		<script type="text/javascript" src="lib/easeljs/ui/Touch.js"></script>
+		<script type="text/javascript" src="lib/easeljs/events/MouseEvent.js"></script>
+		<script type="text/javascript" src="lib/preloadjs/AbstractLoader.js"></script>
+        <script type="text/javascript" src="lib/preloadjs/TagLoader.js"></script>
+        <script type="text/javascript" src="lib/preloadjs/XHRLoader.js"></script>
+        <script type="text/javascript" src="lib/preloadjs/LoadQueue.js"></script>		
+		<script type="text/javascript" src="lib/soundjs/soundjs-0.5.0.min.js"></script>
+		<script type="text/javascript" src="lib/tweenjs/Tween.js"></script> -->
+	
+		
+		<!-- Using the minimified and unified library -->
+		<script type="text/javascript" src="lib/createjs-2013.09.25.min.js"></script>
+		<!-- Specific classes from the game -->
+		<script type="text/javascript" src="js/entities/Ball.js"></script>
+		<script type="text/javascript" src="js/entities/Brick.js"></script>
+		<script type="text/javascript" src="js/entities/Paddle.js"></script>
+		<script type="text/javascript" src="js/entities/Level.js"></script>
+		<script type="text/javascript" src="js/entities/SplashScreen.js"></script>
+		<script type="text/javascript" src="js/entities/GameOverScreen.js"></script>
+		<script type="text/javascript" src="js/entities/Powerup.js"></script>
+		<script type="text/javascript" src="js/entities/Powerdown.js"></script>
+        <script type="text/javascript" src="js/game.js"></script>
+
+    </body>
+</html>
