@@ -6,8 +6,6 @@ Thanks for all the help from everyone! If anyone wants to take over the project,
 
 ![logo](https://raw.github.com/city41/breakouts/master/logo.png)
 
-[![Stories in Ready](https://badge.waffle.io/city41/breakouts.png)](https://waffle.io/city41/breakouts)
-
 last updated: Dec-1-2013
 
 ## Helping You Select a JavaScript Game Engine
